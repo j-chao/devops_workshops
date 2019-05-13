@@ -26,20 +26,36 @@
 		<div class="reveal">
 			<div class="slides">
 
-				<section >
+<!-- Introduction -->
+				<section>
 					<h1>DevOps Workshop</h1>
-					<h4>Agile - CI/CD - DevOps</h4>
 					Justin Chao
 				</section>
 
+				<section>
+					<h5 class=fragment>What is DevOps?</h5>
+					<h5 class=fragment>What are containers?</h5>
+				</section>
 
 				<section>
+					<h3>Pre-requisites</h3>
+					<ul>
+						<li>Some familiarity with using the Terminal</li>
+						<li>Vagrant installed</li>
+						<li>VirtualBox installed</li>
+					</ul>
+				</section>
+
+<!-- Agile CICD DevOps -->
+				<section>
+					<section >
+						<h2>Agile - CI/CD - DevOps</h2>
+					</section>
+
 					<section >
 						<img width="40%" data-src="./images/agile.png" class="fragment fade-in-then-left">
 						<img width="30%" data-src="./images/cicd.png" class="fragment fade-in">
 					</section>
-
-
 
 					<section data-markdown table>
 							<script type="text/template">
@@ -51,8 +67,6 @@
 							</script>
 					</section>
 
-
-
 					<section>
 						“DevOps is a tool-centric philosophy that supports a Continuous Delivery value chain.”
 						<aside class="notes">
@@ -60,42 +74,63 @@
 						</aside>
 					</section>	
 
-
 					<section>
 						<img width="70%" data-src="./images/personas.png">
 					</section>
+				</section>
 
+
+
+<!-- Containers -->
+				<section>
+					<section >
+						<h2>Containers</h2>
+					</section>
+
+					<section>
+						<img width="80%" data-src="./images/containers.svg">
+						<aside class="notes" data-markdown>
+								### Traditional Methods of deploying applications    
+								Typically virtualize the hardware layer (i.e. virtual server)  
+								Entangled executable, libraries, configuration and lifecycle with host OS  
+								VMs tend to be heavier, approx 600MB to several GB  
+								Hypervisor layer can take up to 33% of CPU overhead  
+								
+								### Container based approaches  
+								Operating system virtualization (i.e. virtual Linux machine)  
+								Encapsulated executables, libraries, configuration, and lifecycle  
+								Containers tend to be lighter, approx. 20MB to several hundred MB.  
+								Container layer can typically take between 2-5% CPU overhead   
+
+								popularity of Java JVM
+						</aside>
+					</section>
+
+
+					<section>
+						<h2>Container Advantages</h2>
+						<ul>
+							<li class="fragment">Portable</li>
+							<li class="fragment">Isolated</li>
+							<li class="fragment">Lighter footprint & overhead (vs VMs)</li>
+							<li class="fragment">Simplify DevOps practices</li>
+							<li class="fragment">Speed up Continuous Integration</li>
+							<li class="fragment">Empower Microservices architectures & adoption</li>
+						</ul>
+					</section>
+
+
+					<section>
+						<h3>Docker Container Platform</h3>
+						<img src="./images/docker_platform.png" alt="">
+					</section>
 
 				</section>
 
 				<section>
-					<img data-src="./images/containers.svg">
-					<aside class="notes" data-markdown>
-							### Traditional Methods of deploying applications    
-							Typically virtualize the hardware layer (i.e. virtual server)  
-							Entangled executable, libraries, configuration and lifecycle with host OS  
-							VMs tend to be heavier, approx 600MB to several GB  
-							Hypervisor layer can take up to 33% of CPU overhead  
-							
-							### Container based approaches  
-							Operating system virtualization (i.e. virtual Linux machine)  
-							Encapsulated executables, libraries, configuration, and lifecycle  
-							Containers tend to be lighter, approx. 20MB to several hundred MB.  
-							Container layer can typically take between 2-5% CPU overhead   
-
-							popularity of Java JVM
-					</aside>
+					<h4>It's time to code!</h4>
 				</section>
 
-				<section data-markdown>
-					# Container Advantages
-					- Portable
-					- Isolated
-					- Lighter footprint & overhead (vs VMs)
-					- Simplify DevOps practices
-					- Speed up Continuous Integration
-					- Empower Microservice architectures and adoption
-				</section>
 
 			</div>
 		</div>
