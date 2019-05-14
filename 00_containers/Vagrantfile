@@ -1,10 +1,9 @@
 # -*- mode: ruby -*-
-# vi: set ft=ruby :
-
+# vi: set ft=ruby : 
 Vagrant.configure("2") do |config|
   config.vm.box = "generic/ubuntu1604"
-  config.vm.hostname = "vagrant"
   config.vm.box_version = "= 1.9.12"
+  config.vm.hostname = "vagrant"
 
   # NOTE: This will enable public access to the opened port
   # config.vm.network "forwarded_port", guest: 80, host: 8080
@@ -21,8 +20,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provider "virtualbox" do |vb|
     # Customize the amount of memory on the VM:
-    vb.cpus = "2"
-    vb.memory = "1024"
+    vb.cpus = "2" 
+    vb.memory = "2000"
   end
   
 
