@@ -1,2 +1,3 @@
 *.swp
 slides/node_modules/
+.vagrant/
