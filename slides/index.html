@@ -27,109 +27,230 @@
 			<div class="slides">
 
 <!-- Introduction -->
-				<section>
-					<h1>DevOps Workshop</h1>
-					Justin Chao
-				</section>
+<section>
+	<h1>DevOps Workshop</h1>
+	Justin Chao
+</section>
 
-				<section>
-					<h5 class=fragment>What is DevOps?</h5>
-					<h5 class=fragment>What are containers?</h5>
-				</section>
 
-				<section>
-					<h3>Pre-requisites</h3>
-					<ul>
-						<li>Some familiarity with using the Terminal</li>
-						<li>Vagrant installed</li>
-						<li>VirtualBox installed</li>
-					</ul>
-				</section>
+<!-- Day 2 -->
+<section>
+	<section>
+		<h2>Day 1 Topics</h2>
+		<p class=fragment>What is DevOps?</p>
+		<p class=fragment>What are containers?</p>
+	</section>
+
+	<section>
+		<h3>Pre-requisites</h3>
+		<ul>
+			<li>Some familiarity with using the Terminal</li>
+			<li>VirtualBox installed</li>
+			<li>Vagrant installed</li>
+		</ul>
+	</section>
+</section>
 
 <!-- Agile CICD DevOps -->
-				<section>
-					<section >
-						<h2>Agile - CI/CD - DevOps</h2>
-					</section>
+<section>
+	<section >
+		<h2>Agile - CI/CD - DevOps</h2>
+	</section>
 
-					<section >
-						<img width="40%" data-src="./images/agile.png" class="fragment fade-in-then-left">
-						<img width="30%" data-src="./images/cicd.png" class="fragment fade-in">
-					</section>
+	<section >
+		<img width="40%" data-src="./images/agile.png" class="fragment fade-in-then-left">
+		<img width="30%" data-src="./images/cicd.png" class="fragment fade-in">
+	</section>
 
-					<section data-markdown table>
-							<script type="text/template">
-								Agile | CI/CD | DevOps
-								:--------:|:--------:|:--------:
-								focuses on<br/> **processes** <!-- .element: class="fragment" data-fragment-index="1" --> | focuses on<br/>  **software-defined lifecycles**  <!-- .element: class="fragment" data-fragment-index="2" --> | focuses on<br/> **culture** <!-- .element: class="fragment" data-fragment-index="3" -->
-								highlighting<br/> **change** <!-- .element: class="fragment" data-fragment-index="1" --> | highlighting<br/>  **tools** <!-- .element: class="fragment" data-fragment-index="2" --> | highlighting<br/> **roles** <!-- .element: class="fragment" data-fragment-index="3" -->
-								while accelerating<br/> **delivery** <!-- .element: class="fragment" data-fragment-index="1" --> | that emphasize<br/>  **automation** <!-- .element: class="fragment" data-fragment-index="2" --> | that emphasize<br/> **responsiveness** <!-- .element: class="fragment" data-fragment-index="3" -->
-							</script>
-					</section>
+	<section data-markdown table>
+			<script type="text/template">
+				Agile | CI/CD | DevOps
+				:--------:|:--------:|:--------:
+				focuses on<br/> **processes** <!-- .element: class="fragment" data-fragment-index="1" --> | focuses on<br/>  **software-defined lifecycles**  <!-- .element: class="fragment" data-fragment-index="2" --> | focuses on<br/> **culture** <!-- .element: class="fragment" data-fragment-index="3" -->
+				highlighting<br/> **change** <!-- .element: class="fragment" data-fragment-index="1" --> | highlighting<br/>  **tools** <!-- .element: class="fragment" data-fragment-index="2" --> | highlighting<br/> **roles** <!-- .element: class="fragment" data-fragment-index="3" -->
+				while accelerating<br/> **delivery** <!-- .element: class="fragment" data-fragment-index="1" --> | that emphasize<br/>  **automation** <!-- .element: class="fragment" data-fragment-index="2" --> | that emphasize<br/> **responsiveness** <!-- .element: class="fragment" data-fragment-index="3" -->
+			</script>
+	</section>
 
-					<section>
-						“DevOps is a tool-centric philosophy that supports a Continuous Delivery value chain.”
-						<aside class="notes">
-							Delivery = deployment to Production and maintaining Production.
-						</aside>
-					</section>	
+	<section>
+		“DevOps is a tool-centric philosophy that supports a Continuous Delivery value chain.”
+		<aside class="notes">
+			delivery = deployment to production and maintaining production.
+		</aside>
+	</section>	
 
-					<section>
-						<img width="70%" data-src="./images/personas.png">
-					</section>
-				</section>
-
-
-
-<!-- Containers -->
-				<section>
-					<section >
-						<h2>Containers</h2>
-					</section>
-
-					<section>
-						<img width="80%" data-src="./images/containers.svg">
-						<aside class="notes" data-markdown>
-								### Traditional Methods of deploying applications    
-								Typically virtualize the hardware layer (i.e. virtual server)  
-								Entangled executable, libraries, configuration and lifecycle with host OS  
-								VMs tend to be heavier, approx 600MB to several GB  
-								Hypervisor layer can take up to 33% of CPU overhead  
-								
-								### Container based approaches  
-								Operating system virtualization (i.e. virtual Linux machine)  
-								Encapsulated executables, libraries, configuration, and lifecycle  
-								Containers tend to be lighter, approx. 20MB to several hundred MB.  
-								Container layer can typically take between 2-5% CPU overhead   
-
-								popularity of Java JVM
-						</aside>
-					</section>
+	<section>
+		<img width="70%" data-src="./images/personas.png">
+	</section>
+</section>
 
 
-					<section>
-						<h2>Container Advantages</h2>
-						<ul>
-							<li class="fragment">Portable</li>
-							<li class="fragment">Isolated</li>
-							<li class="fragment">Lighter footprint & overhead (vs VMs)</li>
-							<li class="fragment">Simplify DevOps practices</li>
-							<li class="fragment">Speed up Continuous Integration</li>
-							<li class="fragment">Empower Microservices architectures & adoption</li>
-						</ul>
-					</section>
+
+<!-- containers -->
+<section>
+	<section >
+		<h2>containers</h2>
+	</section>
+
+	<section>
+		<img width="80%" data-src="./images/containers.svg">
+		<aside class="notes" data-markdown>
+				### Traditional Methods of deploying applications    
+				Typically virtualize the hardware layer (i.e. virtual server)  
+				Entangled executable, libraries, configuration and lifecycle with host OS  
+				VMs tend to be heavier, approx 600MB to several GB  
+				Hypervisor layer can take up to 33% of CPU overhead  
+				
+				### Container based approaches  
+				Operating system virtualization (i.e. virtual Linux machine)  
+				Encapsulated executables, libraries, configuration, and lifecycle  
+				Containers tend to be lighter, approx. 20MB to several hundred MB.  
+				Container layer can typically take between 2-5% CPU overhead   
+
+				popularity of Java JVM
+		</aside>
+	</section>
 
 
-					<section>
-						<h3>Docker Container Platform</h3>
-						<img src="./images/docker_platform.png" alt="">
-					</section>
+	<section>
+		<h2>Container Advantages</h2>
+		<ul>
+			<li class="fragment">Portable</li>
+			<li class="fragment">Isolated</li>
+			<li class="fragment">Lighter footprint & overhead (vs VMs)</li>
+			<li class="fragment">Simplify DevOps practices</li>
+			<li class="fragment">Speed up Continuous Integration</li>
+			<li class="fragment">Empower Microservices architectures & adoption</li>
+		</ul>
+	</section>
 
-				</section>
 
-				<section>
-					<h4>It's time to code!</h4>
-				</section>
+	<section>
+		<h3>Docker Container Platform</h3>
+		<img src="./images/docker_platform.png" alt="">
+	</section>
+
+</section>
+
+<section>
+	<h4>It's time to code!</h4>
+</section>
+
+
+<!-- Day 2 -->
+<section>
+	<section>
+		<h2>Day 2 Topics</h2>
+		<p class=fragment>How do you manage multiple containers?</p>
+		<p class=fragment>Continuous Integration & Continuous Delivery (CI/CD) Pipelines</p>
+	</section>
+
+	<section>
+		<h3>Pre-requisites</h3>
+		<ul>
+			<li>Some familiarity with using the Terminal</li>
+			<li>VirtualBox installed</li>
+			<li>Vagrant installed</li>
+			<li>Understanding of containers and Docker</li>
+		</ul>
+	</section>
+</section>
+
+
+<!-- Container Orchestration -->
+<section>
+	<h4>Challenges with multiple containers</h4>
+		<ul>
+			<li>How do you scale?</li>
+			<li>How to do maintain observability of all your containers and replicas?</li>
+			<li>How do your microservice containers find each other?</li>
+			<li>How do you manage port conflicts?</li>
+			<li>What if a host fails? How do you manage health checks?</li>
+			<li>How do you provide seamless updates?</li>
+			<li>How do you manage and track logs?</li>
+		</ul>
+
+</section> 
+
+
+<section>
+	Common challenges when deploying containers
+	<img width="80%" data-src="./images/deploying_containers_challenges.png">
+</section>
+
+<section>
+	<h2>Container Orchestration</h2>
+		<ul>
+			<li>Deploy and Configure</li>
+			<li>Fault Isolation & Healing</li>
+			<li>Secure</li>
+			<li>Upgrades</li>
+			<li>Scaling Up and Down</li>
+		</ul>
+		<img width="35%" data-src="./images/multiple_containers.png">
+</section>
+
+<section>
+	<h3>Container Orchestration Tools</h3>
+		<ul>
+			<li>Kubernetes ("k8s")</li>
+			<li>Docker Swarm</li>
+			<li>Mesos</li>
+		</ul>
+		<p class=fragment> Kubernetes has become the unofficial standard.</p>
+</section>
+
+<section>
+	<h4>Container Management Platforms Preferences</h4>
+	<img width="80%" data-src="./images/container_orchestration_tools.png">
+</section>
+
+
+<section>
+	<h3>Kubernetes Stats</h3>
+		<ul>
+			<li class=fragment>78k+ Commits</li>
+			<li class=fragment>511+ Releases</li>
+			<li class=fragment>2000+ Contributers</li>
+		</ul>
+
+
+	<aside class="notes">
+		Google started creation of its own open source orchestration tool ‘Kubernetes’. 
+		It has slowly gained dominance as the standard container orchestration tool except for niche use cases. 
+
+		Mesos - still used in early container adoption shops and big data applications
+		Docker Swarm - lightweight and may be useful for rapid prototyping. With the ease of deploying Kubernetes to public cloud and greater feature set of Kubernetes this use case is increasingly shrinking.
+		OpenShift - RedHat's downstream offering of Kubernetes with the additional security features and enterprise support.
+	</aside>
+</section>
+
+<section>
+	<h3>Kubernetes Features</h3>
+	Kubernetes satisfies a number of common needs of applications running in production, such as:
+	<ul>	
+		<li>Co-locating helper processes, facilitating composite applications and preserving the one-application-per-container model </li>
+		<li>Mounting storage systems</li>
+		<li>Distributing secrets</li>
+		<li>Checking application health</li>
+		<li>Replicating application instances</li>
+		<li>Using Horizontal Pod Autoscaling</li>
+		<li>Naming and discovering</li>
+		<li>Balancing loads</li>
+		<li>Rolling updates</li>
+		<li>Monitoring resources</li>
+		<li>Accessing and ingesting logs</li>
+		<li>Debugging applications</li>
+		<li>Providing authentication and authorization</li>
+		This provides the simplicity of Platform as a Service (PaaS) with the flexibility of Infrastructure as a Service (IaaS), and facilitates portability across infrastructure providers.
+	</ul>
+
+
+</section>
+
+
+
+
 
 
 			</div>

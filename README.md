@@ -1,11 +1,19 @@
 # DevOps Workshop
 
+## Workshop Format
+This workshop is structured into 4 different components, where each component will build off of knowledge learned in previous ones:
+- Containers
+- Container Orchestration
+- Pipelines
+- Everything as Code
+
+The presentation slides can be found in the slides/ directory.
+
 ## Pre-requistes
 - Familiarity with using the Terminal in a Linux environment. (Or willingness to learn!)
 - Git installed on your local machine.
 - VirtualBox installed on your local machine. (You can request for VirtualBox on the [AppStore](appstore.uhc.com))
 - [Vagrant](https://www.vagrantup.com/docs/installation/) installed on your local machine.
-
 
 
 ## Getting Started
@@ -62,4 +70,8 @@ or halt them:
 ```bash
 $ vagrant halt
 ```
+
+
+## Contributors
+[Justin Chao](mailto:justin.chao@optum.com)
 

@@ -1,4 +1,4 @@
-# Docker Container Platform
+# Containers 
 
 ## Working with Docker 
 To start, SSH into the `local` VM and ensure that Docker is installed and running:
@@ -7,7 +7,7 @@ $ vagrant ssh local
 $ docker version
 ```
 
-You should see the following output
+You should output similar to the following:
 ```
 Client:
  Version:           18.09.6
@@ -71,7 +71,7 @@ explicitly specify an image tag/version.
 Since this is the first time Docker is running this image, it will first download the image to your local machine.
 Finally, Docker will spin up a container with the image, and print the container ID associated with the new container.
 
-Now, navigate to `192.168.50.4:80` in your web browser, you should see the "Hello world!" page, with the hostname being the
+Now, navigate to `172.28.33.11:80` in your web browser, you should see the "Hello world!" page, with the hostname being the
 Container ID of your docker container.
 
 
@@ -158,4 +158,7 @@ For more information, you can look at the [Dockerfile reference
 docs](https://docs.docker.com/engine/reference/builder/).
 
 
+
+#### Working with multiple Docker containers 
+Docker Compose
 

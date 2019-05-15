@@ -1,5 +1,3 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby : 
 Vagrant.configure("2") do |config|
   config.vm.provider :virtualbox do |vb|
       vb.customize ["modifyvm", :id, "--memory", "1024"]
@@ -11,11 +9,13 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "local" do |local|
       local.vm.hostname = "local"
-      local.vm.provision :shell, privileged: false, path:  "provision.sh"
+      local.vm.provision :shell, privileged: false, path: "local_provision.sh"
+      local.vm.provision "docker" 
       local.vm.network :private_network, ip: "172.28.33.11"
   end
   config.vm.define "openshift" do |openshift|
       openshift.vm.hostname = "openshift"
+      openshift.vm.provision :shell, privileged: false, path:  "openshift_provision.sh"
       openshift.vm.network :private_network, ip: "172.28.33.12"
   end
   config.vm.define "jenkins" do |jenkins|
@@ -40,12 +40,8 @@ Vagrant.configure("2") do |config|
   # Enable provisioning with a shell script. Additional provisioners such as
   # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
   # documentation for more information about their specific syntax and use.
-  config.vm.provision "shell", inline: <<-SHELL
-    sudo apt-get -y update
-  SHELL
 
-  config.vm.provision "docker"
-  
+
 end
 
     #sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
