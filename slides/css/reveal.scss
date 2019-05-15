@@ -118,20 +118,28 @@ body {
 }
 
 .reveal .slides section .fragment.fade-right {
-	transform: translate(-20%, 0);
+	transform: translate(0%, -90%);
 
 	&.visible {
-		transform: translate(0, 0);
+		transform: translate(30%, -90%);
 	}
 }
 
-.reveal .slides section .fragment.fade-left {
+.reveal .slides section .fragment.fade-far-right {
+	transform: translate(-20%, -200%) scale(1.5);
+	&.visible {
+		transform: translate(30%, -310%) scale(1.5);
+	}
+}
+
+.reveal .slides section .fragment.fade-left-shrink {
 	transform: translate(20%, 0);
-
+	transform: scale(-20%);
 	&.visible {
 		transform: translate(0, 0);
 	}
 }
+
 
 .reveal .slides section .fragment.fade-in-then-out,
 .reveal .slides section .fragment.current-visible {
@@ -169,7 +177,63 @@ body {
 		opacity: 1;
 		visibility: inherit;
 	}
+}
 
+.reveal .slides section .fragment.fade-in-then-left-shrink {
+
+	&.visible {
+		transform: translate(-50%,0) scale(0.8);
+	}
+	&.current-fragment {
+		transform: translate(5%,10%) scale(1.5);
+		opacity: 1;
+		visibility: inherit; 
+	}
+}
+
+
+.reveal .slides section .fragment.fade-in-then-far-left-shrink {
+	&.visible {
+		transform: translate(-75%,-20%) scale(0.35);
+	}
+	&.current-fragment {
+		transform: translate(5%,20%) scale(1.5);
+		opacity: 1;
+		visibility: inherit; 
+	}
+}
+
+.reveal .slides section .fragment.fade-in-then-medium-left-shrink {
+	&.visible {
+		transform: translate(-75%,-85%) scale(0.35);
+	}
+	&.current-fragment {
+		transform: translate(50%, -90%) scale(1.5);
+		opacity: 1;
+		visibility: inherit; 
+	}
+}
+
+.reveal .slides section .fragment.fade-in-then-short-left-shrink {
+	&.visible {
+		transform: translate(-75%,-150%) scale(0.35);
+	}
+	&.current-fragment {
+		transform: translate(50%,-200%) scale(1.5);
+		opacity: 1;
+		visibility: inherit; 
+	}
+}
+
+.reveal .slides section .fragment.fade-in-then-to-right {
+	&.visible {
+		transform: translate(-50%,-50%) scale(0.5);
+	}
+	&.current-fragment {
+		transform: translate(50%,-85%) scale(1.5);
+		opacity: 1;
+		visibility: inherit; 
+	}
 }
 
 .reveal .slides section .fragment.highlight-red,
