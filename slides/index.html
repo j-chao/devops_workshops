@@ -36,19 +36,25 @@
 <!-- Day 2 -->
 <section>
 	<section>
-		<h2>Day 1 Topics</h2>
+		<h2>Day 1 - Part 1</h2>
+
+      <h5>Pre-requisites</h5>
+      <ul>
+        <li>Some familiarity with using the Terminal</li>
+        <li>VirtualBox installed</li>
+        <li>Vagrant installed</li>
+      </ul>
+
+      <pre><code data-trim data-noescape>
+        $ git clone https://github.optum.com/team-cumulus/devops_workshops.git
+        $ cd devops_workshops
+        $ vagrant up docker openshift
+      </code></pre>
+
 		<p class=fragment>What is DevOps?</p>
 		<p class=fragment>What are containers?</p>
 	</section>
 
-	<section>
-		<h3>Pre-requisites</h3>
-		<ul>
-			<li>Some familiarity with using the Terminal</li>
-			<li>VirtualBox installed</li>
-			<li>Vagrant installed</li>
-		</ul>
-	</section>
 </section>
 
 <!-- Agile CICD DevOps -->
@@ -133,27 +139,33 @@
 </section>
 
 <section>
-	<h4>It's time to code!</h4>
+	<h4>Workshop Time!</h4>
+	<img width="50%" data-src="./images/docker_whale.jpg">
 </section>
 
 
 <!-- Day 2 -->
 <section>
 	<section>
-		<h2>Day 2 Topics</h2>
-		<p class=fragment>How do you manage multiple containers?</p>
-		<p class=fragment>Continuous Integration & Continuous Delivery (CI/CD) Pipelines</p>
-	</section>
+		<h2>Day 1 - Part 2</h2>
 
-	<section>
-		<h3>Pre-requisites</h3>
+		<h5>Pre-requisites</h5>
 		<ul>
 			<li>Some familiarity with using the Terminal</li>
 			<li>VirtualBox installed</li>
 			<li>Vagrant installed</li>
 			<li>Understanding of containers and Docker</li>
 		</ul>
+
+    <pre><code data-trim data-noescape>
+        $ git clone https://github.optum.com/team-cumulus/devops_workshops.git
+        $ cd devops_workshops
+        $ vagrant up openshift jenkins
+    </code></pre>
+
+		<p class=fragment>How do you handle multiple containers?</p>
 	</section>
+
 </section>
 
 
@@ -348,14 +360,18 @@
 		<img width="50%" data-src="images/k8s_updates4.svg" class="fragment fade-far-right">
 
 		<aside class="notes" data-markdown>
-			Services have an integrated load-balancer that distributes traffic to all running Pods.
+			Deployments and Rolling updates:
+			- promote an application to new versions
+			- rollback to previous versions
+			- CI/CD of applications with zero downtime
 		</aside>
 	</section>
 </section>
 
 
 <section>
-	<h4>It's time to code!</h4>
+	<h4>Workshop Time!</h4>
+	<img width="75%" data-src="./images/openshift_architecture.png" >
 </section>
 
 <!-- PIPELINES -->
@@ -384,4 +400,4 @@
 			});
 		</script>
 	</body>
-</html>
+</html> 

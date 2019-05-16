@@ -33,9 +33,15 @@ This will start up an 3 virtual machines on your local machine:
 
 hostname  | private IP
 ---       | ---
-local     | 172.28.33.11
-openshift | 172.28.33.12
-jenkins   | 172.28.33.13
+docker    | 172.28.33.10
+openshift | 172.28.33.11
+jenkins   | 172.28.33.12
+
+
+You can also specify the VMs you want to start up, for example:
+```bash
+$ vagrant up docker openshift
+```
 
 
 You can view the virtual machines with the following command:
@@ -47,7 +53,7 @@ You should see output similar to the following:
 ```
 id       name      provider   state   directory
 --------------------------------------------------------------------
-3f10a34  local     virtualbox running /Users/<MSID>/devops_workshops
+3f10a34  docker    virtualbox running /Users/<MSID>/devops_workshops
 62a885e  openshift virtualbox running /Users/<MSID>/devops_workshops
 6dfd328  jenkins   virtualbox running /Users/<MSID>/devops_workshops
 ```
@@ -56,7 +62,7 @@ id       name      provider   state   directory
 Anytime you want to reset the training environment to its original state, run this command:
 
 ```bash
-$ vagrant halt ; vagrant destroy -f ; vagrant up
+$ vagrant halt; vagrant destroy -f; vagrant up
 ```
 
 ### Stopping the training environment

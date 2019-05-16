@@ -1,9 +1,9 @@
 # Containers 
 
 ## Working with Docker 
-To start, SSH into the `local` VM and ensure that Docker is installed and running:
+To start, SSH into the `docker` VM and ensure that Docker is installed and running:
 ```bash
-$ vagrant ssh local
+$ vagrant ssh docker
 $ docker version
 ```
 

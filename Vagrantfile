@@ -1,55 +1,39 @@
 Vagrant.configure("2") do |config|
-  config.vm.provider :virtualbox do |vb|
-      vb.customize ["modifyvm", :id, "--memory", "1024"]
-      vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
-  end
+  #config.vm.provider :virtualbox do |vb|
+      #vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
+      #vb.customize ["modifyvm", :id, "--memory", "2048"]
+      #vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+  #end
 
   config.vm.box = "generic/ubuntu1604"
   config.vm.box_version = "= 1.9.12"
 
-  config.vm.define "local" do |local|
-      local.vm.hostname = "local"
-      local.vm.provision :shell, privileged: false, path: "local_provision.sh"
-      local.vm.provision "docker" 
-      local.vm.network :private_network, ip: "172.28.33.11"
+  config.vm.define "docker" do |docker|
+      docker.vm.hostname = "docker"
+      docker.vm.provision "docker" 
+      docker.vm.network :private_network, ip: "172.28.33.10"
+      docker.vm.provider :virtualbox do |vb|
+        vb.cpus = 1
+        vb.memory = 1024
+      end
   end
   config.vm.define "openshift" do |openshift|
       openshift.vm.hostname = "openshift"
-      openshift.vm.provision :shell, privileged: false, path:  "openshift_provision.sh"
-      openshift.vm.network :private_network, ip: "172.28.33.12"
+      openshift.vm.provision "docker" 
+      openshift.vm.provision :shell, privileged: false, path: "provision.sh"
+      openshift.vm.network :private_network, ip: "172.28.33.11"
+      openshift.vm.provider :virtualbox do |vb|
+        vb.cpus = 2
+        vb.memory = 2048
+      end
   end
-  config.vm.define "jenkins" do |jenkins|
-      jenkins.vm.hostname = "jenkins"
-      jenkins.vm.network :private_network, ip: "172.28.33.13"
+  config.vm.define "pipeline" do |jenkins|
+      jenkins.vm.hostname = "pipeline"
+      jenkins.vm.network :private_network, ip: "172.28.33.12"
+      local.vm.provider :virtualbox do |vb|
+        vb.cpus = 1
+        vb.memory = 1024
+      end
   end
-
-
-  # NOTE: This will enable public access to the opened port
-  # config.vm.network "forwarded_port", guest: 80, host: 8080
-
-  # Create a forwarded port mapping which allows access to a specific port
-  # within the machine from a port on the host machine and only allow access
-  # via 127.0.0.1 to disable public access
-  #config.vm.network "forwarded_port", guest: 8080, host: 8080, host_ip: "127.0.0.1"
-
-  # config.vm.network "public_network"
-
-  # config.vm.synced_folder "../data", "/vagrant_data"
-
-
-  # Enable provisioning with a shell script. Additional provisioners such as
-  # Puppet, Chef, Ansible, Salt, and Docker are also available. Please see the
-  # documentation for more information about their specific syntax and use.
-
 
 end
-
-    #sudo apt-get -y install apt-transport-https ca-certificates curl software-properties-common
-    #curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    #sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
-    #sudo apt-get -y update
-
-    #sudo apt-cache policy docker-ce
-    #sudo apt-get -y install docker-ce
-
-    #sudo usermod -aG docker vagrant
