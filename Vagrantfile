@@ -1,12 +1,5 @@
-# -*- mode: ruby -*-
 # vi: set ft=ruby :
-
 Vagrant.configure("2") do |config|
-  #config.vm.provider :virtualbox do |vb|
-      #vb.customize ["modifyvm", :id, "--cpuexecutioncap", "50"]
-      #vb.customize ["modifyvm", :id, "--memory", "2048"]
-      #vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
-  #end
 
   config.vm.box = "generic/ubuntu1604"
   config.vm.box_version = "= 1.9.12"
@@ -14,6 +7,8 @@ Vagrant.configure("2") do |config|
   config.vm.define "docker" do |docker|
       docker.vm.hostname = "docker"
       docker.vm.provision "docker" 
+      docker.vm.provision :shell, privileged: false, path: "docker_provision.sh"
+      docker.vm.provision "file", source: "./00_containers/flask_app/", destination: "/home/vagrant/"
       docker.vm.network :private_network, ip: "172.28.33.10"
       docker.vm.provider :virtualbox do |vb|
         vb.cpus = 1

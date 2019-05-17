@@ -146,7 +146,7 @@ Once the container is running, navigate to `172.28.33.10:8080` in your web brows
 You should see the default "Welcome to nginx!" landing page.
 
 
-Let's mount a volume with a different index.html file, and have the NGINX server serve that instead.
+Let's mount a volume using a "bind mount" with a different index.html file, and have the NGINX server serve that instead.
 To start, create a new `index.html` file:
 
 ```bash
@@ -178,50 +178,90 @@ What happens if you change the contents of the `index.html` file from your host 
 
 ### Building your own Docker image with Dockerfiles
 A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an
-image
+image.
 
-Let's take a look at the Dockerfile for the dockercloud/hello-world image:
-
+Let's take a look at the Dockerfile for an example Flask application, in the flask_app/ directory:
 ```Dockerfile
-FROM alpine:3.4
-LABEL maintainer dockercloud
-
-RUN apk --update add nginx php5-fpm && \
-    mkdir -p /run/nginx
-
-ADD www /www
-ADD nginx.conf /etc/nginx/
-ADD php-fpm.conf /etc/php5/php-fpm.conf
-ADD run.sh /run.sh
-
-ENV LISTEN_PORT=80
-
-EXPOSE 80
-CMD /run.sh
+FROM python:2.7.16-alpine
+LABEL maintainer some-random-TDP
+COPY . /app
+WORKDIR /app
+RUN pip install -r requirements.txt
+ENTRYPOINT ["python", "app.py"]
 ```
 
 - The `FROM` instruction specifies the Base Image from which you are building.
-In this case, we are building from an [Alpine Linux](https://hub.docker.com/_/alpine) base image.
+In this case, we are building from a [Python](https://hub.docker.com/_/python) base image.
 - The `LABEL` instruction allows us to add metadata to the image as a key-value pair.
-- The `RUN` instruction allows us to run shell commands. In this example, we are installing nginx and php-fpm, and
-  creating any necessary directories.
-- The `ADD` instruction copies new files, directories, or remote file URLs from a source, and adds them to the
-  filesystem of the image. 
-- The `ENV` instruction allows us to set environment variables within the container.
-- The `EXPOSE` instruction informs Docker that the container listens on the specified network port(s) at runtime.
-- The `CMD` instruction provides defaults for an executing container, usually in the form of an executable.
+- The `COPY` instruction  copies new files or directories from a source location, and adds them to the filesystem of the
+  container.
+- The `WORKDIR` instruction sets the working directory for any `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, and `ADD`
+  instructions that follow it in the `Dockerfile`.
+- The `RUN` instruction allows us to run shell commands. 
+- The `ENTRYPOINT` instruction allows you to configure a container that will run as an executable.
 
 
-For more information, you can look at the [Dockerfile reference
-docs](https://docs.docker.com/engine/reference/builder/).
+For more information, you can look at the 
+[Dockerfile reference docs](https://docs.docker.com/engine/reference/builder/).
 
 
+Now, let's build the Docker image for this example Flask app:
+```bash
+$ docker build -t example-flask-app:latest .
+```
 
-### Defining & Running multi-container applications with Docker Compose
+Once Docker is finished building the image, you can then check to see that the image is now available locally.
+
+Notice how there are two images:
+```
+REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
+example-flask-app   latest              67b7fe968d14        2 seconds ago       919MB
+python              2.7                 3c01ed1c16af        9 days ago          914MB
+```
+
+
+---
+## Defining & Running multi-container applications with Docker Compose
+Compose is a tool for defining and running multi-container Docker applications.  
+To learn more about Compose, you can refer to the [documentation here](https://docs.docker.com/compose/).
+
+Check that docker-compose is installed and running:
+```
+$ docker-compose version
+```
+You should see output similar to the following:
+```
+docker-compose version 1.24.0, build 0aa59064
+docker-py version: 3.7.2
+CPython version: 3.6.8
+OpenSSL version: OpenSSL 1.1.0j  20 Nov 2018
+```
+
+Using Compose is basically a three-step process.
+
+  1. Define your app's environment with a Dockerfile so it can be reproduced anywhere.
+  2. Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment.
+  3. Lastly, run docker-compose up and Compose will start and run your entire app.
+
+A `docker-compose.yml` file looks like the following:
+
+```
+version: '2'
+
+services:
+  web:
+    build: .
+    ports:
+     - "5000:5000"
+    volumes:
+     - .:/code
+  redis:
+    image: redis
+```
+
 Take a look at example Flask application in the flask_app/ directory.
 
 Create a new file called `Dockerfile` and copy 
-
 
 
 

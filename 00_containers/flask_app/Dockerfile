@@ -1,14 +1,6 @@
-FROM python:alpine3.9
-
-#RUN apt-get update -y
-#RUN apt-get install -y python-pip python-dev build-essential
-
+FROM python:2.7.16-alpine
+LABEL maintainer Justin Chao
 COPY . /app
-
 WORKDIR /app
-
 RUN pip install -r requirements.txt
-
-ENTRYPOINT ["python"]
-
-CMD ["app.py"]
+ENTRYPOINT ["python", "app.py"]
