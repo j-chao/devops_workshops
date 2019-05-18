@@ -133,14 +133,20 @@ To get low-level information about Docker objects, you can also use the `docker 
 `docker rm <container name|ID>` will remove the container.  
 `docker rm -f $(docker ps -aq)` will remove all containers.
 
+`docker system prune --all -f` will remove:
+  - all stopped containers
+  - all networks not used by at least one container
+  - all images without at least one container associated to them
+  - all build cache
+
 
 ### Environment Variables & Volumes
 You can also pass flags to `docker run` to set environment variables and volumes for containers.
 
 Let's begin by starting a container with an NGINX proxy.
 
-Note that while the application may be serving on port 8000 from within the container, we still need to map it to a port
-on the host machine.   
+Note that while the application may be serving on port 80 from within the container, 
+we still need to map it to a port on the host machine.   
 In the following example, we are mapping port 80 of the container to port 8080 of the host machine.
 
 
@@ -152,7 +158,7 @@ Once the container is running, navigate to `172.28.33.10:8080` in your web brows
 You should see the default "Welcome to nginx!" landing page.
 
 
-Let's mount a volume using a "bind mount" with a different index.html file, and have the NGINX server serve that instead.
+Let's mount a "bind mount" with a different index.html file, and have the NGINX server serve that instead.
 To start, create a new `index.html` file:
 
 ```bash
@@ -179,9 +185,6 @@ You should see your new index.html file being served instead of the default NGIN
 
 
 What happens if you change the contents of the `index.html` file from your host machine and then reload your web page?
-
-#### TODO: Add info on volumes
-
 
 
 
@@ -276,7 +279,7 @@ as it doesn’t scale well and by default serves only one request at a time.
 To solve this, we can deploy an NGINX reverse proxy that communicates to the Flask server 
 via a WSGI (Web Server Gateway Interface):
 
-![wsgi_flask](./images/wsgi.png)
+<img src="images/wsgi.png" width="350">
 
 Take a look at the example Flask + NGINX application in the flask_nginx/ directory.  
 The directory is organized such that the two different components are in two separate sub-directories:
@@ -311,15 +314,13 @@ Navigate to `172.28.33.10:8082`, and you should be able to see "Hello World in P
 Let’s walk through the important lines on our docker-compose.yml file to fully explain what is going on.
 
 ```Dockerfile
-version: '3'
+version: '3.7'
 services:
   flask:
     image: webapp-flask
     build:
       context: ./flask
       dockerfile: Dockerfile-flask
-    volumes:
-      - "./flask:/app"
 
   nginx:
     image: webapp-nginx
@@ -334,7 +335,7 @@ services:
 ```
 
 
-`version: 3` specifies the Compose file format version we are using.
+`version: 3.7` specifies the Compose file format version we are using.
 
 The keys under `services:` defines the names of each one of our services (i.e. Docker containers). 
 In this example, flask and nginx are the names of our two containers.
@@ -354,16 +355,6 @@ This section is doing two things.
 First, it is telling the Docker engine to only use files in the flask/ directory to build the image. 
 Second, it’s telling the engine to look for the Dockerfile named Dockerfile-flask 
 to know the instructions for building the appropriate image.
-
-```
-volumes:
-  - "./flask:/app"
-```
-
-Here we’re simply instructing Docker Compose to mount our the flask/ directory 
-onto the directory /app in the container when it is spun up.   
-This way, as we make changes on the app, we won’t have to keep building the image 
-unless it is a major change, such as a software module dependency.  
 
 For the nginx portion of the file, there’s a few things to look out for.
 ```
