@@ -29,7 +29,7 @@ Start up the virtual machines using Vagrant:
 $ vagrant up
 ```
 
-This will start up an 3 virtual machines on your local machine:
+This will start up an 3 virtual machines on your local machine, on a private network:
 
 hostname  | private IP
 ---       | ---

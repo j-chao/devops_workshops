@@ -9,6 +9,7 @@ Vagrant.configure("2") do |config|
       docker.vm.provision "docker" 
       docker.vm.provision :shell, privileged: false, path: "docker_provision.sh"
       docker.vm.provision "file", source: "./00_containers/flask_app/", destination: "/home/vagrant/"
+      docker.vm.provision "file", source: "./00_containers/flask_nginx/", destination: "/home/vagrant/"
       docker.vm.network :private_network, ip: "172.28.33.10"
       docker.vm.provider :virtualbox do |vb|
         vb.cpus = 1

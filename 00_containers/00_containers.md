@@ -1,6 +1,9 @@
 # Containers 
 
 ## Working with Docker 
+
+<img src="images/docker_animals.png" width="350">
+
 To start, SSH into the `docker` VM and ensure that Docker is installed and running:
 ```bash
 $ vagrant ssh docker
@@ -118,6 +121,12 @@ $ docker exec -it b0f228753f03 /bin/sh
 
 `b0f228753f03` is the Container ID in this case.
 
+You can also view the logs of your container:
+```bash
+$ docker logs -f <container name|ID>
+```
+Paassing the `-f` flag will follow the logging output.
+
 
 To get low-level information about Docker objects, you can also use the `docker insepct` command.
 
@@ -129,17 +138,14 @@ To get low-level information about Docker objects, you can also use the `docker 
 You can also pass flags to `docker run` to set environment variables and volumes for containers.
 
 Let's begin by starting a container with an NGINX proxy.
-Instead of having the NGINX server serve on the default port 80 from within the container, we can set an environment variable to
-serve on port 8000 instead.
 
 Note that while the application may be serving on port 8000 from within the container, we still need to map it to a port
-on the host machine. 
-In the following example, we are mapping port 8000 of the container to port 8080 of the host
-machine.
+on the host machine.   
+In the following example, we are mapping port 80 of the container to port 8080 of the host machine.
 
 
 ```bash
-$ docker run -d --name "default-nginx" -e NGINX_PORT=8000 -p 8080:8000 nginx:alpine
+$ docker run -d --name "default-nginx" -p 8080:80 nginx:alpine
 ```
 
 Once the container is running, navigate to `172.28.33.10:8080` in your web browser. 
@@ -174,6 +180,9 @@ You should see your new index.html file being served instead of the default NGIN
 
 What happens if you change the contents of the `index.html` file from your host machine and then reload your web page?
 
+#### TODO: Add info on volumes
+
+
 
 
 ### Building your own Docker image with Dockerfiles
@@ -182,11 +191,12 @@ image.
 
 Let's take a look at the Dockerfile for an example Flask application, in the flask_app/ directory:
 ```Dockerfile
-FROM python:2.7.16-alpine
+FROM python:alpine3.9
 LABEL maintainer some-random-TDP
 COPY . /app
 WORKDIR /app
 RUN pip install -r requirements.txt
+EXPOSE 5000
 ENTRYPOINT ["python", "app.py"]
 ```
 
@@ -197,7 +207,8 @@ In this case, we are building from a [Python](https://hub.docker.com/_/python) b
   container.
 - The `WORKDIR` instruction sets the working directory for any `RUN`, `CMD`, `ENTRYPOINT`, `COPY`, and `ADD`
   instructions that follow it in the `Dockerfile`.
-- The `RUN` instruction allows us to run shell commands. 
+- The `RUN` instruction allows us to run shell commands. a
+- The `EXPOSE` instruction informs Docker that the container listens on the specified network port(s) at runtime. 
 - The `ENTRYPOINT` instruction allows you to configure a container that will run as an executable.
 
 
@@ -205,23 +216,36 @@ For more information, you can look at the
 [Dockerfile reference docs](https://docs.docker.com/engine/reference/builder/).
 
 
-Now, let's build the Docker image for this example Flask app:
+Now let's navigate to the flask_app/ directory, and build the Docker image for this example Flask app:
 ```bash
+$ cd flask_app
 $ docker build -t example-flask-app:latest .
 ```
 
-Once Docker is finished building the image, you can then check to see that the image is now available locally.
+Notice how Docker creates container images using layers.   
+Each command that is found in a Dockerfile creates a new layer.  
+Each layers contains the filesystem changes of the image between the state before the execution of the command and the state after the execution of the command.
 
-Notice how there are two images:
+Docker uses a layer cache to optimize the process of building Docker images, making it faster.
+
+Once Docker is finished building the image, you can then check to see that the image is now available locally.  
+Notice how there are two images.
+
 ```
 REPOSITORY          TAG                 IMAGE ID            CREATED             SIZE
-example-flask-app   latest              67b7fe968d14        2 seconds ago       919MB
-python              2.7                 3c01ed1c16af        9 days ago          914MB
+example-flask-app   latest              5e71956c4719        4 seconds ago       72.8MB
+python              alpine3.9           ee70cb11da0d        7 days ago          61.3MB
 ```
+
+Try running the `example-flask-app` container image that you just built.  
+You should be able to navigate to `172.28.33.10:5000` and see "Flask inside Docker!".
 
 
 ---
 ## Defining & Running multi-container applications with Docker Compose
+<img src="images/compose.png" width="250">
+
+
 Compose is a tool for defining and running multi-container Docker applications.  
 To learn more about Compose, you can refer to the [documentation here](https://docs.docker.com/compose/).
 
@@ -241,28 +265,141 @@ Using Compose is basically a three-step process.
 
   1. Define your app's environment with a Dockerfile so it can be reproduced anywhere.
   2. Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment.
-  3. Lastly, run docker-compose up and Compose will start and run your entire app.
+  3. Lastly, run `docker-compose up` and Compose will start and run your entire app.
 
-A `docker-compose.yml` file looks like the following:
+
+### Running a Flask + NGINX stack
+Let's return to our Flask application example.  
+While lightweight and easy to use, Flask’s built-in server is not suitable for production 
+as it doesn’t scale well and by default serves only one request at a time.
+
+To solve this, we can deploy an NGINX reverse proxy that communicates to the Flask server 
+via a WSGI (Web Server Gateway Interface):
+
+![wsgi_flask](./images/wsgi.png)
+
+Take a look at the example Flask + NGINX application in the flask_nginx/ directory.  
+The directory is organized such that the two different components are in two separate sub-directories:
+
 
 ```
-version: '2'
+flask_nginx/
+|
+|__docker-compose.yml
+|
+|__flask/
+|   |__Dockerfile-flask
+|   |__requirements.txt
+|   |__app.ini
+|   |__app.py
+|
+|__nginx/
+    |__Dockerfile-nginx
+    |__app.conf
+```
 
+Navigate to the flask_nginx/ directory and spin up this multi-container application using Docker Compose.
+```bash
+$ cd flask_nginx
+$ docker-compose up
+```
+
+Try to follow the resulting output to understand what Compose is doing.
+
+Navigate to `172.28.33.10:8082`, and you should be able to see "Hello World in Production!"
+
+Let’s walk through the important lines on our docker-compose.yml file to fully explain what is going on.
+
+```Dockerfile
+version: '3'
 services:
-  web:
-    build: .
-    ports:
-     - "5000:5000"
+  flask:
+    image: webapp-flask
+    build:
+      context: ./flask
+      dockerfile: Dockerfile-flask
     volumes:
-     - .:/code
-  redis:
-    image: redis
+      - "./flask:/app"
+
+  nginx:
+    image: webapp-nginx
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-nginx
+    ports:
+      - 8082:80
+    depends_on:
+      - flask
+
 ```
 
-Take a look at example Flask application in the flask_app/ directory.
 
-Create a new file called `Dockerfile` and copy 
+`version: 3` specifies the Compose file format version we are using.
 
+The keys under `services:` defines the names of each one of our services (i.e. Docker containers). 
+In this example, flask and nginx are the names of our two containers.
 
+`image: webapp-flask`
+This line specifies what name our image will have after docker-compose creates it.  It can be anything we want.   
+Docker Compose will build the image the first time we launch docker-compose up and keep track of the name 
+for all future launches.
 
+```
+build:
+  context: ./flask
+  dockerfile: Dockerfile-flask
+```
+
+This section is doing two things.   
+First, it is telling the Docker engine to only use files in the flask/ directory to build the image. 
+Second, it’s telling the engine to look for the Dockerfile named Dockerfile-flask 
+to know the instructions for building the appropriate image.
+
+```
+volumes:
+  - "./flask:/app"
+```
+
+Here we’re simply instructing Docker Compose to mount our the flask/ directory 
+onto the directory /app in the container when it is spun up.   
+This way, as we make changes on the app, we won’t have to keep building the image 
+unless it is a major change, such as a software module dependency.  
+
+For the nginx portion of the file, there’s a few things to look out for.
+```
+ports:
+  - 8082:80
+```
+
+This little section is telling Docker Compose to map the port 8082 on the host machine 
+to port 80 on the NGINX container (which is the port Nginx serves to by default).  
+
+```
+depends_on:
+  - flask
+```
+The `depends_on:` directive tells Compose to wait until the flask container 
+is in a functional state before launching the nginx container, 
+which avoids having a scenario where NGINX fails when the flask host is unresponsive.
+
+By default Compose sets up a single network for your app.   
+Each container for a service joins the network created
+and is both reachable by other containers on that network, 
+and discoverable by them at a hostname identical to the container name.
+
+This is why in our nginx/app.conf file, 
+we are able to reference the flask server with the hostname `flask`.
+
+Compare using Docker Compose to the alternative below:
+```bash
+$ docker build -t my-flask -f flask/Dockerfile-flask flask/
+$ docker build -t my-nginx -f nginx/Dockerfile-nginx nginx/
+
+$ docker network create my-network
+
+$ docker run -d --name flask --net my-network -v "$(pwd)/flask/:/app" my-flask
+$ docker run -d --name nginx --net my-network -p "5000:80" my-nginx
+```
+
+Type `CTRL+C` to stop the two containers.  
 
