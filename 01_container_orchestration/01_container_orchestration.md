@@ -112,3 +112,54 @@ Try scaling the NGINX application to 3 pods.
 <img src="images/scale_pods.png" width="500">
 
 
+### Using the CLI to Manage Resources
+
+Eventually, you will want to get to the point where you can automate your deployments and OpenShift objects 
+using scripts and the CLI.
+
+SSH into the openshift VM and login as a developer:
+```bash
+$ vagrant ssh openshift
+$ oc login -u developer
+```
+
+Run `oc get all` to view the resources currently running in your project.
+
+Let's take a close look at the deployment config for the NGINX application:
+```bash
+$ oc describe dc my-nginx
+```
+Try "describing" other OpenShift objects.
+
+OpenShift objects are defined as yaml files.
+Try taking a look at the yaml file specification for the NGINX deployment config:
+```bash
+$ oc get dc my-nginx -o yaml
+```
+
+You can also view the logs from pods via the CLI:
+```bash
+$ oc logs -f <pod name>
+```
+
+You can also edit any resources directly from the CLI as well.  
+Try changing the number of "replicas" for the NGINX application to 2.  
+```bash
+$ oc edit dc my-nginx
+```
+
+We will explore the use of yaml template files in the next workshop on pipelines.
+
+
+### Additional Training Resources
+Hopefully, this excercise has given you an introduction into the capabilities that 
+OpenShift as a Platform-as-a-Service provides.
+
+Obviously, there are a lot of things that you can do with OpenShift 
+that we just don't have the time to cover in this workshop.
+
+For additional resources and training, here are some interactive learning opportunities from the Red Hat team:
+- learn.openshift.com
+- try.openshift.com
+
+
