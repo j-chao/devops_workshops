@@ -9,7 +9,7 @@ To start, ensure that the `docker` VM is running on your local machine:
 vagrant global-status --prune
 ```
 You should see output similar to:
-```
+```sh
 id       name   provider   state   directory
 -----------------------------------------------------------------
 616e062  docker virtualbox running /Users/<MSID>/devops_workshops

@@ -6,7 +6,7 @@ To start, ensure that the `openshift` VM is running on your local machine:
 vagrant global-status --prune
 ```
 You should see output similar to:
-```
+```sh
 id       name      provider   state   directory
 --------------------------------------------------------------------
 4c56060  openshift virtualbox running /Users/<MSID>/devops_workshops

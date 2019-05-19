@@ -16,19 +16,21 @@ Vagrant.configure("2") do |config|
         vb.memory = 1024
       end
   end
+
   config.vm.define "openshift" do |openshift|
       openshift.vm.hostname = "openshift"
       openshift.vm.provision "docker" 
-      openshift.vm.provision :shell, privileged: false, path: "provision.sh"
-      openshift.vm.network :private_network, ip: "172.28.33.11"
+      openshift.vm.provision :shell, privileged: false, path: "provisioning/openshift_provision.sh"
+      openshift.vm.network :private_network, ip: "172.28.33.20"
       openshift.vm.provider :virtualbox do |vb|
         vb.cpus = 2
         vb.memory = 2048
       end
   end
+
   config.vm.define "pipeline" do |jenkins|
       jenkins.vm.hostname = "pipeline"
-      jenkins.vm.network :private_network, ip: "172.28.33.12"
+      jenkins.vm.network :private_network, ip: "172.28.33.30"
       local.vm.provider :virtualbox do |vb|
         vb.cpus = 1
         vb.memory = 1024
