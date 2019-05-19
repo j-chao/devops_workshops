@@ -23,8 +23,8 @@ Vagrant.configure("2") do |config|
       openshift.vm.provision :shell, privileged: false, path: "provisioning/openshift_provision.sh"
       openshift.vm.network :private_network, ip: "172.28.33.20"
       openshift.vm.provider :virtualbox do |vb|
-        vb.cpus = 2
-        vb.memory = 2048
+        vb.cpus = 4
+        vb.memory = 4096
       end
   end
 

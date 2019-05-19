@@ -24,12 +24,13 @@ $ git clone https://github.optum.com/team-cumulus/devops_workshops.git
 $ cd devops_workshops
 ```
 
-Start up the virtual machines using Vagrant:
+Start up the virtual machines using Vagrant:  
 ```bash
 $ vagrant up
 ```
+Note: This step may take a while, especially the openshift VM.
 
-This will start up an 3 virtual machines on your local machine, on a private network:
+This will start up an 3 virtual machines on your local machine, on a private network:  
 
 hostname  | private IP
 ---       | ---
