@@ -43,7 +43,7 @@ Let's try deploying the NGINX HTTP server that is already provided for in the Ca
 <img src="images/catalog_nginx.png" width="500">
 
 Use version "1.12 - latest", name your application "my-nginx", 
-and use "https://github.com/sclorg/nginx-ex.git" as the GitHub repo.
+and use "https://github.com/sclorg/nginx-ex.git" as the Git repo.
 
 <img src="images/catalog_nginx_config.png" width="500">
 
@@ -75,7 +75,7 @@ We won't go into the details on the differences between them all, as that is out
 
 2. The built image is then pushed to a repository. In this case, OpenShift has 
 an integrated repository that is being hosted at `172.30.1.1:5000`. 
-(If you don't believe me, ssh into the VM and list the running Docker containers ;) )
+(If you don't believe me, ssh into the VM and list the running Docker containers :wink: )
 
 3. An "[Image Stream](https://172.28.33.20:8443/console/project/myproject/browse/images)" object is created,
  which provides an abstraction for referencing Docker images from within OpenShift.
