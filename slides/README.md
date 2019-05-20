@@ -1,6 +1,7 @@
 # DevOps Workshop
 ### Presentation Slides
 
+To run the presentation: 
 ```bash
-npm install && npm start
+yarn && yarn start
 ```

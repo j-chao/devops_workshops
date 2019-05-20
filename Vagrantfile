@@ -30,6 +30,9 @@ Vagrant.configure("2") do |config|
       privileged: false, 
       path: "provisioning/openshift_provision.sh", 
       run:"always"
+    openshift.vm.provision "file", 
+      source: "provisioning/flask_nginx/", 
+      destination: "/home/vagrant/"
     openshift.vm.network :private_network, ip: "172.28.33.20"
     openshift.vm.provider :virtualbox do |vb|
       vb.cpus = 4
@@ -37,12 +40,16 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "pipeline" do |jenkins|
-    jenkins.vm.hostname = "pipeline"
+  config.vm.define "jenkins" do |jenkins|
+    jenkins.vm.hostname = "jenkins"
+    #jenkins.vm.provision "docker" 
+    jenkins.vm.provision :shell, 
+      privileged: false, 
+      path: "provisioning/jenkins_provision.sh"
     jenkins.vm.network :private_network, ip: "172.28.33.30"
-    local.vm.provider :virtualbox do |vb|
-      vb.cpus = 1
-      vb.memory = 1024
+    jenkins.vm.provider :virtualbox do |vb|
+      vb.cpus = 2
+      vb.memory = 2048
     end
   end
 

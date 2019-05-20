@@ -31,7 +31,7 @@ When you first login, you should see an initial developer project
 called "My Project" created for you on the right side.
 
 
-### Deploy a Docker image
+### Creating an Application
 
 The first page you'll see when you login is the OpenShift Catalog, 
 where the good folks at Red Hat have create a few starter applications 
@@ -61,21 +61,23 @@ Go ahead and navigate to the route that was generated for the deployed NGINX app
 You should see a "Welcome to Openshift" page.
 
 
-##### Breaking it Down
+#### Breaking it Down
 As you can see, OpenShift makes it relatively easy to quickly deploy applications as containers,
-but there's actually a lot that going on here.
+but there's actually a lot that's going on here.
 
 1. OpenShift first clones the repo where the source code is, and then 
 [builds](https://172.28.33.20:8443/console/project/myproject/browse/builds) an image.
 There are a number of 
 [build strategies](https://docs.openshift.com/container-platform/3.9/architecture/core_concepts/builds_and_image_streams.html#builds)
-that can be used here. In this case, we are using a "Source-to-Image (S2I)" build strategy.
+that can be used here. In this case, we are using a "Source-to-Image (S2I)" build strategy.  
 We won't go into the details on the differences between them all, as that is outside the scope of this workshop,
- but just know that the idea is the same as `docker build`.
+but just know that the idea is the same as `docker build`.
 
-2. The built image is then pushed to a repository. In this case, OpenShift has 
-an integrated repository that is being hosted at `172.30.1.1:5000`. 
-(If you don't believe me, ssh into the VM and list the running Docker containers :wink: )
+2. The built image is then pushed to a repository.   
+This can be any repository we choose (hub.docker.com, docker.optum.com, Nexus, JFrog Artifactory, etc.).   
+In this case, OpenShift has an integrated repository that is being hosted internally to the cluster at `172.30.1.1:5000`,
+that we will use.  
+(If you don't believe me, ssh into the openshift VM and list the running Docker containers :wink: )
 
 3. An "[Image Stream](https://172.28.33.20:8443/console/project/myproject/browse/images)" object is created,
  which provides an abstraction for referencing Docker images from within OpenShift.
@@ -148,7 +150,100 @@ Try changing the number of "replicas" for the NGINX application to 2.
 $ oc edit dc my-nginx
 ```
 
-We will explore the use of yaml template files in the next workshop on pipelines.
+We will explore the use of yaml template files more in the next workshop on pipelines.
+
+
+### Deploying Your Own Application 
+
+Let's deploy the exaample flask + NGINX multi-container application from the previous workshop.
+
+##### Build the images
+
+```bash
+$ cd flask_nginx/
+$ docker-compose build 
+```
+You should now have two images built locally, named "webapp-flask" and "webapp-nginx".
+
+##### Push the images to the OpenShift integrated Docker repository
+
+For convenience, the integrated repository has been exposed via a route 
+that can be accssible from outside the cluster: `docker-registry-default.172.28.33.20.nip.io:80`
+
+
+First, we need to tag the images appropriately.   
+Here, we are specifying for the images to be pushed to the project "myproject".  
+Let's also tag the images as "1.0.0" for versioning:  
+```bash
+$ docker tag webapp-flask:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask:1.0.0
+$ docker tag webapp-nginx:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
+```
+
+You should see a similar list of images to the following, if you run a `docker images`:
+```
+REPOSITORY                                                              TAG                 IMAGE ID            CREATED              SIZE
+docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx   1.0.0               1a8836b45853        About a minute ago   16.1MB
+webapp-nginx                                                            latest              1a8836b45853        About a minute ago   16.1MB
+docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask   1.0.0               becdd529e366        About a minute ago   942MB
+webapp-flask                                                            latest              becdd529e366        About a minute ago   942MB
+nginx                                                                   alpine              dd025cdfe837        9 days ago           16.1MB
+python                                                                  3                   a4cc999cf2aa        12 days ago          929MB
+openshift/origin-node                                                   v3.11               14d965ab72d5        2 weeks ago          1.17GB
+openshift/origin-control-plane                                          v3.11               42f38837c3d6        2 weeks ago          829MB
+openshift/origin-haproxy-router                                         v3.11               baa13e07d72c        2 weeks ago          410MB
+openshift/origin-deployer                                               v3.11               c4ce187c29d9        2 weeks ago          384MB
+openshift/origin-cli                                                    v3.11               3d6b03d3fd9c        2 weeks ago          384MB
+openshift/origin-hyperkube                                              v3.11               ba4772ad4b1e        2 weeks ago          509MB
+openshift/origin-pod                                                    v3.11               91915f601106        2 weeks ago          262MB
+openshift/origin-hypershift                                             v3.11               dcab472bf75a        2 weeks ago          549MB
+openshift/origin-docker-registry                                        v3.11               9dffb2abf1dd        3 months ago         310MB
+openshift/origin-web-console                                            v3.11               be30b6cce5fa        7 months ago         339MB
+openshift/origin-service-serving-cert-signer                            v3.11               47dadf9d43b6        7 months ago         276MB
+```
+
+Next, we need to login to the OpenShift integrated repository using our OpenShift credentials.
+We can use our current session's token to login with. To retrieve your token:
+```bash
+$ oc login -u developer | oc whoami -t
+```
+
+Now login to the repository with Docker:
+```bash
+$ docker login -u developer -p $(oc whoami -t) docker-registry-default.172.28.33.20.nip.io:80
+```
+
+Finally, we can push the tagged images to the repository:
+```bash
+$ docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask:1.0.0
+$ docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
+```
+
+Now navigate to the [Image Streams](https://172.28.33.20:8443/console/project/myproject/browse/images) page of your OpenShift project.    
+You should see that two image streams have been created that reference 
+the images that you just pushed to the integrated repository.
+
+<img src="images/image_streams.png" width="500">
+
+
+##### Deploy the images
+
+Deploy the images by creating a Deployment Configuration:
+```bash
+
+```
+
+
+
+##### Create the services
+
+Create the services that will allow the cluster-internal traffic between the two pods.
+
+
+
+
+##### Create the route
+
+
 
 
 ### Additional Training Resources

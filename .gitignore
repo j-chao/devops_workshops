@@ -2,3 +2,4 @@
 slides/node_modules/
 .vagrant/
 **__pycache__
+.DS_Store

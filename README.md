@@ -35,8 +35,8 @@ This will start up an 3 virtual machines on your local machine, on a private net
 hostname  | private IP
 ---       | ---
 docker    | 172.28.33.10
-openshift | 172.28.33.11
-jenkins   | 172.28.33.12
+openshift | 172.28.33.20
+jenkins   | 172.28.33.30
 
 
 You can also specify the VMs you want to start up, for example:
