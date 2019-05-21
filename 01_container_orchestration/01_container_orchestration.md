@@ -12,7 +12,7 @@ id       name      provider   state   directory
 4c56060  openshift virtualbox running /Users/<MSID>/devops_workshops
 ```
 
-Navigate to the OpenShift UI at `https://172.28.33.11:8443/console/` in a web browser on your local machine.
+Navigate to the OpenShift UI at `https://172.28.33.20:8443/console/` in a web browser on your local machine.
 
 Login as a developer with the following credentials:
 ```bash
