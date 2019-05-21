@@ -40,19 +40,19 @@ that can be deployed to OpenShift with minimal mess from you, the end-user.
 Let's try deploying the NGINX HTTP server that is already provided for in the Catalog.
 
 
-<img src="images/catalog_nginx.png" width="500">
+<img src="images/catalog_nginx.png" width="700">
 
 Use version "1.12 - latest", name your application "my-nginx", 
 and use "https://github.com/sclorg/nginx-ex.git" as the Git repo.
 
-<img src="images/catalog_nginx_config.png" width="500">
+<img src="images/catalog_nginx_config.png" width="700">
 
 Then click "Create".
 
 Once the application is created, 
 navigate to the [Overview](https://172.28.33.20:8443/console/project/myproject/overview) page of your project.
 
-<img src="images/overview.png" width="500">
+<img src="images/overview.png" width="700">
 
 You should see that the NGINX application has been created.
 
@@ -112,7 +112,7 @@ application on OpenShift.
 
 Try scaling the NGINX application to 3 pods.
 
-<img src="images/scale_pods.png" width="500">
+<img src="images/scale_pods.png" width="700">
 
 
 ### Using the CLI to Manage Resources
@@ -187,7 +187,7 @@ $ docker tag webapp-flask:latest docker-registry-default.172.28.33.20.nip.io:80/
 $ docker tag webapp-nginx:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
 ```
 
-You should see a similar list of images to the following, if you run a `docker images`:
+You should see a similar list of images to the following, if you run a `$ docker images`:
 ```
 REPOSITORY                                                              TAG                 IMAGE ID            CREATED             SIZE
 docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx   1.0.0               48c1aa425e35        14 seconds ago      84.2MB
@@ -230,7 +230,7 @@ Now navigate to the [Image Streams](https://172.28.33.20:8443/console/project/my
 You should see that two image streams have been created that reference 
 the images that you just pushed to the integrated repository.
 
-<img src="images/image_streams.png" width="500">
+<img src="images/image_streams.png" width="700">
 
 
 Alternatively, you can list the Image Streams via the CLI:
@@ -297,7 +297,7 @@ $ oc get dc webapp-nginx -o yaml
 ```
 
 At this point, your project space should look like the following:
-<img src="images/webapp_applications.png" width="600">
+<img src="images/webapp_applications.png" width="700">
 
 ##### Create the route
 The last thing we need to do, is expose a route for the webapp-nginx service
@@ -309,7 +309,7 @@ $ oc expose svc webapp-nginx --port=8082
 
 You should see that a route has now been created for the webapp-nginx application, targting port 8082. 
 
-<img src="images/webapp_nginx_route.png" width="500">
+<img src="images/webapp_nginx_route.png" width="700">
 
 If you navgivate to `http://webapp-nginx-myproject.172.28.33.20.nip.io` in your browser now, 
 you should see a "Hello World in Production!" page.
