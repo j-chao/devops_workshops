@@ -318,6 +318,9 @@ $ docker tag <image ID> <your dockerhub username>/example-flask-app:latest
 $ docker push <your dockerhub username>/example-flask-app:latest
 ```
 
+We will explore pushing images to a repository in more detail in the next workshop.
+
+
 ---
 ## Defining & Running multi-container applications with Docker Compose
 <img src="images/compose.png" width="250">
