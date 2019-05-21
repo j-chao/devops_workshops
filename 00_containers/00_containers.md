@@ -353,7 +353,7 @@ as it doesn’t scale well and by default serves only one request at a time.
 To solve this, we can deploy an NGINX reverse proxy that communicates to the Flask server 
 via a WSGI (Web Server Gateway Interface):
 
-<img src="images/wsgi.png" width="350">
+<img src="images/wsgi.png" width="500">
 
 Take a look at the example Flask + NGINX application in the flask_nginx/ directory.  
 The directory is organized such that the two different components are in two separate sub-directories:
