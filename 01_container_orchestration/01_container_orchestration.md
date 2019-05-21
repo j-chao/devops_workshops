@@ -309,7 +309,7 @@ $ oc expose svc webapp-nginx --port=8082
 
 You should see that a route has now been created for the webapp-nginx application, targting port 8082. 
 
-<img src="webapp_nginx_route.png" width="500">
+<img src="images/webapp_nginx_route.png" width="500">
 
 If you navgivate to `http://webapp-nginx-myproject.172.28.33.20.nip.io` in your browser now, 
 you should see a "Hello World in Production!" page.
