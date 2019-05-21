@@ -1,5 +1,7 @@
 # DevOps Workshop
 
+<img src="slides/images/jenkins_JCasC.png" width="300">
+
 ## Workshop Format
 This workshop is structured into 4 different components, where each component will build off of knowledge learned in previous ones:
 - Containers
