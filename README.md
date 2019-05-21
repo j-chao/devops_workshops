@@ -9,12 +9,18 @@ This workshop is structured into 4 different components, where each component wi
 
 The presentation slides can be found in the slides/ directory.
 
+
 ## Pre-requistes
 - Familiarity with using the Terminal in a Linux environment. (Or willingness to learn!)
 - Git installed on your local machine.
 - VirtualBox installed on your local machine. (You can request for VirtualBox on the [AppStore](appstore.uhc.com))
 - [Vagrant](https://www.vagrantup.com/docs/installation/) installed on your local machine.
 
+If you are on a Mac, you can use [homebrew](https://brew.sh/) to install the pre-reqs:
+```bash
+$ brew cask install virtualbox
+$ brew cask install vagrant
+```
 
 ## Getting Started
 ### Setting up the training environment
