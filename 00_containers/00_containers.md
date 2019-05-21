@@ -6,7 +6,7 @@
 
 To start, ensure that the `docker` VM is running on your local machine:
 ```bash
-vagrant global-status --prune
+$ vagrant global-status --prune
 ```
 You should see output similar to:
 ```sh
@@ -342,7 +342,7 @@ Using Compose is basically a three-step process.
 
   1. Define your app's environment with a Dockerfile so it can be reproduced anywhere.
   2. Define the services that make up your app in docker-compose.yml so they can be run together in an isolated environment.
-  3. Lastly, run `docker-compose up` and Compose will start and run your entire app.
+  3. Lastly, run `$ docker-compose up` and Compose will start and run your entire app.
 
 
 ### Running a Flask + NGINX stack

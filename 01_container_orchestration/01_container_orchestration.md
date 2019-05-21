@@ -1,9 +1,11 @@
 # Container Orchestration 
 
+<img src="images/k8s.png" width="700">
+
 ## Working with OpenShift
 To start, ensure that the `openshift` VM is running on your local machine:
 ```bash
-vagrant global-status --prune
+$ vagrant global-status --prune
 ```
 You should see output similar to:
 ```
