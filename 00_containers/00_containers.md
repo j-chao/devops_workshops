@@ -382,7 +382,7 @@ $ docker-compose up
 
 Try to follow the resulting output to understand what Compose is doing.
 
-Navigate to `172.28.33.10:8082`, and you should be able to see "Hello World in Production!"
+Navigate to `172.28.33.10:5000`, and you should be able to see "Hello World in Production!"
 
 Let’s walk through the important lines on our docker-compose.yml file to fully explain what is going on.
 
@@ -401,7 +401,7 @@ services:
       context: ./nginx
       dockerfile: Dockerfile-nginx
     ports:
-      - 8082:80
+      - 5000:8082
     depends_on:
       - flask
 ```
@@ -431,11 +431,11 @@ to know the instructions for building the appropriate image.
 For the nginx portion of the file, there’s a few things to look out for.
 ```
 ports:
-  - 8082:80
+  - 5000:8082
 ```
 
-This little section is telling Docker Compose to map the port 8082 on the host machine 
-to port 80 on the NGINX container (which is the port Nginx serves to by default).  
+This little section is telling Docker Compose to map the port 5000 on the host machine 
+to port 8082 on the NGINX container.  
 
 ```
 depends_on:
@@ -462,7 +462,7 @@ $ docker build -t my-nginx -f nginx/Dockerfile-nginx nginx/
 $ docker network create my-network
 
 $ docker run -d --name flask --net my-network -v "$(pwd)/flask/:/app" my-flask
-$ docker run -d --name nginx --net my-network -p "5000:80" my-nginx
+$ docker run -d --name nginx --net my-network -p "5000:8082" my-nginx
 ```
 
 Type `CTRL+C` to stop the two containers.  

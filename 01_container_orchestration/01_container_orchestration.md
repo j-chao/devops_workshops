@@ -6,7 +6,7 @@ To start, ensure that the `openshift` VM is running on your local machine:
 vagrant global-status --prune
 ```
 You should see output similar to:
-```sh
+```
 id       name      provider   state   directory
 --------------------------------------------------------------------
 4c56060  openshift virtualbox running /Users/<MSID>/devops_workshops
@@ -49,7 +49,8 @@ and use "https://github.com/sclorg/nginx-ex.git" as the Git repo.
 
 Then click "Create".
 
-Once the application is created, navigate to the "Overview" page of your project.
+Once the application is created, 
+navigate to the [Overview](https://172.28.33.20:8443/console/project/myproject/overview) page of your project.
 
 <img src="images/overview.png" width="500">
 
@@ -155,7 +156,14 @@ We will explore the use of yaml template files more in the next workshop on pipe
 
 ### Deploying Your Own Application 
 
-Let's deploy the exaample flask + NGINX multi-container application from the previous workshop.
+Let's deploy the example flask + NGINX multi-container application from the previous workshop, using the CLI.
+
+Note that we are choosing to use the [bitnami](https://hub.docker.com/r/bitnami/nginx) 
+version of NGINX instead of the default [nginx](https://hub.docker.com/_/nginx/) because
+the bitnami image does not run as root.
+
+There are security concerns with Docker containers that run as root, and
+OpenShift has controls in place that will prevent containers from running as root.
 
 ##### Build the images
 
@@ -181,24 +189,24 @@ $ docker tag webapp-nginx:latest docker-registry-default.172.28.33.20.nip.io:80/
 
 You should see a similar list of images to the following, if you run a `docker images`:
 ```
-REPOSITORY                                                              TAG                 IMAGE ID            CREATED              SIZE
-docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx   1.0.0               1a8836b45853        About a minute ago   16.1MB
-webapp-nginx                                                            latest              1a8836b45853        About a minute ago   16.1MB
-docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask   1.0.0               becdd529e366        About a minute ago   942MB
-webapp-flask                                                            latest              becdd529e366        About a minute ago   942MB
-nginx                                                                   alpine              dd025cdfe837        9 days ago           16.1MB
-python                                                                  3                   a4cc999cf2aa        12 days ago          929MB
-openshift/origin-node                                                   v3.11               14d965ab72d5        2 weeks ago          1.17GB
-openshift/origin-control-plane                                          v3.11               42f38837c3d6        2 weeks ago          829MB
-openshift/origin-haproxy-router                                         v3.11               baa13e07d72c        2 weeks ago          410MB
-openshift/origin-deployer                                               v3.11               c4ce187c29d9        2 weeks ago          384MB
-openshift/origin-cli                                                    v3.11               3d6b03d3fd9c        2 weeks ago          384MB
-openshift/origin-hyperkube                                              v3.11               ba4772ad4b1e        2 weeks ago          509MB
-openshift/origin-pod                                                    v3.11               91915f601106        2 weeks ago          262MB
-openshift/origin-hypershift                                             v3.11               dcab472bf75a        2 weeks ago          549MB
-openshift/origin-docker-registry                                        v3.11               9dffb2abf1dd        3 months ago         310MB
-openshift/origin-web-console                                            v3.11               be30b6cce5fa        7 months ago         339MB
-openshift/origin-service-serving-cert-signer                            v3.11               47dadf9d43b6        7 months ago         276MB
+REPOSITORY                                                              TAG                 IMAGE ID            CREATED             SIZE
+docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx   1.0.0               48c1aa425e35        14 seconds ago      84.2MB
+webapp-nginx                                                            latest              48c1aa425e35        14 seconds ago      84.2MB
+docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask   1.0.0               db1f4e34ae83        38 seconds ago      942MB
+webapp-flask                                                            latest              db1f4e34ae83        38 seconds ago      942MB
+bitnami/nginx                                                           1.16.0              4bc54f948f66        7 hours ago         84.2MB
+python                                                                  3                   a4cc999cf2aa        13 days ago         929MB
+openshift/origin-node                                                   v3.11               14d965ab72d5        2 weeks ago         1.17GB
+openshift/origin-control-plane                                          v3.11               42f38837c3d6        2 weeks ago         829MB
+openshift/origin-haproxy-router                                         v3.11               baa13e07d72c        2 weeks ago         410MB
+openshift/origin-deployer                                               v3.11               c4ce187c29d9        2 weeks ago         384MB
+openshift/origin-cli                                                    v3.11               3d6b03d3fd9c        2 weeks ago         384MB
+openshift/origin-hyperkube                                              v3.11               ba4772ad4b1e        2 weeks ago         509MB
+openshift/origin-pod                                                    v3.11               91915f601106        2 weeks ago         262MB
+openshift/origin-hypershift                                             v3.11               dcab472bf75a        2 weeks ago         549MB
+openshift/origin-docker-registry                                        v3.11               9dffb2abf1dd        3 months ago        310MB
+openshift/origin-web-console                                            v3.11               be30b6cce5fa        7 months ago        339MB
+openshift/origin-service-serving-cert-signer                            v3.11               47dadf9d43b6        7 months ago        276MB
 ```
 
 Next, we need to login to the OpenShift integrated repository using our OpenShift credentials.
@@ -225,25 +233,99 @@ the images that you just pushed to the integrated repository.
 <img src="images/image_streams.png" width="500">
 
 
-##### Deploy the images
-
-Deploy the images by creating a Deployment Configuration:
+Alternatively, you can list the Image Streams via the CLI:
 ```bash
-
+$ oc get is -n myproject
 ```
 
+##### Deploy the images
 
+First, ensure that you are in the correct project space:
+```bash
+$ oc project myproject
+```
 
-##### Create the services
+Next, deploy the images by creating a Deployment Configuration.
 
-Create the services that will allow the cluster-internal traffic between the two pods.
+```bash
+$ oc new-app --image webapp-flask:1.0.0
+$ oc new-app --image webapp-nginx:1.0.0
+```
 
+You should see the two applications deploy in the [Overview](https://172.28.33.20:8443/console/project/myproject/overview) page.    
+There should also be a Service object that is created for each application, to allow for cluster-internal traffic.
 
+Notice however that the NGINX container is failing.
 
+If you look at the [logs](https://172.28.33.20:8443/console/project/myproject/browse/rc/webapp-nginx-1?tab=logs),
+you'll find that the NGINX application is failing with the following error:
+
+```
+nginx: [emerg] host not found in upstream "flask" in /opt/bitnami/nginx/conf/server_blocks/app.conf:8
+```
+
+This is because, while we were able to reference the hostname of the flask service as specified in the
+docker-compose.yml file in the previous workshop, we need to reference the service by a 
+defined Service object for the flask application in OpenShift instead.
+
+To resolve this issue, we must edit our nginx/app.conf file, and replace "flask" 
+with the service hostname for the flask application in OpenShift - 
+"[webapp-flask.myproject.svc](https://172.28.33.20:8443/console/project/myproject/browse/services/webapp-flask?tab=details)".
+```bash
+$ sed -i 's/flask/webapp-flask.myproject.svc/g' nginx/app.conf
+```
+
+Now, rebuild the NGINX image, tag, and push the new image to the integrated repository.
+```bash
+$ docker-compose build
+$ docker tag webapp-nginx:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
+$ docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
+```
+
+Notice how OpenShift automatically notices that a new image has been pushed to the repository, 
+and has triggered a new deployment of the new image.  
+This is because the Deployment Configuration object is set to trigger a new deployment upon any image change 
+to the image "webapp-nginx:1.0.0", as referenced from the Image Stream object.
+
+You can verify this configuration by describing the Deployment Configuration object yourself:
+```bash
+$ oc describe dc webapp-nginx
+```
+or in yaml format:
+```bash
+$ oc get dc webapp-nginx -o yaml
+```
+
+At this point, your project space should look like the following:
+<img src="images/webapp_applications.png" width="600">
 
 ##### Create the route
+The last thing we need to do, is expose a route for the webapp-nginx service
+so that we can access our application from outside the cluster:
+
+```bash
+$ oc expose svc webapp-nginx --port=8082
+```
+
+You should see that a route has now been created for the webapp-nginx application, targting port 8082. 
+
+<img src="webapp_nginx_route.png" width="500">
+
+If you navgivate to `http://webapp-nginx-myproject.172.28.33.20.nip.io` in your browser now, 
+you should see a "Hello World in Production!" page.
+
+Congratulations, you have now deployed a multi-container application on OpenShift!
 
 
+##### Understanding Labels
+A Service object provides load balancing of traffic across a contained set of Pods.   
+In order to identify all the Pods that are associated to a specific deployment, Labels are used.
+
+Labels are key/value pairs that are attached to objects, such as Pods.
+The link between Labels and Label Selectors defines the relationship between the Deployment and the Pods it creates.
+
+Can you identify and trace the relationship via Labels and Label Selectors for the webapp-flask Pod(s) and webapp-flask
+Service?
 
 
 ### Additional Training Resources
@@ -256,5 +338,4 @@ that we just don't have the time to cover in this workshop.
 For additional resources and training, here are some interactive learning opportunities from the Red Hat team:
 - learn.openshift.com
 - try.openshift.com
-
 

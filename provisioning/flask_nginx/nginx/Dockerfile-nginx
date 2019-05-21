@@ -1,12 +1,8 @@
-FROM nginx:alpine
+FROM bitnami/nginx:1.16.0
 
 # Nginx will listen on this port
-EXPOSE 80
+EXPOSE 8082
 
-# Remove the default config file that
-# /etc/nginx/nginx.conf includes
-RUN rm /etc/nginx/conf.d/default.conf
+# Copy over the server block to the NGINX container
+COPY app.conf /opt/bitnami/nginx/conf/server_blocks/app.conf
 
-# We copy the requirements file in order to install
-# Python dependencies
-COPY app.conf /etc/nginx/conf.d

@@ -23,8 +23,9 @@ sudo ufw disable
 oc cluster up --public-hostname=172.28.33.20
 
 # expose OpenShift integrated docker registry
-#oc login -u system:admin
-#oc expose svc docker-registry -n default
+oc login -u system:admin
+oc expose svc docker-registry -n default
+oc login -u developer
 
 # download docker-compose binary
 sudo curl -s -L "https://github.com/docker/compose/releases/download/1.24.0/docker-compose-$(uname -s)-$(uname -m)" \
