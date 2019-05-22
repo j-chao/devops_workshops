@@ -42,7 +42,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "jenkins" do |jenkins|
     jenkins.vm.hostname = "jenkins"
-    #jenkins.vm.provision "docker" 
+    jenkins.vm.provision "docker" 
     jenkins.vm.provision :shell, 
       privileged: false, 
       path: "provisioning/jenkins_provision.sh"
