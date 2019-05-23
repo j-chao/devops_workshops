@@ -68,7 +68,6 @@ Docker Hub is a hosted repository service provided by Docker for finding and sha
 Optum has a Docker Trusted Registry (DTR) as well, for securely storing and managing Docker images 
 behind our firewall: docker.optum.com  
 
-
 You should see output similar to the one below:
 ```
 Unable to find image 'dockercloud/hello-world:latest' locally
