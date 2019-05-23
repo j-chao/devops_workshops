@@ -13,8 +13,8 @@ sudo apt-get -qq update --fix-missing
 # Create Jenkins init directory
 sudo mkdir -p /var/lib/jenkins/init.groovy.d
 
-# Copy Jenkins init script to Jenkins init directory
-sudo cp ~/jenkins_init.groovy /var/lib/jenkins/init.groovy.d/jenkins_init.groovy
+# Copy Jenkins init scripts to Jenkins init directory
+sudo cp /home/vagrant/jenkins_init/* /var/lib/jenkins/init.groovy.d/
 
 # Install Jenkins
 sudo apt-get -qq install default-jre=2:1.8-56ubuntu2

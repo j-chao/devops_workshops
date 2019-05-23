@@ -45,8 +45,8 @@ Vagrant.configure("2") do |config|
     jenkins.vm.hostname = "jenkins"
     jenkins.vm.provision "docker" 
     jenkins.vm.provision "file",
-      source: "provisioning/jenkins_init.groovy",
-      destination: "~/jenkins_init.groovy"
+      source: "provisioning/jenkins_init",
+      destination: "/home/vagrant/jenkins_init"
     jenkins.vm.provision :shell, 
       privileged: false, 
       path: "provisioning/jenkins_provision.sh"
