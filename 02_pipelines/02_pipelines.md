@@ -9,7 +9,7 @@ To start, ensure that both the `jenkins` and `openshift` VMs are running on your
 $ vagrant global-status --prune
 ```
 You should see output similar to:
-```
+```sh
 id       name      provider   state   directory
 --------------------------------------------------------------------
 2c97819  jenkins   virtualbox running /Users/<MSID>/devops_workshops
@@ -19,7 +19,7 @@ b2ca4f7  openshift virtualbox running /Users/<MSID>/devops_workshops
 Navigate to the Jenkins UI at `https://172.28.33.20:8443/console/` in a web browser on your local machine.
 
 Login to OpenShift as a developer with the following credentials:
-```bash
+```sh
 Username: developer
 Password: <any value>
 ```
@@ -193,4 +193,5 @@ Take some time to explore the Jenkins interface, and be inspired by the possibil
 - [Jenkins Plugins](http://172.28.33.30:8080/pluginManager/available)
 - [Manage Jenkins](http://172.28.33.30:8080/manage)
 
+Explore the [documentation](https://jenkins.io/) as well!
 
