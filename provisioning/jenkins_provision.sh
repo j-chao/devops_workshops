@@ -18,14 +18,14 @@ sudo service docker restart
 
 # Add Jenkins apt repository
 wget -qq -O - https://pkg.jenkins.io/debian/jenkins.io.key | sudo apt-key add -
-sudo sh -c 'echo deb https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
+sudo sh -c 'echo deb [trusted=yes] https://pkg.jenkins.io/debian-stable binary/ > /etc/apt/sources.list.d/jenkins.list'
 
 # Update package database
-sudo apt-get -qq update --fix-missing
+sudo apt-get -q -y update 
 
 # Install Jenkins
-sudo apt-get -qq install default-jre=2:1.8-56ubuntu2
-sudo apt-get -qq install jenkins=2.164.3
+sudo apt-get -q -y install default-jre=2:1.8-56ubuntu2
+sudo apt-get -q -y install jenkins=2.164.3
 
 # Add jenkins user to docker group
 sudo usermod -aG docker jenkins

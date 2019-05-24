@@ -56,7 +56,7 @@ docker tag hello-world:latest docker-registry-default.172.28.33.20.nip.io:80/myp
 oc login 172.28.33.20:8443 -u developer -p anyvalue --insecure-skip-tls-verify=true
 
 # Login to the integrated repository with OpenShift token
-docker login docker-registry-default.172.28.33.20.nip.io:80 -u developer -p $(oc whoami -t)
+docker login docker-registry-default.172.28.33.20.nip.io:80 -u developer -p \$(oc whoami -t)
 
 # Push image to the repository
 docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/hello-world:1.0.0
@@ -70,11 +70,11 @@ docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/hello-world
 """
 
 InputStream stream = new ByteArrayInputStream(config.getBytes(StandardCharsets.UTF_8));
-job = Jenkins.getInstance().getItemByFullName("freestyle_example", AbstractItem)
+job = Jenkins.getInstance().getItemByFullName("Freestyle Example Job", AbstractItem)
 
 if (job == null) {
   println "Constructing job"
-  Jenkins.getInstance().createProjectFromXML("job_name", stream);
+  Jenkins.getInstance().createProjectFromXML("Freestyle Example Job", stream);
 }
 else {
   println "Updating job"
