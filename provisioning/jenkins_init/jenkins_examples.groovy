@@ -26,7 +26,7 @@ config = """
     <configVersion>2</configVersion>
     <userRemoteConfigs>
       <hudson.plugins.git.UserRemoteConfig>
-        <url>https://github.com/datawire/hello-world.git</url>
+        <url>https://github.com/j-chao/example_apps_devops.git</url>
       </hudson.plugins.git.UserRemoteConfig>
     </userRemoteConfigs>
     <branches>
@@ -47,10 +47,10 @@ config = """
   <builders>
     <hudson.tasks.Shell>
       <command># Build the Docker image
-docker build -t hello-world:latest .
+docker build -t example-flask-app:latest flask_app/
 
 # Tag the image for pushing to a repository
-docker tag hello-world:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/hello-world:1.0.0
+docker tag example-flask-app:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/example-flask-app:1.0.0
 
 # Login to OpenShift server to obtain credentials token for the integrated repository
 oc login 172.28.33.20:8443 -u developer -p anyvalue --insecure-skip-tls-verify=true
@@ -59,7 +59,7 @@ oc login 172.28.33.20:8443 -u developer -p anyvalue --insecure-skip-tls-verify=t
 docker login docker-registry-default.172.28.33.20.nip.io:80 -u developer -p \$(oc whoami -t)
 
 # Push image to the repository
-docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/hello-world:1.0.0
+docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/example-flask-app:1.0.0
 
 </command>
     </hudson.tasks.Shell>
@@ -84,15 +84,15 @@ else {
 
 // Example Jenkins pipeline job
 
-// create example Jenkins pipeline job
-//def scm = new GitSCM("git@github.com:dermeister0/Tests.git")
-//scm.branches = [new BranchSpec("*/develop")];
+//create example Jenkins pipeline job
+def scm = new GitSCM("git@github.com:dermeister0/Tests.git")
+scm.branches = [new BranchSpec("*/develop")];
 
-//def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, "Jenkinsfile")
+def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, "Jenkinsfile")
 
-//def parent = Jenkins.instance
-//def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(parent, "New Job")
-//job.definition = flowDefinition
+def parent = Jenkins.instance
+def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(parent, "New Job")
+job.definition = flowDefinition
 
-//parent.reload()
+parent.reload()
 

@@ -26,9 +26,9 @@ $ brew cask install vagrant
 
 ## Getting Started
 ### Setting up the training environment
-Clone the repo and navigate to the repo's root directory:
+Clone the repo and the git submodules, and navigate to the repo's root directory:
 ```bash
-$ git clone https://github.optum.com/team-cumulus/devops_workshops.git
+$ git clone --recurse-submodules https://github.optum.com/team-cumulus/devops_workshops.git
 $ cd devops_workshops
 ```
 
