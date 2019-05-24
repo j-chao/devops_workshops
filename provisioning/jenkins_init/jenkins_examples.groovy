@@ -5,6 +5,7 @@ import jenkins.*
 import jenkins.model.*
 import hudson.*
 import hudson.model.*
+import hudson.plugins.git.*
 import java.io.*
 import java.nio.charset.StandardCharsets
 import javax.xml.transform.stream.*
@@ -83,15 +84,13 @@ else {
 
 
 // Example Jenkins pipeline job
-
-//create example Jenkins pipeline job
-def scm = new GitSCM("git@github.com:dermeister0/Tests.git")
-scm.branches = [new BranchSpec("*/develop")];
+def scm = new GitSCM("https://github.com/j-chao/example_apps_devops.git")
+scm.branches = [new BranchSpec("*/master")];
 
 def flowDefinition = new org.jenkinsci.plugins.workflow.cps.CpsScmFlowDefinition(scm, "Jenkinsfile")
 
 def parent = Jenkins.instance
-def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(parent, "New Job")
+def job = new org.jenkinsci.plugins.workflow.job.WorkflowJob(parent, "Pipeline Example Job")
 job.definition = flowDefinition
 
 parent.reload()

@@ -9,7 +9,10 @@ Vagrant.configure("2") do |config|
     docker.vm.hostname = "docker"
     docker.vm.provision "docker" 
     docker.vm.provision "file", 
-      source: "example_apps_devops/", 
+      source: "example_apps_devops/flask_app/", 
+      destination: "/home/vagrant/"
+    docker.vm.provision "file", 
+      source: "example_apps_devops/flask_nginx/", 
       destination: "/home/vagrant/"
     docker.vm.provision :shell, 
       privileged: false, 
@@ -25,7 +28,10 @@ Vagrant.configure("2") do |config|
     openshift.vm.hostname = "openshift"
     openshift.vm.provision "docker" 
     openshift.vm.provision "file", 
-      source: "example_apps_devops/", 
+      source: "example_apps_devops/flask_app/", 
+      destination: "/home/vagrant/"
+    openshift.vm.provision "file", 
+      source: "example_apps_devops/flask_nginx/", 
       destination: "/home/vagrant/"
     openshift.vm.provision :shell, 
       privileged: false, 
