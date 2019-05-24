@@ -396,6 +396,8 @@ services:
     build:
       context: ./flask
       dockerfile: Dockerfile-flask
+    environment:
+    - UWSGI_WORKERS=5
 
   nginx:
     image: webapp-nginx
@@ -424,18 +426,23 @@ build:
   context: ./flask
   dockerfile: Dockerfile-flask
 ```
-
 This section is doing two things.   
 First, it is telling the Docker engine to only use files in the flask/ directory to build the image. 
 Second, it’s telling the engine to look for the Dockerfile named Dockerfile-flask 
 to know the instructions for building the appropriate image.
 
-For the nginx portion of the file, there’s a few things to look out for.
+```
+environment:
+- UWSGI_WORKERS=5
+```
+Here, we are defining an environment variable for how uWSGI is configured.
+
+For the nginx portion of the file, there’s a few things to look out for.a
+
 ```
 ports:
   - 5000:8082
 ```
-
 This little section is telling Docker Compose to map the port 5000 on the host machine 
 to port 8082 on the NGINX container.  
 
@@ -443,7 +450,6 @@ to port 8082 on the NGINX container.
 depends_on:
   - flask
 ```
-
 The `depends_on:` directive tells Compose to wait until the flask container 
 is in a functional state before launching the nginx container, 
 which avoids having a scenario where NGINX fails when the flask host is unresponsive.
@@ -457,6 +463,7 @@ This is why in our nginx/app.conf file,
 we are able to reference the flask server with the hostname "flask".
 
 Compare using Docker Compose to the alternative below:
+
 ```bash
 $ docker build -t my-flask -f flask/Dockerfile-flask flask/
 $ docker build -t my-nginx -f nginx/Dockerfile-nginx nginx/

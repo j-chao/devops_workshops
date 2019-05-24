@@ -152,7 +152,7 @@ Try changing the number of "replicas" for the NGINX application to 2.
 $ oc edit dc my-nginx
 ```
 
-We will explore the use of yaml template files more in the next workshop on pipelines.
+We will explore the use of yaml template files later.
 
 
 ### Deploying Your Own Application 
@@ -246,11 +246,12 @@ First, ensure that you are in the correct project space:
 $ oc project myproject
 ```
 
-Next, deploy the images by creating a Deployment Configuration.
+Next, deploy the images by creating a Deployment Configuration.  
+We can also specify environment variables when we create our application:
 
 ```bash
-$ oc new-app --image webapp-flask:1.0.0
-$ oc new-app --image webapp-nginx:1.0.0
+$ oc new-app --image-stream webapp-flask:1.0.0 -e UWSGI_WORKERS=3
+$ oc new-app --image-stream webapp-nginx:1.0.0
 ```
 
 You should see the two applications deploy in the [Overview](https://172.28.33.20:8443/console/project/myproject/overview) page.    
@@ -339,4 +340,6 @@ that we just don't have the time to cover in this workshop.
 For additional resources and training, here are some interactive learning opportunities from the Red Hat team:
 - learn.openshift.com
 - try.openshift.com
+
+There are also [illustrated children's books](https://www.cncf.io/phippy/) for learning about Kubernetes!
 

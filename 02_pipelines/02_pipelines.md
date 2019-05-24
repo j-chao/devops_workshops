@@ -1,4 +1,4 @@
-# Continuous Integration & Continuous Deployment Pipelines
+# Continuous Integration & Continuous Delivery Pipelines
 
 <img src="images/jenkins.png" width="150">
 
