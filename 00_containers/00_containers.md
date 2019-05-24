@@ -322,8 +322,8 @@ We will explore pushing images to a repository in more detail in the next worksh
 
 ---
 ## Defining & Running multi-container applications with Docker Compose
-<img src="images/compose.png" width="250">
 
+<img src="images/compose.png" width="250">
 
 Compose is a tool for defining and running multi-container Docker applications.  
 To learn more about Compose, you can refer to the [documentation here](https://docs.docker.com/compose/).
