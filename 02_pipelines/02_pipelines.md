@@ -1,6 +1,6 @@
 # Continuous Integration & Continuous Deployment Pipelines
 
-<img src="images/jenkins.png" width="250">
+<img src="images/jenkins.png" width="200">
 
 ## Working with Jenkins
 

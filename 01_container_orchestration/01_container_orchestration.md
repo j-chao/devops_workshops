@@ -105,7 +105,6 @@ object is also created for routing traffic internal to the cluster.
 object is created for routing traffic external to the cluster. 
 This is the endpoint that allows us to visit the "Welcome to Openshift" page from our web browser.
 
-
 Take some time and familiarize yourself with the OpenShift console.   
 View the logs and events pages and see if you can follow the many different steps involved in deploying a containerized
 application on OpenShift.
