@@ -24,7 +24,7 @@ Username: developer
 Password: <any value>
 ```
 
-In another browser window, navigate to the Jenkins UI at `https://172.28.33.30:8080` on your local machine.
+In another browser window, navigate to the Jenkins UI at `http://172.28.33.30:8080` on your local machine.
 It may take a while for Jenkins to fully initialize.
 
 
@@ -90,7 +90,7 @@ Jenkins is extremely extensible, and has integrations into many third-party tool
 So far, our CI/CD pipeline is relatively simple, but imagine having to define a multi-pipeline CI/CD infrastructure,  
 with GitHub hooks that get triggered per your git-branching strategies and managing pull-requests.  
 
-Add to that, additional tools and steps for validating functionality tests, security scans, 
+Add to that, additional tools and steps for validating functionality tests, code linting, security scans, 
 performance tests, and compliance tests.
 
 You may also want to integrate tools for notifying you and the team if a pipeline fails.
