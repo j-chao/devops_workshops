@@ -9,10 +9,7 @@ Vagrant.configure("2") do |config|
     docker.vm.hostname = "docker"
     docker.vm.provision "docker" 
     docker.vm.provision "file", 
-      source: "provisioning/flask_app/", 
-      destination: "/home/vagrant/"
-    docker.vm.provision "file", 
-      source: "provisioning/flask_nginx/", 
+      source: "example_apps_devops/", 
       destination: "/home/vagrant/"
     docker.vm.provision :shell, 
       privileged: false, 
@@ -28,7 +25,7 @@ Vagrant.configure("2") do |config|
     openshift.vm.hostname = "openshift"
     openshift.vm.provision "docker" 
     openshift.vm.provision "file", 
-      source: "provisioning/flask_nginx/", 
+      source: "example_apps_devops/", 
       destination: "/home/vagrant/"
     openshift.vm.provision :shell, 
       privileged: false, 
@@ -45,8 +42,8 @@ Vagrant.configure("2") do |config|
     jenkins.vm.hostname = "jenkins"
     jenkins.vm.provision "docker" 
     jenkins.vm.provision "file",
-      source: "provisioning/jenkins_init",
-      destination: "/home/vagrant/jenkins_init"
+      source: "provisioning/jenkins_init/",
+      destination: "/home/vagrant/"
     jenkins.vm.provision :shell, 
       privileged: false, 
       path: "provisioning/jenkins_provision.sh"
