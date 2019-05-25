@@ -34,7 +34,7 @@ It may take a while for Jenkins to fully initialize.
 
 Once Jenkins is ready, the first page you'll see should look like the following:
 
-<img src="images/jenkins_home.png" width="800">
+<img src="images/jenkins_home.png" width="900">
 
 Go ahead and take a look at the ["Freestyle Example Job"](http://172.28.33.30:8080/job/Freestyle%20Example%20Job/).  
 This job does the following:
@@ -44,32 +44,32 @@ This job does the following:
 
 Select ["Configure"](http://172.28.33.30:8080/job/Freestyle%20Example%20Job/configure) on the left side to see how this "Freestyle"-type Jenkins job is setup:
 
-<img src="images/configure_freestyle_example.png" width="800">
+<img src="images/configure_freestyle_example.png" width="900">
 
 The "Source Code Management" section is where we can define how Jenkins pulls the source code from a git repo.
 
-<img src="images/scm_freestyle_example.png" width="800">
+<img src="images/scm_freestyle_example.png" width="900">
 
 Scroll down to the bottom of the page.   
 Notice how in the "Build" section, you can define shell commands to run. 
 There are also additional "build steps" and "post-build actions" that you can define as part of your pipeline to execute,  
 depending on the plugins and integrations you have installed on your Jenkins server.  
 
-<img src="images/build_step_shell.png" width="800">
+<img src="images/build_step_shell.png" width="900">
 
 
 Go ahead and execute the [Freestyle Example Job](http://172.28.33.30:8080/job/Freestyle%20Example%20Job/) 
 by clicking on "Build Now."
 
-<img src="images/build_freestyle_example.png" width="800">
+<img src="images/build_freestyle_example.png" width="900">
 
 You should see a Build kick-off:
 
-<img src="images/building_freestyle_example.png" width="800">
+<img src="images/building_freestyle_example.png" width="900">
 
 Navigate to Build "#1", and follow the [Console Output](http://172.28.33.30:8080/job/Freestyle%20Example%20Job/1/console) to see the build in action.
 
-<img src="images/logs_freestyle_example.png" width="800">
+<img src="images/logs_freestyle_example.png" width="900">
 
 Once the build is complete, you should be able to see that an image has been 
 successfully pushed to the OpenShift integrated repository, and that
@@ -81,7 +81,7 @@ Try [creating a Freestyle job](http://172.28.33.30:8080/view/all/newJob) that bu
 the Docker images for the example flask + NGINX multi-container application 
 from the [GitHub repo here](https://github.com/j-chao/example_apps_devops) to OpenShift.
 
-<img src="images/create_job.png" width="800">
+<img src="images/create_job.png" width="900">
 
 
 #### Pipeline Project

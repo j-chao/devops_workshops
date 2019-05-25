@@ -1,6 +1,6 @@
 # Container Orchestration 
 
-<img src="images/k8s.png" width="800">
+<img src="images/k8s.png" width="600">
 
 ## Working with OpenShift
 To start, ensure that the `openshift` VM is running on your local machine:
@@ -42,19 +42,19 @@ that can be deployed to OpenShift with minimal mess from you, the end-user.
 Let's try deploying the NGINX HTTP server that is already provided for in the Catalog.
 
 
-<img src="images/catalog_nginx.png" width="800">
+<img src="images/catalog_nginx.png" width="900">
 
 Use version "1.12 - latest", name your application "my-nginx", 
 and use "https://github.com/sclorg/nginx-ex.git" as the Git repo.
 
-<img src="images/catalog_nginx_config.png" width="800">
+<img src="images/catalog_nginx_config.png" width="900">
 
 Then click "Create".
 
 Once the application is created, 
 navigate to the [Overview](https://172.28.33.20:8443/console/project/myproject/overview) page of your project.
 
-<img src="images/overview.png" width="800">
+<img src="images/overview.png" width="900">
 
 You should see that the NGINX application has been created.
 
@@ -113,7 +113,7 @@ application on OpenShift.
 
 Try scaling the NGINX application to 3 pods.
 
-<img src="images/scale_pods.png" width="800">
+<img src="images/scale_pods.png" width="900">
 
 
 ### Using the CLI to Manage Resources
@@ -231,7 +231,7 @@ Now navigate to the [Image Streams](https://172.28.33.20:8443/console/project/my
 You should see that two image streams have been created that reference 
 the images that you just pushed to the integrated repository.
 
-<img src="images/image_streams.png" width="800">
+<img src="images/image_streams.png" width="900">
 
 
 Alternatively, you can list the Image Streams via the CLI:
@@ -299,7 +299,7 @@ $ oc get dc webapp-nginx -o yaml
 ```
 
 At this point, your project space should look like the following:
-<img src="images/webapp_applications.png" width="800">
+<img src="images/webapp_applications.png" width="900">
 
 ##### Create the route
 The last thing we need to do, is expose a route for the webapp-nginx service
@@ -311,7 +311,7 @@ $ oc expose svc webapp-nginx --port=8082
 
 You should see that a route has now been created for the webapp-nginx application, targting port 8082. 
 
-<img src="images/webapp_nginx_route.png" width="800">
+<img src="images/webapp_nginx_route.png" width="900">
 
 If you navgivate to `http://webapp-nginx-myproject.172.28.33.20.nip.io` in your browser now, 
 you should see a "Hello World in Production!" page.
@@ -331,7 +331,7 @@ Service?
 
 ### Using ConfigMaps and Secrets
 
-##### Separating configurations from application code with ConfigMaps
+#### Separating configurations from application code with ConfigMaps
 A ConfigMap is a dictionary of configuration settings. 
 This dictionary consists of key-value pairs of strings, that can then be injected into a container at runtime.  
 Like with other dictionaries (maps, hashes, ...) the key lets you get and set the configuration value.
@@ -378,32 +378,32 @@ $ oc describe cm uwsgi-config
 Navigate to the [Config Maps page](https://172.28.33.20:8443/console/project/myproject/browse/config-maps) on the
 OpenShift console. You should see that a configmap named "uwsgi-config" has been created in your project.
 
-<img src="images/k8s.png" width="800">
+<img src="images/configmap.png" width="900">
 
 Now, let's edit the [Deployment Configuration for webapp-flask](https://172.28.33.20:8443/console/project/myproject/browse/dc/webapp-flask?tab=configuration), 
 so that it injects the uwsgi-config ConfigMap into the container as a volume.
 This will overwrite the original/default app.ini file that was copied over to the webapp-flask image as specified in it's Dockerfile.
 
-<img src="images/create_configmap.png" width="800">
+<img src="images/create_configmap.png" width="900">
 
 Configure the Source to be the "uwsgi-config" ConfigMap that we created, 
 and the Mount Path settings to be "/etc/uwsgi/", which is the ENTRYPOINT that is specified in the Dockerfile 
 for the webapp-flask image.
 
-<img src="images/configure_configmap.png" width="800">
+<img src="images/configure_configmap.png" width="900">
 
 Add the volume, and you should see a 
 [new deployment rollout](https://172.28.33.20:8443/console/project/myproject/browse/rc/webapp-flask-2?tab=details), 
 with the volume containing the ConfigMap attached to the Pod(s).
 
-<img src="images/mounted_configmap.png" width="800">
+<img src="images/mounted_configmap.png" width="900">
 
 
 Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io/ again, and you should see that the 
 number of uWSGI workers is now 5 instead of 2.
 
 
-##### Using secrets for sensitive data
+#### Using secrets for sensitive data
 
 Secret objects allow you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys.   
 Putting this information in a secret is safer and more flexible than putting it verbatim in a Pod definition or in a container image. 
@@ -421,19 +421,19 @@ $ oc create secret generic my-secret --from-literal=SECRET=supersecretvalue
 Navigate to the [Secrets page](https://172.28.33.20:8443/console/project/myproject/browse/secrets)
 of your project, and you should see that a secret called "my-secret" has been created there.
 
-<img src="images/secrets.png" width="800">
+<img src="images/secrets.png" width="900">
 
 Now, let's edit the [Deployment Configuration for webapp-flask](https://172.28.33.20:8443/console/project/myproject/browse/dc/webapp-flask?tab=environment), 
 so that it injects the my-secret Secret into the container as an environment variable.
 
-<img src="images/add_secret_env.png" width="800">
+<img src="images/add_secret_env.png" width="900">
 
 
 Set the environment variable name to "SECERT", select the "my-secret" Secret as the resource,
 and "SECRET" as the key.
 Then, click Save.
 
-<img src="images/configure_secret.png" width="800">
+<img src="images/configure_secret.png" width="900">
 
 You should see a new deployment rollout.
 
