@@ -250,7 +250,7 @@ Next, deploy the images by creating a Deployment Configuration.
 We can also specify environment variables when we create our application:
 
 ```bash
-$ oc new-app --image-stream webapp-flask:1.0.0 -e UWSGI_WORKERS=3
+$ oc new-app --image-stream webapp-flask:1.0.0 -e MY_ENV_VAR="Hello beautiful environment!"
 $ oc new-app --image-stream webapp-nginx:1.0.0
 ```
 
@@ -328,6 +328,125 @@ The link between Labels and Label Selectors defines the relationship between the
 
 Can you identify and trace the relationship via Labels and Label Selectors for the webapp-flask Pod(s) and webapp-flask
 Service?
+
+### Using ConfigMaps and Secrets
+
+##### Separating configurations from application code with ConfigMaps
+A ConfigMap is a dictionary of configuration settings. 
+This dictionary consists of key-value pairs of strings, that can then be injected into a container at runtime.  
+Like with other dictionaries (maps, hashes, ...) the key lets you get and set the configuration value.
+
+Using a ConfigMap allows you to keep your application code separate from your configuration.   
+This is an important principle in ensure that your application is portable and reusable!  
+
+Separating your application code from your configuations allows you easily change configuration settings 
+depending on the environment (development, testing, production), and to dynamically change configuration at runtime.  
+Using a ConfigMap to do so, will help you manage complex configurations for applications, instead of having to track
+multiple environment variables.
+
+Examples of common configuration settings include connection strings, hostnames, and URLs.
+
+.INI files are a standard configuration format used by many applications, including uWSGI.    
+Let's create a ConfigMap that contains the configuration settings for the uWSGI server that 
+runs in the webapp-flask container.
+
+First, modify the flask/app.ini file, which contains the configuration settings for the uWSGI server.
+Let's change the number of uWSGI Workers from 2 to 5:
+
+```bash
+$ sed -i 's/workers = 2/workers = 5/g' flask/app.ini
+```
+
+Now create a ConfigMap called "uwsgi-config" from the app.ini file.
+This will result in the filename "app.ini" being a key, and the contents of app.ini being the value to the key.
+
+```bash
+$ oc create configmap uwsgi-config --from-file=flask/app.ini
+```
+
+You should see the following response:
+```
+configmap/uwsgi-config created
+```
+
+Go ahead and describe the configmap, and notice how the contents of the app.ini file have been 
+populated as a value to a key defined from the filename.
+```bash
+$ oc describe cm uwsgi-config 
+```
+
+Navigate to the [Config Maps page](https://172.28.33.20:8443/console/project/myproject/browse/config-maps) on the
+OpenShift console. You should see that a configmap named "uwsgi-config" has been created in your project.
+
+<img src="images/k8s.png" width="700">
+
+Now, let's edit the [Deployment Configuration for webapp-flask](https://172.28.33.20:8443/console/project/myproject/browse/dc/webapp-flask?tab=configuration), 
+so that it injects the uwsgi-config ConfigMap into the container as a volume.
+
+<img src="images/create_configmap.png" width="700">
+
+Configure the Source to be the "uwsgi-config" ConfigMap that we created, 
+and the Mount Path settings to be "/etc/uwsgi/", which is the ENTRYPOINT that is specified in the Dockerfile 
+for the webapp-flask image.
+
+<img src="images/configure_configmap.png" width="700">
+
+Add the volume, and you should see a 
+[new deployment rollout](https://172.28.33.20:8443/console/project/myproject/browse/rc/webapp-flask-2?tab=details), 
+with the volume containing the ConfigMap attached to the Pod(s).
+
+<img src="images/mounted_configmap.png" width="700">
+
+
+Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io/ again, and you should see that the 
+number of uWSGI workers is now 5 instead of 2.
+
+
+##### Using secrets for sensitive data
+
+Secret objects allow you store and manage sensitive information, such as passwords, OAuth tokens, and ssh keys.   
+Putting this information in a secret is safer and more flexible than putting it verbatim in a Pod definition or in a container image. 
+
+Secrets can be mounted as data volumes or be exposed as environment variables to be used by a container in a pod. 
+They can also be used by other parts of the system, without being directly exposed to the pod.     
+For example, they can hold credentials that other parts of the system should use to interact with external systems on your behalf.  
+
+Let's create a Secret that is then exposed as an environment variable to be used by the webapp-flask container:
+
+```bash
+$ oc create secret generic my-secret --from-literal=SECRET=supersecretvalue
+```
+
+Navigate to the [Secrets page](https://172.28.33.20:8443/console/project/myproject/browse/secrets)
+of your project, and you should see that a secret called "my-secret" has been created there.
+
+<img src="images/secrets.png" width="700">
+
+Now, let's edit the [Deployment Configuration for webapp-flask](https://172.28.33.20:8443/console/project/myproject/browse/dc/webapp-flask?tab=environment), 
+so that it injects the my-secret Secret into the container as an environment variable.
+
+<img src="images/add_secret_env.png" width="700">
+
+
+Set the environment variable name to "SECERT", select the "my-secret" Secret as the resource,
+and "SECRET" as the key.
+Then, click Save.
+
+<img src="images/configure_secret.png" width="700">
+
+You should see a new deployment rollout
+
+
+The ironic thing is, secrets are actually not so secret in Kubernetes, since they are only base64 encoded.
+This means, that anyone who has the permissions to be able to view secrets in your OpenShift project, 
+can easily decode it:
+```bash
+$ oc get secret my-secret -o yaml | grep SECRET | tr -d " " | cut -d: -f2 | base64 --decode
+```
+
+The better alternative here, is to use a solution such as Hashicorp Vault to encrypt and centrally store, access, distribute,
+and rotate dynamic secrets - but this is outside the scope of this workshop :wink: .
+
 
 
 ### Additional Training Resources
