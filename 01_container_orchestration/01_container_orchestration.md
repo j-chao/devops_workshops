@@ -437,8 +437,7 @@ Then, click Save.
 
 You should see a new deployment rollout.
 
-Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io again, and you should see 
-the the secret value.
+Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io again, and you should see the secret value.
 
 Note: The ironic thing is, secrets are actually not so secret in Kubernetes, since they are only base64 encoded.
 This means, that anyone who has the permissions to be able to view secrets in your OpenShift project, 
