@@ -1,6 +1,7 @@
 # Container Orchestration 
 
-<img src="images/k8s.png" width="600">
+  <img src="images/openshift.png" width="150" />
+
 
 ## Working with OpenShift
 To start, ensure that the `openshift` VM is running on your local machine:
