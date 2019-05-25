@@ -7,8 +7,13 @@ sudo apt-get -q -y update
 wget -q https://github.com/openshift/origin/releases/download/v3.11.0/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
 tar -zvxf openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
 
-# Copy 'oc' command to bin directory
+# Copy 'oc' & 'kubectl' commands to bin directory
 sudo cp /home/vagrant/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/oc /usr/local/bin/
+sudo cp /home/vagrant/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit/kubectl /usr/local/bin/
+
+# Cleanup training space
+rm -rf /home/vagrant/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit
+rm openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
 
 # Add insecure registries to docker daemon 
 sudo echo '{ "insecure-registries" : [ "172.30.0.0/16", "docker-registry-default.172.28.33.20.nip.io", "docker-registry-default.172.28.33.20.nip.io:80" ] }' | sudo tee -a /etc/docker/daemon.json

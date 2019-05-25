@@ -1,6 +1,6 @@
 # Container Orchestration 
 
-<img src="images/k8s.png" width="700">
+<img src="images/k8s.png" width="800">
 
 ## Working with OpenShift
 To start, ensure that the `openshift` VM is running on your local machine:
@@ -42,19 +42,19 @@ that can be deployed to OpenShift with minimal mess from you, the end-user.
 Let's try deploying the NGINX HTTP server that is already provided for in the Catalog.
 
 
-<img src="images/catalog_nginx.png" width="700">
+<img src="images/catalog_nginx.png" width="800">
 
 Use version "1.12 - latest", name your application "my-nginx", 
 and use "https://github.com/sclorg/nginx-ex.git" as the Git repo.
 
-<img src="images/catalog_nginx_config.png" width="700">
+<img src="images/catalog_nginx_config.png" width="800">
 
 Then click "Create".
 
 Once the application is created, 
 navigate to the [Overview](https://172.28.33.20:8443/console/project/myproject/overview) page of your project.
 
-<img src="images/overview.png" width="700">
+<img src="images/overview.png" width="800">
 
 You should see that the NGINX application has been created.
 
@@ -113,7 +113,7 @@ application on OpenShift.
 
 Try scaling the NGINX application to 3 pods.
 
-<img src="images/scale_pods.png" width="700">
+<img src="images/scale_pods.png" width="800">
 
 
 ### Using the CLI to Manage Resources
@@ -231,7 +231,7 @@ Now navigate to the [Image Streams](https://172.28.33.20:8443/console/project/my
 You should see that two image streams have been created that reference 
 the images that you just pushed to the integrated repository.
 
-<img src="images/image_streams.png" width="700">
+<img src="images/image_streams.png" width="800">
 
 
 Alternatively, you can list the Image Streams via the CLI:
@@ -299,7 +299,7 @@ $ oc get dc webapp-nginx -o yaml
 ```
 
 At this point, your project space should look like the following:
-<img src="images/webapp_applications.png" width="700">
+<img src="images/webapp_applications.png" width="800">
 
 ##### Create the route
 The last thing we need to do, is expose a route for the webapp-nginx service
@@ -311,7 +311,7 @@ $ oc expose svc webapp-nginx --port=8082
 
 You should see that a route has now been created for the webapp-nginx application, targting port 8082. 
 
-<img src="images/webapp_nginx_route.png" width="700">
+<img src="images/webapp_nginx_route.png" width="800">
 
 If you navgivate to `http://webapp-nginx-myproject.172.28.33.20.nip.io` in your browser now, 
 you should see a "Hello World in Production!" page.
@@ -378,24 +378,25 @@ $ oc describe cm uwsgi-config
 Navigate to the [Config Maps page](https://172.28.33.20:8443/console/project/myproject/browse/config-maps) on the
 OpenShift console. You should see that a configmap named "uwsgi-config" has been created in your project.
 
-<img src="images/k8s.png" width="700">
+<img src="images/k8s.png" width="800">
 
 Now, let's edit the [Deployment Configuration for webapp-flask](https://172.28.33.20:8443/console/project/myproject/browse/dc/webapp-flask?tab=configuration), 
 so that it injects the uwsgi-config ConfigMap into the container as a volume.
+This will overwrite the original/default app.ini file that was copied over to the webapp-flask image as specified in it's Dockerfile.
 
-<img src="images/create_configmap.png" width="700">
+<img src="images/create_configmap.png" width="800">
 
 Configure the Source to be the "uwsgi-config" ConfigMap that we created, 
 and the Mount Path settings to be "/etc/uwsgi/", which is the ENTRYPOINT that is specified in the Dockerfile 
 for the webapp-flask image.
 
-<img src="images/configure_configmap.png" width="700">
+<img src="images/configure_configmap.png" width="800">
 
 Add the volume, and you should see a 
 [new deployment rollout](https://172.28.33.20:8443/console/project/myproject/browse/rc/webapp-flask-2?tab=details), 
 with the volume containing the ConfigMap attached to the Pod(s).
 
-<img src="images/mounted_configmap.png" width="700">
+<img src="images/mounted_configmap.png" width="800">
 
 
 Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io/ again, and you should see that the 
@@ -420,24 +421,26 @@ $ oc create secret generic my-secret --from-literal=SECRET=supersecretvalue
 Navigate to the [Secrets page](https://172.28.33.20:8443/console/project/myproject/browse/secrets)
 of your project, and you should see that a secret called "my-secret" has been created there.
 
-<img src="images/secrets.png" width="700">
+<img src="images/secrets.png" width="800">
 
 Now, let's edit the [Deployment Configuration for webapp-flask](https://172.28.33.20:8443/console/project/myproject/browse/dc/webapp-flask?tab=environment), 
 so that it injects the my-secret Secret into the container as an environment variable.
 
-<img src="images/add_secret_env.png" width="700">
+<img src="images/add_secret_env.png" width="800">
 
 
 Set the environment variable name to "SECERT", select the "my-secret" Secret as the resource,
 and "SECRET" as the key.
 Then, click Save.
 
-<img src="images/configure_secret.png" width="700">
+<img src="images/configure_secret.png" width="800">
 
-You should see a new deployment rollout
+You should see a new deployment rollout.
 
+Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io/ again, and you should see 
+the the secret value.
 
-The ironic thing is, secrets are actually not so secret in Kubernetes, since they are only base64 encoded.
+Note: The ironic thing is, secrets are actually not so secret in Kubernetes, since they are only base64 encoded.
 This means, that anyone who has the permissions to be able to view secrets in your OpenShift project, 
 can easily decode it:
 ```bash
@@ -448,12 +451,11 @@ The better alternative here, is to use a solution such as Hashicorp Vault to enc
 and rotate dynamic secrets - but this is outside the scope of this workshop :wink: .
 
 
-
 ### Additional Training Resources
 Hopefully, this excercise has given you an introduction into the capabilities that 
-OpenShift as a Platform-as-a-Service provides.
+OpenShift and Kubernetes as a Platform-as-a-Service provides.
 
-Obviously, there are a lot of things that you can do with OpenShift 
+Obviously, there are a lot of things that you can do with OpenShift and Kubernetes
 that we just don't have the time to cover in this workshop.
 
 For additional resources and training, here are some interactive learning opportunities from the Red Hat team:
@@ -461,4 +463,5 @@ For additional resources and training, here are some interactive learning opport
 - try.openshift.com
 
 There are also [illustrated children's books](https://www.cncf.io/phippy/) for learning about Kubernetes!
+
 

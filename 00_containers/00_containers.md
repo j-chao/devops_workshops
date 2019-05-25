@@ -397,7 +397,7 @@ services:
       context: ./flask
       dockerfile: Dockerfile-flask
     environment:
-    - UWSGI_WORKERS=5
+    - MY_ENV_VAR="Hello beautiful environment!"
 
   nginx:
     image: webapp-nginx
@@ -433,9 +433,9 @@ to know the instructions for building the appropriate image.
 
 ```
 environment:
-- UWSGI_WORKERS=5
+- MY_ENV_VAR="Hello beautiful environment!"
 ```
-Here, we are defining an environment variable for how uWSGI is configured.
+Here, we are defining an environment variable, that will be injected into the container at runtime.
 
 For the nginx portion of the file, there’s a few things to look out for.a
 
