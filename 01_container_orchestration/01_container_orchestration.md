@@ -14,7 +14,7 @@ id       name      provider   state   directory
 4c56060  openshift virtualbox running /Users/<MSID>/devops_workshops
 ```
 
-Navigate to the OpenShift UI at `https://172.28.33.20:8443/console/` in a web browser on your local machine.
+Navigate to the OpenShift UI at https://172.28.33.20:8443/console in a web browser on your local machine.
 
 Login as a developer with the following credentials:
 ```sh
@@ -59,7 +59,7 @@ navigate to the [Overview](https://172.28.33.20:8443/console/project/myproject/o
 You should see that the NGINX application has been created.
 
 Go ahead and navigate to the route that was generated for the deployed NGINX application:
-`http://my-nginx-myproject.172.28.33.20.nip.io/` 
+http://my-nginx-myproject.172.28.33.20.nip.io .
 
 You should see a "Welcome to Openshift" page.
 
@@ -313,7 +313,7 @@ You should see that a route has now been created for the webapp-nginx applicatio
 
 <img src="images/webapp_nginx_route.png" width="900">
 
-If you navgivate to `http://webapp-nginx-myproject.172.28.33.20.nip.io` in your browser now, 
+If you navgivate to http://webapp-nginx-myproject.172.28.33.20.nip.io in your browser now, 
 you should see a "Hello World in Production!" page.
 
 Congratulations, you have now deployed a multi-container application on OpenShift!
@@ -399,7 +399,7 @@ with the volume containing the ConfigMap attached to the Pod(s).
 <img src="images/mounted_configmap.png" width="900">
 
 
-Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io/ again, and you should see that the 
+Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io again, and you should see that the 
 number of uWSGI workers is now 5 instead of 2.
 
 
@@ -437,7 +437,7 @@ Then, click Save.
 
 You should see a new deployment rollout.
 
-Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io/ again, and you should see 
+Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io again, and you should see 
 the the secret value.
 
 Note: The ironic thing is, secrets are actually not so secret in Kubernetes, since they are only base64 encoded.
