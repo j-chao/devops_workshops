@@ -38,7 +38,7 @@ called "My Project" created for you on the right side.
 
 The first page you'll see when you login is the OpenShift Catalog, 
 where the good folks at Red Hat have create a few starter applications 
-that can be deployed to OpenShift with minimal mess from you, the end-user.
+that can be deployed to OpenShift with minimal fuss from you, the end-user.
 
 Let's try deploying the NGINX HTTP server that is already provided for in the Catalog.
 
@@ -83,7 +83,7 @@ In this case, OpenShift has an integrated repository that is being hosted intern
 that we will use.  
 (If you don't believe me, ssh into the openshift VM and list the running Docker containers :wink: )
 
-3. An "[Image Stream](https://172.28.33.20:8443/console/project/myproject/browse/images)" object is created,
+3. An "[Image Stream](https://172.28.33.20:8443/console/project/myproject/browse/images)" resource is created,
  which provides an abstraction for referencing Docker images from within OpenShift.
 This allows other OpenShift objects to automatically perform actions based on changes to Docker images, such as
 triggering a new deployment update or build. 
@@ -92,18 +92,18 @@ Note: "Image Streams" are unique to OpenShift, and are not supported in default 
 4. A "[Deployment Configuration](https://172.28.33.20:8443/console/project/myproject/browse/dc/my-nginx?tab=history)" 
 object is created, which details how the application should be deployed and managed. 
 (ie: number of replicas, readiness/liveliness probes, ports to be exposed, env variables, image to be deployed, etc.)  
-Note: "Deployment Configurations" are unique to OpenShift, and are not supported in default Kubernetes. 
-They allow for a greater level of control in configuring and maintaining deployments, 
-such as image change deployment triggers, vs. the "Deployment" object in default K8s.
+Note: "Deployment Configurations" are unique to OpenShift and provide greater flexibility and configuration options than
+their superclass, "Deployments", such as image change deployment triggers. 
+DeploymentConfig resources are not supported in default Kubernetes.   
 
 5. According to the Deployment Configuration created, the requested number of 
-[Pods](https://172.28.33.20:8443/console/project/myproject/browse/pods) are created.
+[Pods](https://172.28.33.20:8443/console/project/myproject/browse/pods) resources are created.
 
 6. A [Service](https://172.28.33.20:8443/console/project/myproject/browse/services/my-nginx?tab=details) 
-object is also created for routing traffic internal to the cluster.
+resource is also created for routing traffic internal to the cluster.
 
 7. A [Route](https://172.28.33.20:8443/console/project/myproject/browse/routes/my-nginx) 
-object is created for routing traffic external to the cluster. 
+resource is created for routing traffic external to the cluster. 
 This is the endpoint that allows us to visit the "Welcome to Openshift" page from our web browser.
 
 Take some time and familiarize yourself with the OpenShift console.   
@@ -161,13 +161,19 @@ We will explore the use of yaml template files later.
 Let's deploy the example flask + NGINX multi-container application from the previous workshop, using the CLI.
 
 Note that we are choosing to use the [bitnami](https://hub.docker.com/r/bitnami/nginx) 
-version of NGINX instead of the default [nginx](https://hub.docker.com/_/nginx/) because
+version of NGINX instead of a "regular" [nginx image](https://hub.docker.com/_/nginx/) because
 the bitnami image does not run as root.
 
 There are security concerns with Docker containers that run as root, and
 OpenShift has controls in place that will prevent containers from running as root.
 
+Note: Recent advances in new containerization technologies such as 
+[kata containers](https://katacontainers.io/) and [Podman](https://podman.io/)
+help mitigate some of these security vulnerabilities, but these topics are outside the scope of this workshop.
+
 ##### Build the images
+
+Build the images!
 
 ```bash
 $ cd flask_nginx/
@@ -464,4 +470,5 @@ For additional resources and training, here are some interactive learning opport
 
 There are also [illustrated children's books](https://www.cncf.io/phippy/) for learning about Kubernetes!
 
-  <img src="images/k8s.png" width="600" />
+<img src="images/k8s.png" width="600" />
+

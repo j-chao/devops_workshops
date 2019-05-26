@@ -90,8 +90,8 @@ Jenkins is extremely extensible, and has integrations into many third-party tool
 So far, our CI/CD pipeline is relatively simple, but imagine having to define a multi-pipeline CI/CD infrastructure,  
 with GitHub hooks that get triggered per your git-branching strategies and managing pull-requests.  
 
-Add to that, additional tools and steps for validating functionality tests, code linting, security scans, 
-performance tests, and compliance tests.
+Add to that, additional tools and steps for validating functionality tests, code linting, 
+automated generation of documentation & release notes, security scans, performance tests, and compliance tests.
 
 You may also want to integrate tools for notifying you and the team if a pipeline fails.
 For example, if a unit test fails your pipeline execution, have Jenkins send an email to the team.  

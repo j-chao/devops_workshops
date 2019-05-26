@@ -46,11 +46,10 @@ Server: Docker Engine - Community
 
 ### Docker Run
 Docker containers are built from Docker images. 
-By default, Docker pulls these images from Docker Hub, a Docker registry managed by Docker, 
-the company behind the Docker project. 
+By default, the Docker engine pulls these images from [Docker Hub](https://hub.docker.com/), a public Docker registry 
+managed by Docker, the company behind the Docker project.   
 Anyone can host their Docker images on Docker Hub, so most
 applications and Linux distributions you'll need will have images hosted there. 
-
 
 Run the following command to spin up an Apache server that servers a "Hello World" page listening on port 80, as a Docker
 container:
@@ -85,12 +84,10 @@ b0f228753f037ab2dc2df06ae96019f22af45023b6ac1a0d53237b2de9c7d751
 Here, we can see that Docker is pulling the `latest` tagged image from `dockercloud/hello-world` by default, since we did not
 explicitly specify an image tag.
 
-
-
 Since this is the first time Docker is running this image, it will first download the image to your local machine.
 Finally, Docker will spin up a container with the image, and print the container ID associated with the new container.
 
-Now, navigate to `172.28.33.10:80` in your web browser, you should see the "Hello world!" page, with the hostname being the
+Now, navigate to 172.28.33.10:80 in your web browser, you should see the "Hello world!" page, with the hostname being the
 Container ID of your docker container.
 
 
@@ -127,7 +124,7 @@ $ docker ps -a
 
 
 ### Interacting with Docker Containers
-You can run commands in a running container as well using `docker exec`.
+You can run commands in a running container as well using `$ docker exec`.
 
 To open an interactive shell, you can pass the `-it` flags like so:
 ```bash
@@ -143,12 +140,12 @@ $ docker logs -f <container name|ID>
 Paassing the `-f` flag will follow the logging output.
 
 
-To get low-level information about Docker objects, you can also use the `docker insepct` command.
+To get low-level information about Docker objects, you can also use the `$ docker insepct` command.
 
-`docker rm <container name|ID>` will remove the container.  
-`docker rm -f $(docker ps -aq)` will remove all containers.
+`$ docker rm <container name|ID>` will remove the container.  
+`$ docker rm -f $(docker ps -aq)` will remove all containers.
 
-`docker system prune --all -f` will remove:
+`$ docker system prune --all -f` will remove:
   - all stopped containers
   - all networks not used by at least one container
   - all images without at least one container associated to them
@@ -156,14 +153,14 @@ To get low-level information about Docker objects, you can also use the `docker 
 
 
 ### Environment Variables
-You can also pass flags to `docker run` to set environment variables for containers.
+You can also pass flags to `$ docker run` to set environment variables for containers.
 
 
 Recall the `dockercloud/hello-world` image that we first ran.  
 If you read the [documentation](https://hub.docker.com/r/dockercloud/hello-world), you will find that
-we can set the LISTEN_PORT to a different port instead of port 80 using an environment variable.
+we can set the `LISTEN_PORT` to a different port instead of port 80 using an environment variable.
 
-Run the `dockercloud/hello-world` container again, but this time,a pass the `-e` flag to set the LISTEN_PORT environment
+Run the `dockercloud/hello-world` container again, but this time,a pass the `-e` flag to set the `LISTEN_PORT` environment
 variable to port 3000.   
 Notice how the arguments for the ports to be published have changed as well as a result.
 
@@ -171,7 +168,7 @@ Notice how the arguments for the ports to be published have changed as well as a
 $ docker run -d -p 3000:3000 -e LISTEN_PORT=3000 --name "hello-world-2" dockercloud/hello-world
 ```
 
-Navigate to `172.28.33.10:3000`, and notice how the hostname is different from the one found at `172.28.33.10:80`.  
+Navigate to 172.28.33.10:3000, and notice how the hostname is different from the one found at 172.28.33.10:80.  
 This is because we are running two different containers (albeit the same image) on two different ports.  
 
 
@@ -190,7 +187,7 @@ host machine:
 $ docker run -d --name "default-nginx" -p 8080:80 nginx:alpine
 ```
 
-Once the container is running, navigate to `172.28.33.10:8080` in your web browser. 
+Once the container is running, navigate to 172.28.33.10:8080 in your web browser. 
 You should see the default "Welcome to nginx!" landing page.
 
 Let's mount a "bind mount" with a different index.html file, and have the NGINX server serve that instead.
@@ -215,7 +212,7 @@ Because we're already running the `default-nginx` container on port 8080, let's 
 $ docker run -d --name "hello-optum" -p 8081:80 -v $(pwd):/usr/share/nginx/html:ro nginx:alpine
 ```
 
-Now go to `172.28.33.10:8081` in your browser. 
+Now go to 172.28.33.10:8081 in your browser. 
 You should see your new index.html file being served instead of the default NGINX landing page now.
 
 
@@ -242,6 +239,8 @@ because a volume does not increase the size of the containers using it, and the 
 Consider a use case where we would want to be able to save the logs of a running application in a container 
 for auditing and security purposes.
 
+We will take a closer look at volumes in the next workshop.
+
 
 ### Building your own Docker image with Dockerfiles
 A Dockerfile is a text document that contains all the commands a user could call on the command line to assemble an
@@ -259,7 +258,10 @@ ENTRYPOINT ["python", "app.py"]
 ```
 
 - The `FROM` instruction specifies the Base Image from which you are building.
-In this case, we are building from a [Python](https://hub.docker.com/_/python) base image.
+In this case, we are building from a [Python](https://hub.docker.com/_/python) base image.  
+Note: It's best practice to build using a base image that is as small as possible, so as to minimize the overall surface
+area that a container would be exposed with in a security attack.   
+Choosing to install only the libraries that your application needs helps keep the image lightweight as well.
 - The `LABEL` instruction allows us to add metadata to the image as a key-value pair.
 - The `COPY` instruction  copies new files or directories from a source location, and adds them to the filesystem of the
   container.
@@ -296,7 +298,13 @@ python              alpine3.9           ee70cb11da0d        7 days ago          
 ```
 
 Try running the `example-flask-app` container image that you just built.  
-You should be able to navigate to `172.28.33.10:5000` and see "Flask inside Docker!".
+You should be able to navigate to 172.28.33.10:5000 and see "Flask inside Docker!".
+
+
+Note: On the topic of optimizing Dockerfiles, one of the most challenging things about 
+building images is keeping the image size down.   
+A solution to this issue is using [multi-stage builds](https://docs.docker.com/develop/develop-images/multistage-build/).  
+While this topic is outside the scope of this workshop, I would recommend that you still take a look at the topic.
 
 
 ### Pushing your Images to a Repository
@@ -318,7 +326,6 @@ $ docker push <your dockerhub username>/example-flask-app:latest
 ```
 
 We will explore pushing images to a repository in more detail in the next workshop.
-
 
 ---
 ## Defining & Running multi-container applications with Docker Compose
@@ -384,7 +391,7 @@ $ docker-compose up
 
 Try to follow the resulting output to understand what Compose is doing.
 
-Navigate to `172.28.33.10:5000`, and you should be able to see "Hello World in Production!"
+Navigate to 172.28.33.10:5000, and you should be able to see "Hello World in Production!"
 
 Let’s walk through the important lines on our docker-compose.yml file to fully explain what is going on.
 

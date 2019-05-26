@@ -24,7 +24,7 @@ sudo service docker restart
 # Disable firewall
 sudo ufw disable
 
-# Start up OpenShift cluster
+# Start up OpenShift cluster with metrics enabled
 oc cluster up --public-hostname=172.28.33.20
 
 # Expose OpenShift integrated docker registry
@@ -38,4 +38,11 @@ sudo curl -s -L "https://github.com/docker/compose/releases/download/1.24.0/dock
 
 # Make docker-compose executable
 sudo chmod +x /usr/local/bin/docker-compose
+
+# Download kompose binary
+sudo curl -L https://github.com/kubernetes/kompose/releases/download/v1.18.0/kompose-linux-amd64 \
+  -o /usr/local/bin/kompose
+
+# Make kompose executable
+sudo chmod +x /usr/local/bin/kompose
 
