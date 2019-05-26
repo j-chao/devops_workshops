@@ -396,7 +396,7 @@ Navigate to 172.28.33.10:5000, and you should be able to see "Hello World in Pro
 Let’s walk through the important lines on our docker-compose.yml file to fully explain what is going on.
 
 ```Dockerfile
-version: '3.7'
+version: '3'
 services:
   flask:
     image: webapp-flask
@@ -418,7 +418,7 @@ services:
 ```
 
 
-`version: 3.7` specifies the Compose file format version we are using.
+`version: 3` specifies the Compose file format version we are using.
 
 The keys under `services:` defines the names of each one of our services (i.e. Docker containers). 
 In this example, flask and nginx are the names of our two containers.

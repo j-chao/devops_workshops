@@ -72,30 +72,74 @@ In the flask_app/openshift_yaml_files/ directory, you should find 3 YAML files s
 
 
 
-### Creating Your Own YAML files
+### Creating Your Own YAML Definition Files using Kompose
 
-Try creating and then applying YAML files that define the resources necessary for deploying
-the Docker images for the example flask + NGINX multi-container application.
+For the flask + NGINX multi-container applitaion, we could go through and write line-by-line, all the YAML definitions
+necessary to deploy the application, but that's annoying.   
 
-Is it possible to deploy both containers in a single Pod?
+Fortunately, there's a smarter way to do so, by using an open-source tool called [Kompose](http://kompose.io/)!  
+Kompose is a tool that helps users familiar with docker-compose move to Kubernetes.   
+It takes a docker-compose.yml file and translates it into Kubernetes resources.
+It also builds the images and pushes them to the defined repository for you.  *Amazing*.
 
-
-
-
-
-If you want to write these in a text editor or IDE of your choice on your local host machine, 
-instead of through a text editor via the terminal on the guest `openshift` VM, 
-you can copy your files over to the `openshift VM` using `$ vagrant scp`:
-
+To get started, let's first login to the integrated OpenShift repository, so that kompose can push our images.
 ```bash
-$ vagrant scp  <file | -r directory> vagrant@172.28.33.20:/home/vagrant/
+$ docker login -u developer -p $(oc whoami -t) docker-registry-default.172.28.33.20.nip.io:80
 ```
 
-Or, if you have the `oc` CLI installed on your local host machine,
-be sure to login to the OpenShift server, `$ oc login 172.28.33.20:8443`, in order to `$ oc apply` your files!
+Don't forget to replace the service name for the flask application in the NGINX conf file!
+```bash
+$ sed -i 's/flask/webapp-flask.myproject.svc/g' nginx/app.conf
+```
 
+Next, there are a few things that we need to change in our docker-compose.yml file 
+for kompose to work the way we want it to:
+```Dockerfile
+version: '3'
+services:
+  webapp-flask:
+    image: docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask:1.0.0
+    build:
+      context: ./flask
+      dockerfile: Dockerfile-flask
+    ports:
+      - 5000:5000
+    environment:
+    - MY_ENV_VAR="Hello beautiful environment!"
 
+  webapp-nginx:
+    image: docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile-nginx
+    ports:
+      - 5000:8082
+    depends_on:
+      - flask
+```
 
-### Using Kompose
+Now, let's go ahead and have kompose build & push our images, and convert the docker-compose.yml file 
+for the flask + NGINX application into OpenShift YAML resource definitions:
+```bash
+$ cd flask_nginx
+$ kompose convert -f docker-compose.yml --provider openshift --deployment-config -o openshift_yaml_file --build local
+```
 
+Finally, create the resources per the generated YAML definitions!
+```bash
+$ oc apply -f openshift_yaml_file
+```
+Finish with exposing the NGINX service with a route:
+```bash
+$ oc expose svc webapp-nginx --port=8082
+```
+
+Kompose is a great tool for bootstrapping your OpenShift and Kubernetes YAML definitions.  
+However, when it comes to more advanced configurations, there are still some things that kompose doesn't fully support yet.
+
+Eventually, you'll want to take the generated YAML files and modify them so that they can accomodate 
+any other Openshift/Kuberentes configurations that your application requires. 
+
+Try configuring a ConfigMap resource using YAML definition files that is then used by the 
+webapp-flask application via a mounted volume, for configuring the uWSGI server.
 
