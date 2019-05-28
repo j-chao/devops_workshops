@@ -1,0 +1,201 @@
+<section>
+  <h4>Challenges with multiple containers</h4>
+    <ul>
+      <li>How do you scale?</li>
+      <li>How to do maintain observability of all your containers and replicas?</li>
+      <li>How do your microservice containers find each other?</li>
+      <li>How do you manage port conflicts?</li>
+      <li>What if a host fails? How do you manage health checks?</li>
+      <li>How do you provide seamless updates?</li>
+      <li>How do you manage and track logs?</li>
+    </ul>
+</section> 
+
+
+<section>
+  Common challenges when deploying containers
+  <img width="80%" data-src="./images/deploying_containers_challenges.png">
+</section>
+
+<section>
+  <h2>Container Orchestration</h2>
+    <ul>
+      <li>Deploy and Configure</li>
+      <li>Fault Isolation & Healing</li>
+      <li>Secure</li>
+      <li>Upgrades</li>
+      <li>Scaling Up and Down</li>
+    </ul>
+    <img width="35%" data-src="./images/multiple_containers.png">
+</section>
+
+<section>
+  <h3>Container Orchestration Tools</h3>
+    <ul>
+      <li>Kubernetes ("k8s")</li>
+      <li>Docker Swarm</li>
+      <li>Mesos</li>
+    </ul>
+    <p class=fragment> Kubernetes has become the unofficial standard.</p>
+
+  <aside class="notes" data-markdown>
+    Google started creation of its own open source orchestration tool ‘Kubernetes’. 
+    It has slowly gained dominance as the standard container orchestration tool except for niche use cases. 
+
+    Mesos - still used in early container adoption shops and big data applications  
+
+    Docker Swarm - lightweight and may be useful for rapid prototyping. With the ease of deploying Kubernetes to public cloud and greater feature set of Kubernetes this use case is increasingly shrinking.  
+
+    OpenShift - RedHat's downstream offering of Kubernetes with the additional security features and enterprise support.
+  </aside>
+
+</section>
+
+<section>
+  <h4>Container Management Platforms Preferences</h4>
+  <img width="80%" data-src="./images/container_orchestration_tools.png">
+</section>
+
+
+<section>
+  <h3>Kubernetes Stats</h3>
+    <ul>
+      <li class=fragment>78k+ Commits</li>
+      <li class=fragment>511+ Releases</li>
+      <li class=fragment>2000+ Contributers</li>
+    </ul>
+</section>
+
+<section>
+  <h3>Kubernetes Features</h3>
+  <ul style="width: 75%;">	
+    <small>
+    <li>Co-locating helper processes, facilitating composite applications and preserving the one-application-per-container model </li>
+    <li>Mounting storage systems</li>
+    <li>Distributing secrets</li>
+    <li>Checking application health</li>
+    <li>Replicating application instances</li>
+    <li>Using Horizontal Pod Autoscaling</li>
+    <li>Naming and discovering</li>
+    <li>Balancing loads</li>
+    <li>Rolling updates</li>
+    <li>Monitoring resources</li>
+    <li>Accessing and ingesting logs</li>
+    <li>Debugging applications</li>
+    <li>Providing authentication and authorization</li>
+    </small>
+  </ul>
+  <img width="20%" data-src="./images/k8s.png" style="float: right" >
+
+  <aside class="notes">
+    The name Kubernetes originates from Greek, meaning helmsman or pilot, and is the root of governor and cybernetic. 
+    K8s is an abbreviation derived by replacing the 8 letters “ubernete” with “8”
+  </aside>
+
+</section>
+
+</section>
+
+
+<section>
+<h4>Kubernetes Architecture</h4>
+<section>
+  <img width="90%" data-src="images/k8s_cluster.svg" >
+
+  <aside class="notes" data-markdown>
+    K8s is designed as a highly available cluster of computers that are connected to work as a single unit. 
+    Automate the distribution/scheduling of app containers across the cluster in an efficient way.
+
+    Cluster = Master + Node
+
+    Master = VM responsible for managing the cluster. (scheduling, managing state, scaling apps)  
+    Node = VM that is used as a worker machine. (Docker, Kubelet)  
+  </aside>
+</section>
+
+<section>
+  <img width="90%" data-src="images/k8s_deployment.svg" >
+
+  <aside class="notes" data-markdown>
+    Deployment = responsible for creating and updating instances of your app, via declarative manifest.
+
+    Self-Healing Deployment Controller
+      - continuously watches app instances, replaces an instance if the Node fails.
+      - maintains state
+  </aside>
+</section>
+
+<section>
+  <img width="90%" data-src="images/k8s_pods.svg" >
+
+  <aside class="notes" data-markdown>
+    Pod Resource Types:
+    - group of 1 or more app containers (Docker)
+    - sharaed storage volumes
+    - unique cluster IP address
+    - runtime instructional information (image versions, exposed ports)
+
+    Containers in a pod share:
+    - Cluster IP address and port space
+    - Filesystem
+    - Storage volumes
+    - Labels
+    - Secrets
+  </aside>
+</section>
+
+<section>
+  <img width="65%" data-src="images/k8s_node.svg" >
+  <aside class="notes" data-markdown>
+    Nodes:
+    - container runtime (Docker, CRI-O) 
+    - Kubelet: manages pods and containers, communicates b/w Master and Nodes
+  </aside>
+</section>
+
+<section>
+  <img width="65%" data-src="images/k8s_services.svg" >
+  <aside class="notes" data-markdown>
+    Services:
+    - abstraction layer which defines a logical set of Pods and enables external traffic exposure, load balancing, and service discovery.
+    - matches to pods using Label Selectors.
+  </aside>
+</section>
+
+<section>
+  <img width="65%" data-src="images/k8s_labels.svg" >
+  <aside class="notes" data-markdown>
+    Labels:
+    - key/value pairs 
+    - similar to hashtags in social media 
+    - used to classify objects, set roles, or metadata
+  </aside>
+</section>
+
+<section>
+  <img width="60%" data-src="images/k8s_scaling1.svg" class="fragment fade-in-then-left-shrink">
+  <img width="80%" data-src="images/k8s_scaling2.svg" class="fragment fade-right">
+
+  <aside class="notes" data-markdown>
+    Services have an integrated load-balancer that distributes traffic to all running Pods.
+  </aside>
+</section>
+
+<section>
+  <img width="50%" data-src="images/k8s_updates1.svg" class="fragment fade-in-then-far-left-shrink">
+  <img width="50%" data-src="images/k8s_updates2.svg" class="fragment fade-in-then-medium-left-shrink">
+  <img width="50%" data-src="images/k8s_updates3.svg" class="fragment fade-in-then-short-left-shrink">
+  <img width="50%" data-src="images/k8s_updates4.svg" class="fragment fade-far-right">
+
+  <aside class="notes" data-markdown>
+    Deployments and Rolling updates:
+    - promote an application to new versions
+    - rollback to previous versions
+    - CI/CD of applications with zero downtime
+  </aside>
+</section>
+
+<section>
+  <img width="75%" data-src="./images/configmap-diagram.gif" >
+</section>
+
