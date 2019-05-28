@@ -349,6 +349,11 @@ The link between Labels and Label Selectors defines the relationship between the
 Can you identify and trace the relationship via Labels and Label Selectors for the webapp-flask Pod(s) and webapp-flask
 Service?
 
+Note: Understanding lables and networking in k8s is foundational to being able to understand and implement 
+more advanced monitoring and traffic routing patterns with tools such as 
+[Prometheus](https://prometheus.io/) and [Istio](https://istio.io/).
+
+
 ### Using ConfigMaps and Secrets
 
 #### Separating configurations from application code with ConfigMaps
