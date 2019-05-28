@@ -2,6 +2,17 @@
 
 <img src="slides/images/jenkins_JCasC.png" width="250">
 
+## Workshop Goals
+
+Participants will understand fundamentally, the culture and goals of DevOps.
+
+They will also learn how to develop and operationalize modern, 
+cloud-native applications with tools such as Docker, Kubernetes, OpenShift, and Jenkins.
+
+Participants will leave with the foundational skills necessary to 
+containerize, deploy, orchestrate, and maintain applications in the cloud.
+
+
 ## Workshop Format
 This workshop is structured into 4 different components, where each component will build off of knowledge learned in previous ones:
 - Containers
