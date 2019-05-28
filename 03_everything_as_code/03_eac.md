@@ -122,12 +122,12 @@ Now, let's go ahead and have kompose build & push our images, and convert the do
 for the flask + NGINX application into OpenShift YAML resource definitions:
 ```bash
 $ cd flask_nginx
-$ kompose convert -f docker-compose.yml --provider openshift --deployment-config -o openshift_yaml_file --build local
+$ kompose convert -f docker-compose.yml --provider openshift --deployment-config -o openshift_deployment.yaml --build local
 ```
 
 Finally, create the resources per the generated YAML definitions!
 ```bash
-$ oc apply -f openshift_yaml_file
+$ oc apply -f openshift_deployment.yaml
 ```
 Finish with exposing the NGINX service with a route:
 ```bash
@@ -140,6 +140,12 @@ However, when it comes to more advanced configurations, there are still some thi
 Eventually, you'll want to take the generated YAML files and modify them so that they can accomodate 
 any other Openshift/Kuberentes configurations that your application requires. 
 
+Understanding how Kubernetes YAML definitions are structured, will also prepare you for advanced topics such as
+using and creating [Operators](https://coreos.com/operators/), which are k8s-native Custom Resource Definitions that
+allow you to manage domain and operational knowledge of an application as code.
+
 Try configuring a ConfigMap resource using YAML definition files that is then used by the 
 webapp-flask application via a mounted volume, for configuring the uWSGI server.
+
+Can you have both containers running in the same Pod resource?
 

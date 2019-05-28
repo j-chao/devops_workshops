@@ -92,17 +92,30 @@ Note: "Image Streams" are unique to OpenShift, and are not supported in default 
 4. A "[Deployment Configuration](https://172.28.33.20:8443/console/project/myproject/browse/dc/my-nginx?tab=history)" 
 object is created, which details how the application should be deployed and managed. 
 (ie: number of replicas, readiness/liveliness probes, ports to be exposed, env variables, image to be deployed, etc.)  
-Note: "Deployment Configurations" are unique to OpenShift and provide greater flexibility and configuration options than
-their superclass, "Deployments", such as image change deployment triggers. 
-DeploymentConfig resources are not supported in default Kubernetes.   
+The DeploymentConfiguration object defines the following details of a deployment:
+    - The elements of a ReplicationController definition.
+    - Triggers for creating a new deployment automatically.
+    - Strategies for transitioning between deployments. 
+    - Life cycle hooks.      
 
-5. According to the Deployment Configuration created, the requested number of 
+    Note: "Deployment Configurations" are unique to OpenShift and provide greater flexibility and configuration options than
+    their superclass, "Deployments", such as image change deployment triggers. 
+    DeploymentConfig resources are not supported in default Kubernetes.   
+
+5. According to the specifications detailed in the DeploymentConfiguration, a Replication Controller
+is created to ensure that the specified number of replicas of a pod are running at all times.
+The definition of a replication controller consists mainly of:  
+    - The number of replicas desired.  
+    - A pod definition for creating a replicated pod.  
+    - A sector for identifying managed pods.  
+
+6. According to the Replication Configuration created, the requested number of 
 [Pods](https://172.28.33.20:8443/console/project/myproject/browse/pods) resources are created.
 
-6. A [Service](https://172.28.33.20:8443/console/project/myproject/browse/services/my-nginx?tab=details) 
+7. A [Service](https://172.28.33.20:8443/console/project/myproject/browse/services/my-nginx?tab=details) 
 resource is also created for routing traffic internal to the cluster.
 
-7. A [Route](https://172.28.33.20:8443/console/project/myproject/browse/routes/my-nginx) 
+8. A [Route](https://172.28.33.20:8443/console/project/myproject/browse/routes/my-nginx) 
 resource is created for routing traffic external to the cluster. 
 This is the endpoint that allows us to visit the "Welcome to Openshift" page from our web browser.
 
