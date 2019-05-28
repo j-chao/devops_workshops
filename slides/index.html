@@ -27,24 +27,11 @@
 			<div class="slides">
 
 <!-- Introduction -->
-<section>
-	<h1>DevOps Workshop</h1>
-	<h5>Justin Chao</h5>
-
-  <ul style="list-style: none; text-align:left;">
-    <li class=fragment data-fragment-index=1> 
-      University of Texas at Austin
-      <img  width="20%" data-src="./images/ut_longhorns.png">
-    </li>
-    <li class=fragment data-fragment-index=2>TDP Class 11 Alumni</li>
-    <li class=fragment data-fragment-index=3>vim advocate</li>
-    <li class=fragment data-fragment-index=4>SecDevOps enthusiast</li>
-  </ul>
-  
-</section>
+<section data-external="sections/introduction/index.html"> </section>
 
 
-<!-- Day 2 -->
+
+
 <section>
 	<section>
 		<h2>Day 1 - Part 1</h2>
@@ -103,7 +90,7 @@
 
 
 
-<!-- containers -->
+<!-- CONTAINERS -->
 <section>
 	<section >
 		<h2>containers</h2>
@@ -155,7 +142,6 @@
 </section>
 
 
-<!-- Day 2 -->
 <section>
 	<section>
 		<h2>Day 1 - Part 2</h2>
@@ -180,7 +166,7 @@
 </section>
 
 
-<!-- Container Orchestration -->
+<!-- CONTAINER ORCHESTRATION -->
 <section>
 	<section>
 		<h4>Challenges with multiple containers</h4>
@@ -379,12 +365,19 @@
 			- CI/CD of applications with zero downtime
 		</aside>
 	</section>
+
+  <section>
+    <img width="75%" data-src="./images/configmap-diagram.gif" >
+  </section>
+
+
+
+  <section data-external="containers/containers.html"> </section>
+
 </section>
 
 
-<section>
-	<img width="75%" data-src="./images/illustrated_k8s.tif" >
-</section>
+<section data-external="containers/containers.html"> </section>
 
 
 <section>
@@ -414,6 +407,12 @@
 					{ src: 'plugin/markdown/markdown.js' },
 					{ src: 'plugin/notes/notes.js', async: true },
 					{ src: 'plugin/highlight/highlight.js', async: true },
+					{
+						src: 'plugin/external/external.js',
+						condition: function() {
+							return !!document.querySelector( '[data-external],[data-external-replace]' );
+						}
+					},
           { src: 'node_modules/reveald3/reveald3.js' }
 				]
 			});

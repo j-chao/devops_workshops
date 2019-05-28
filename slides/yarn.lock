@@ -2969,6 +2969,16 @@ ret@~0.1.10:
   resolved "https://registry.yarnpkg.com/ret/-/ret-0.1.15.tgz#b8a4825d5bdb1fc3f6f53c2bc33f81388681c7bc"
   integrity sha512-TTlYpa+OL+vMMNG24xSlQGEJ3B/RzEfUlLct7b5G/ytav+wPrplCpVMFuwzXbkecJrb6IYo1iFb0S9v37754mg==
 
+reveal_external@^1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/reveal_external/-/reveal_external-1.3.0.tgz#a0b574308a0ff30ce5ab7c9e60637d6ce292c6c8"
+  integrity sha512-55RWavFwNjTYYlLkxVH4+P4VngoaN2qvoW69p1aHvS7Az47oehRlb2zetuUeYsAaiNFgjwWw07EODRxGgKXkYA==
+
+reveald3@^1.5.4:
+  version "1.5.4"
+  resolved "https://registry.yarnpkg.com/reveald3/-/reveald3-1.5.4.tgz#6616b42c14b1f922f77ca940aea5de5c61b84e4c"
+  integrity sha512-jvZQWgXAC4sygIMy+tvaEz/9UObm/NVZvAY8QLpm+T6B5jnRi8NDVt6riLv+fcVx3hpuKewyo/pfT9LV2LqkBQ==
+
 rimraf@2, rimraf@^2.6.1, rimraf@~2.6.2:
   version "2.6.3"
   resolved "https://registry.yarnpkg.com/rimraf/-/rimraf-2.6.3.tgz#b2d104fe0d8fb27cf9e0a1cda8262dd3833c6cab"
