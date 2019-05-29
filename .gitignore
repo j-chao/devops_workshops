@@ -1,5 +1,5 @@
 *.swp
-slides/node_modules/
+docs/node_modules/
 .vagrant/
 **__pycache__
 .DS_Store
