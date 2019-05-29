@@ -57,7 +57,7 @@ Once approved, you will then be able to enable local admin access for your Mac m
 the Self Service desktop application for up to 4 hours at a time.
 
 
-### Setting up the training environment
+## Setting up the training environment
 Clone the repo and the git submodules, and navigate to the repo's root directory:
 ```bash
 $ git clone --recurse-submodules https://github.optum.com/team-cumulus/devops_workshops.git
