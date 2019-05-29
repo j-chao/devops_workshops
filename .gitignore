@@ -1,7 +1,8 @@
 *.swp
-docs/node_modules/
+node_modules/
 .vagrant/
 **__pycache__
 .DS_Store
 package-lock.json
+yarn.lock
 
