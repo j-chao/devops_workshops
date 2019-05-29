@@ -1,6 +1,6 @@
 # DevOps Workshop
 
-<img src="slides/images/jenkins_JCasC.png" width="250">
+<img src="docs/images/jenkins_JCasC.png" width="250">
 
 ## Workshop Goals
 
@@ -20,7 +20,10 @@ This workshop is structured into 4 different components, where each component wi
 - Pipelines
 - Everything as Code
 
-The presentation slides can be found in the slides/ directory.
+### Presentation Slides
+The presentation slides can be found in the docs/ directory.  
+The slides are also published via GitHub Pages at:   
+https://github.optum.com/pages/team-cumulus/devops_workshops
 
 
 ## Pre-requistes
@@ -35,7 +38,7 @@ $ brew cask install virtualbox
 $ brew cask install vagrant
 ```
 
-## Getting Started
+
 ### Setting up the training environment
 Clone the repo and the git submodules, and navigate to the repo's root directory:
 ```bash
