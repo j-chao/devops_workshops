@@ -1,7 +1,7 @@
 {
-  "name": "reveal.js",
-  "version": "3.8.0",
-  "description": "The HTML Presentation Framework",
+  "name": "devops_reveal.js",
+  "version": "1.0.0",
+  "description": "DevOps Presentation",
   "homepage": "http://revealjs.com",
   "subdomain": "revealjs",
   "main": "js/reveal.js",
@@ -11,13 +11,12 @@
     "build": "grunt"
   },
   "author": {
-    "name": "Hakim El Hattab",
-    "email": "hakim.elhattab@gmail.com",
-    "web": "http://hakim.se"
+    "name": "Justin Chao",
+    "email": "justin.chao@optum.com"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/hakimel/reveal.js.git"
+    "url": "https://github.optum.com/team-cumulus/devops_workshops.git"
   },
   "engines": {
     "node": ">=9.0.0"
