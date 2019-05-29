@@ -27,16 +27,34 @@ https://github.optum.com/pages/team-cumulus/devops_workshops
 
 
 ## Pre-requistes
-- Familiarity with using the Terminal in a Linux environment. (Or willingness to learn!)
-- Git installed on your local machine.
-- VirtualBox installed on your local machine. (You can request for VirtualBox on the [AppStore](appstore.uhc.com))
-- [Vagrant](https://www.vagrantup.com/docs/installation/) installed on your local machine.
+This workshop should be compatible for users with Mac as well as Windows machines, 
+as long as the pre-reqs below are met, however, only Mac machines have been tested.
+
+
+- Familiarity with using the Terminal in a Linux environment.   
+(Or willingness to learn!)
+- Git installed on your local machine.  
+(If you don't have Git installed, you can download a ZIP of this repository instead.)
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed on your local machine.   
+(You can request for VirtualBox on the [AppStore](http://appstore.uhc.com/AppInfo/AppVersionId/18189?BackToList=/AppList/AppList))
+- [Vagrant](https://www.vagrantup.com/docs/installation/) installed on your local machine.   
+(Also available on the [AppStore](http://appstore.uhc.com/AppInfo/AppVersionId/15331?BackToList=/AppList/AppList))
 
 If you are on a Mac, you can use [homebrew](https://brew.sh/) to install the pre-reqs:
 ```bash
 $ brew cask install virtualbox
 $ brew cask install vagrant
 ```
+
+#### Enabling admin access for your Mac machine
+You may wish to install the pre-requisites above yourself, instead of through the AppStore.  
+Some installations will require elevated admin privileges to complete.  
+
+To request for local workstation admin rights for your Mac, follow the instructions 
+[here](https://helpdesk.uhg.com/knowledge-center/personal-hardware-software/general-applications/mac-computer/181051).
+
+Once approved, you will then be able to enable local admin access for your Mac machine via 
+the Self Service desktop application for up to 4 hours at a time.
 
 
 ### Setting up the training environment
