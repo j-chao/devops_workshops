@@ -488,5 +488,5 @@ For additional resources and training, here are some interactive learning opport
 
 There are also [illustrated children's books](https://www.cncf.io/phippy/) for learning about Kubernetes!
 
-<img src="images/k8s.png" width="600" />
+<img src="images/go-k8s.png" width="600" />
 
