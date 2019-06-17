@@ -16,7 +16,7 @@ id       name      provider   state   directory
 b2ca4f7  openshift virtualbox running /Users/<MSID>/devops_workshops
 ```
 
-Navigate to the OpenShift Console at `https://172.28.33.20:8443/console/` in a web browser on your local machine.
+Navigate to the OpenShift Console at `https://openshift-vm:8443/console/` in a web browser on your local machine.
 
 Login to OpenShift as a developer with the following credentials:
 ```sh
@@ -24,7 +24,7 @@ Username: developer
 Password: <any value>
 ```
 
-In another browser window, navigate to the Jenkins UI at `http://172.28.33.30:8080`.
+In another browser window, navigate to the Jenkins UI at `http://jenkins-vm:8080`.
 It may take a while for Jenkins to fully initialize.
 
 
@@ -36,13 +36,13 @@ Once Jenkins is ready, the first page you'll see should look like the following:
 
 <img src="images/jenkins_home.png" width="900">
 
-Go ahead and take a look at the ["Freestyle Example Job"](http://172.28.33.30:8080/job/Freestyle%20Example%20Job/).  
+Go ahead and take a look at the ["Freestyle Example Job"](http://jenkins-vm:8080/job/Freestyle%20Example%20Job/).  
 This job does the following:
 - pulls the source code for the example flask_app from a [GitHub repo](https://github.com/j-chao/example_apps_devops)  
 - builds the Docker image
 - pushes the Docker image to an OpenShift integrated repository
 
-Select ["Configure"](http://172.28.33.30:8080/job/Freestyle%20Example%20Job/configure) on the left side to see how this "Freestyle"-type Jenkins job is setup:
+Select ["Configure"](http://jenkins-vm:8080/job/Freestyle%20Example%20Job/configure) on the left side to see how this "Freestyle"-type Jenkins job is setup:
 
 <img src="images/configure_freestyle_example.png" width="900">
 
@@ -58,7 +58,7 @@ depending on the plugins and integrations you have installed on your Jenkins ser
 <img src="images/build_step_shell.png" width="900">
 
 
-Go ahead and execute the [Freestyle Example Job](http://172.28.33.30:8080/job/Freestyle%20Example%20Job/) 
+Go ahead and execute the [Freestyle Example Job](http://jenkins-vm:8080/job/Freestyle%20Example%20Job/) 
 by clicking on "Build Now."
 
 <img src="images/build_freestyle_example.png" width="900">
@@ -67,17 +67,17 @@ You should see a Build kick-off:
 
 <img src="images/building_freestyle_example.png" width="900">
 
-Navigate to Build "#1", and follow the [Console Output](http://172.28.33.30:8080/job/Freestyle%20Example%20Job/1/console) to see the build in action.
+Navigate to Build "#1", and follow the [Console Output](http://jenkins-vm:8080/job/Freestyle%20Example%20Job/1/console) to see the build in action.
 
 <img src="images/logs_freestyle_example.png" width="900">
 
 Once the build is complete, you should be able to see that an image has been 
 successfully pushed to the OpenShift integrated repository, and that
-an [image stream](https://172.28.33.20:8443/console/project/myproject/browse/images) has been created
+an [image stream](https://openshift-vm:8443/console/project/myproject/browse/images) has been created
 for the "example-flask-app".
 
 
-Try [creating a Freestyle job](http://172.28.33.30:8080/view/all/newJob) that builds and deploys 
+Try [creating a Freestyle job](http://jenkins-vm:8080/view/all/newJob) that builds and deploys 
 the Docker images for the example flask + NGINX multi-container application 
 from the [GitHub repo here](https://github.com/j-chao/example_apps_devops) to OpenShift.
 
@@ -149,7 +149,7 @@ pipeline {
     stage("Tag Docker Image") {
       steps {
         sh '''
-          docker tag example-flask-app:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/example-flask-app:1.0.0
+          docker tag example-flask-app:latest docker-registry-default.openshift-vm.nip.io:80/myproject/example-flask-app:1.0.0
           '''
       }
     }
@@ -157,8 +157,8 @@ pipeline {
     stage("Login to OpenShift Integrated Repository") {
       steps {
         sh '''
-          oc login 172.28.33.20:8443 -u developer -p anyvalue --insecure-skip-tls-verify=true
-          docker login docker-registry-default.172.28.33.20.nip.io:80 -u developer -p $(oc whoami -t)
+          oc login openshift-vm:8443 -u developer -p anyvalue --insecure-skip-tls-verify=true
+          docker login docker-registry-default.openshift-vm.nip.io:80 -u developer -p $(oc whoami -t)
           '''
       }
     }
@@ -166,7 +166,7 @@ pipeline {
     stage("Push Image to Repository") {
       steps {
         sh '''
-          docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/example-flask-app:1.0.0
+          docker push docker-registry-default.openshift-vm.nip.io:80/myproject/example-flask-app:1.0.0
           '''
       }
     }
@@ -189,9 +189,9 @@ Of course, there are a lot of things that you can do with Jenkins
 that we just don't have the time to cover in this workshop.
 
 Take some time to explore the Jenkins interface, and be inspired by the possibilities:
-- [Open Blue Ocean](http://172.28.33.30:8080/blue/organizations/jenkins/pipelines)
-- [Jenkins Plugins](http://172.28.33.30:8080/pluginManager/available)
-- [Manage Jenkins](http://172.28.33.30:8080/manage)
+- [Open Blue Ocean](http://jenkins-vm:8080/blue/organizations/jenkins/pipelines)
+- [Jenkins Plugins](http://jenkins-vm:8080/pluginManager/available)
+- [Manage Jenkins](http://jenkins-vm:8080/manage)
 
 Explore the [documentation](https://jenkins.io/) as well!
 

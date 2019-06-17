@@ -16,7 +16,7 @@ rm -rf /home/vagrant/openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit
 rm openshift-origin-client-tools-v3.11.0-0cbc58b-linux-64bit.tar.gz
 
 # Add insecure registries to docker daemon 
-sudo echo '{ "insecure-registries" : [ "172.30.0.0/16", "docker-registry-default.172.28.33.20.nip.io", "docker-registry-default.172.28.33.20.nip.io:80" ] }' | sudo tee -a /etc/docker/daemon.json
+sudo echo '{ "insecure-registries" : [ "172.30.0.0/16", "docker-registry-default.172.28.33.20.nip.io", "docker-registry-default.172.28.33.20.nip.io:80", "docker-registry-default.openshift-vm.nip.io", "docker-registry-default.openshift-vm.nip.io:80" ] }' | sudo tee -a /etc/docker/daemon.json 
 
 # Restart docker service
 sudo service docker restart
@@ -26,6 +26,7 @@ sudo ufw disable
 
 # Start up OpenShift cluster with metrics enabled
 oc cluster up --public-hostname=172.28.33.20
+#oc cluster up --public-hostname=openshift
 
 # Expose OpenShift integrated docker registry
 oc login -u system:admin

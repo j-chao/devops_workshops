@@ -31,7 +31,7 @@ instance.save()
 
 // Set Jenkins Root URL to Vagrant VM private IP
 urlConfig = JenkinsLocationConfiguration.get()
-urlConfig.setUrl("http://172.28.33.30:8080")
+urlConfig.setUrl("http://jenkins-vm:8080")
 urlConfig.save()
 
 // install Jenkins plugins, and restart Jenkins

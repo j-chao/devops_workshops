@@ -51,16 +51,16 @@ config = """
 docker build -t example-flask-app:latest flask_app/
 
 # Tag the image for pushing to a repository
-docker tag example-flask-app:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/example-flask-app:1.0.0
+docker tag example-flask-app:latest docker-registry-default.openshift-vm.nip.io:80/myproject/example-flask-app:1.0.0
 
 # Login to OpenShift server to obtain credentials token for the integrated repository
-oc login 172.28.33.20:8443 -u developer -p anyvalue --insecure-skip-tls-verify=true
+oc login openshift-vm:8443 -u developer -p anyvalue --insecure-skip-tls-verify=true
 
 # Login to the integrated repository with OpenShift token
-docker login docker-registry-default.172.28.33.20.nip.io:80 -u developer -p \$(oc whoami -t)
+docker login docker-registry-default.openshift-vm.nip.io:80 -u developer -p \$(oc whoami -t)
 
 # Push image to the repository
-docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/example-flask-app:1.0.0
+docker push docker-registry-default.openshift-vm.nip.io:80/myproject/example-flask-app:1.0.0
 
 </command>
     </hudson.tasks.Shell>

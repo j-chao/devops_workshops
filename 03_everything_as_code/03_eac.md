@@ -13,7 +13,7 @@ id       name      provider   state   directory
 4c56060  openshift virtualbox running /Users/<MSID>/devops_workshops
 ```
 
-Navigate to the OpenShift UI at `https://172.28.33.20:8443/console/` in a web browser on your local machine.
+Navigate to the OpenShift UI at `https://openshift-vm:8443/console/` in a web browser on your local machine.
 
 Login as a developer with the following credentials:
 ```sh
@@ -53,8 +53,8 @@ $ oc apply -f <resource.yaml or directory containing multiple YAML files>
 Let's deploy the example flask_app application from the first workshop, using YAML definitions.
 First, make sure that the flask_app image is available in the integrated OpenShift repository!  
 ```bash
-$ docker build -t docker-registry-default.172.28.33.20.nip.io:80/myproject/flask-app:1.0.0 flask_app/
-$ docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/flask-app:1.0.0
+$ docker build -t docker-registry-default.openshift-vm.nip.io:80/myproject/flask-app:1.0.0 flask_app/
+$ docker push docker-registry-default.openshift-vm.nip.io:80/myproject/flask-app:1.0.0
 ```
 
 Now, create the application using the example YAML definitions files in the openshift_yaml_files/ directory:
@@ -84,7 +84,7 @@ It also builds the images and pushes them to the defined repository for you.  *A
 
 To get started, let's first login to the integrated OpenShift repository, so that kompose can push our images.
 ```bash
-$ docker login -u developer -p $(oc whoami -t) docker-registry-default.172.28.33.20.nip.io:80
+$ docker login -u developer -p $(oc whoami -t) docker-registry-default.openshift-vm.nip.io:80
 ```
 
 Don't forget to replace the service name for the flask application in the NGINX conf file!
@@ -98,7 +98,7 @@ for kompose to work the way we want it to:
 version: '3'
 services:
   webapp-flask:
-    image: docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask:1.0.0
+    image: docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-flask:1.0.0
     build:
       context: ./flask
       dockerfile: Dockerfile-flask
@@ -108,7 +108,7 @@ services:
     - MY_ENV_VAR="Hello beautiful environment!"
 
   webapp-nginx:
-    image: docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
+    image: docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-nginx:1.0.0
     build:
       context: ./nginx
       dockerfile: Dockerfile-nginx
