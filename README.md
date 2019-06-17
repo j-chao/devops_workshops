@@ -73,11 +73,11 @@ Note: This step may take a while, especially the openshift VM.
 
 This will start up an 3 virtual machines on your local machine, on a private network:  
 
-hostname     | private IP
----          | ---
-docker-vm    | 172.28.33.10
-openshift-vm | 172.28.33.20
-jenkins-vm   | 172.28.33.30
+hostname  | private IP
+---       | ---
+docker    | 172.28.33.10
+openshift | 172.28.33.20
+jenkins   | 172.28.33.30
 
 
 You can also specify the VMs you want to start up, for example:
@@ -94,23 +94,21 @@ $ vagrant global-status --prune
 You should see output similar to the following:
 ```
 id       name      provider   state   directory
---------------------------------------------------------------------
-3f10a34  docker-vm    virtualbox running /Users/<MSID>/devops_workshops
-62a885e  openshift-vm virtualbox running /Users/<MSID>/devops_workshops
-6dfd328  jenkins-vm   virtualbox running /Users/<MSID>/devops_workshops
+-----------------------------------------------------------------
+3f10a34  docker    virtualbox running /Users/<MSID>/devops_workshops
+62a885e  openshift virtualbox running /Users/<MSID>/devops_workshops
+6dfd328  jenkins   virtualbox running /Users/<MSID>/devops_workshops
 ```
 
 
-In order to access the OpenShift and Jenkins UI consoles via Safari or Chome, while
-on the corporate network, you will need to edit your `/etc/hosts` file,
-and access the OpenShift and Jenkins UI consoles via the hostnames as defined below.  
-**Editing this file will require you to have local admin access enabled.**
+In order to access the OpenShift and Jenkins UI consoles via a web browser, while
+on the corporate network, you will need to edit your browser's proxy settings to allow
+for correct routing of the private IPs.
+**Editing your browser's proxy settings will require you to have local admin access enabled.**
 
-```
-docker-vm     172.28.33.10
-openshift-vm  172.28.33.20
-jenkins-vm    172.28.33.30
-```
+The address for automatic proxy configuration is: http://blueserver.wip.uhc.com/bcmac.pac 
+
+You will need to disable this proxy for the duration of this workshop. You can re-enable it afterwards.
 
 
 ### Resetting the training environment

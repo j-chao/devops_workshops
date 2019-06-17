@@ -87,7 +87,7 @@ explicitly specify an image tag.
 Since this is the first time Docker is running this image, it will first download the image to your local machine.
 Finally, Docker will spin up a container with the image, and print the container ID associated with the new container.
 
-Now, navigate to http://docker-vm:80 in your web browser, you should see the "Hello world!" page, with the hostname being the
+Now, navigate to http://172.28.33.10:80 in your web browser, you should see the "Hello world!" page, with the hostname being the
 Container ID of your docker container.
 
 
@@ -168,7 +168,7 @@ Notice how the arguments for the ports to be published have changed as well as a
 $ docker run -d -p 3000:3000 -e LISTEN_PORT=3000 --name "hello-world-2" dockercloud/hello-world
 ```
 
-Navigate to http://docker-vm:3000, and notice how the hostname is different from the one found at http://docker-vm:80.  
+Navigate to http://172.28.33.10:3000, and notice how the hostname is different from the one found at http://172.28.33.10:80.  
 This is because we are running two different containers (albeit the same image) on two different ports.  
 
 
@@ -187,7 +187,7 @@ host machine:
 $ docker run -d --name "default-nginx" -p 8080:80 nginx:alpine
 ```
 
-Once the container is running, navigate to http://docker-vm:8080 in your web browser. 
+Once the container is running, navigate to http://172.28.33.10:8080 in your web browser. 
 You should see the default "Welcome to nginx!" landing page.
 
 Let's mount a "bind mount" with a different index.html file, and have the NGINX server serve that instead.
@@ -212,7 +212,7 @@ Because we're already running the `default-nginx` container on port 8080, let's 
 $ docker run -d --name "hello-optum" -p 8081:80 -v $(pwd):/usr/share/nginx/html:ro nginx:alpine
 ```
 
-Now go to http://docker-vm:8081 in your browser. 
+Now go to http://172.28.33.10:8081 in your browser. 
 You should see your new index.html file being served instead of the default NGINX landing page now.
 
 
@@ -298,7 +298,7 @@ python              alpine3.9           ee70cb11da0d        7 days ago          
 ```
 
 Try running the `example-flask-app` container image that you just built.  
-You should be able to navigate to http://docker-vm:5000 and see "Flask inside Docker!".
+You should be able to navigate to http://172.28.33.10:5000 and see "Flask inside Docker!".
 
 
 Note: On the topic of optimizing Dockerfiles, one of the most challenging things about 
@@ -391,7 +391,7 @@ $ docker-compose up
 
 Try to follow the resulting output to understand what Compose is doing.
 
-Navigate to http://docker-vm:5000, and you should be able to see "Hello World in Production!"
+Navigate to http://172.28.33.10:5000, and you should be able to see "Hello World in Production!"
 
 Let’s walk through the important lines on our docker-compose.yml file to fully explain what is going on.
 
@@ -444,7 +444,7 @@ environment:
 ```
 Here, we are defining an environment variable, that will be injected into the container at runtime.
 
-For the nginx portion of the file, there’s a few things to look out for.a
+For the nginx portion of the file, there’s a few things to look out for.
 
 ```
 ports:

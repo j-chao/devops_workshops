@@ -15,7 +15,7 @@ id       name      provider   state   directory
 4c56060  openshift virtualbox running /Users/<MSID>/devops_workshops
 ```
 
-Navigate to the OpenShift UI at https://openshift-vm:8443/console in a web browser on your local machine.
+Navigate to the OpenShift UI at https://172.28.33.20:8443/console in a web browser on your local machine.
 
 Login as a developer with the following credentials:
 ```sh
@@ -53,14 +53,14 @@ and use "https://github.com/sclorg/nginx-ex.git" as the Git repo.
 Then click "Create".
 
 Once the application is created, 
-navigate to the [Overview](https://openshift-vm:8443/console/project/myproject/overview) page of your project.
+navigate to the [Overview](https://172.28.33.20:8443/console/project/myproject/overview) page of your project.
 
 <img src="images/overview.png" width="900">
 
 You should see that the NGINX application has been created.
 
 Go ahead and navigate to the route that was generated for the deployed NGINX application:
-http://my-nginx-myproject.openshift-vm.nip.io .
+http://my-nginx-myproject.172.28.33.20.nip.io .
 
 You should see a "Welcome to Openshift" page.
 
@@ -70,7 +70,7 @@ As you can see, OpenShift makes it relatively easy to quickly deploy application
 but there's actually a lot that's going on here.
 
 1. OpenShift first clones the repo where the source code is, and then 
-[builds](https://openshift-vm:8443/console/project/myproject/browse/builds) an image.
+[builds](https://172.28.33.20:8443/console/project/myproject/browse/builds) an image.
 There are a number of 
 [build strategies](https://docs.openshift.com/container-platform/3.9/architecture/core_concepts/builds_and_image_streams.html#builds)
 that can be used here. In this case, we are using a "Source-to-Image (S2I)" build strategy.  
@@ -83,13 +83,13 @@ In this case, OpenShift has an integrated repository that is being hosted intern
 that we will use.  
 (If you don't believe me, ssh into the openshift VM and list the running Docker containers :wink: )
 
-3. An "[Image Stream](https://openshift-vm:8443/console/project/myproject/browse/images)" resource is created,
+3. An "[Image Stream](https://172.28.33.20:8443/console/project/myproject/browse/images)" resource is created,
  which provides an abstraction for referencing Docker images from within OpenShift.
 This allows other OpenShift objects to automatically perform actions based on changes to Docker images, such as
 triggering a new deployment update or build. 
 **Note:** "Image Streams" are unique to OpenShift, and are not supported in default Kubernetes.
 
-4. A "[Deployment Configuration](https://openshift-vm:8443/console/project/myproject/browse/dc/my-nginx?tab=history)" 
+4. A "[Deployment Configuration](https://172.28.33.20:8443/console/project/myproject/browse/dc/my-nginx?tab=history)" 
 object is created, which details how the application should be deployed and managed. 
 (ie: number of replicas, readiness/liveliness probes, ports to be exposed, env variables, image to be deployed, etc.)  
 The DeploymentConfiguration object defines the following details of a deployment:
@@ -110,12 +110,12 @@ The definition of a replication controller consists mainly of:
     - A sector for identifying managed pods.  
 
 6. According to the Replication Configuration created, the requested number of 
-[Pods](https://openshift-vm:8443/console/project/myproject/browse/pods) resources are created.
+[Pods](https://172.28.33.20:8443/console/project/myproject/browse/pods) resources are created.
 
-7. A [Service](https://openshift-vm:8443/console/project/myproject/browse/services/my-nginx?tab=details) 
+7. A [Service](https://172.28.33.20:8443/console/project/myproject/browse/services/my-nginx?tab=details) 
 resource is also created for routing traffic internal to the cluster.
 
-8. A [Route](https://openshift-vm:8443/console/project/myproject/browse/routes/my-nginx) 
+8. A [Route](https://172.28.33.20:8443/console/project/myproject/browse/routes/my-nginx) 
 resource is created for routing traffic external to the cluster. 
 This is the endpoint that allows us to visit the "Welcome to Openshift" page from our web browser.
 
@@ -197,23 +197,23 @@ You should now have two images built locally, named "webapp-flask" and "webapp-n
 ##### Push the images to the OpenShift integrated Docker repository
 
 For convenience, the integrated repository has been exposed via a route 
-that can be accssible from outside the cluster: `docker-registry-default.openshift-vm.nip.io:80`
+that can be accssible from outside the cluster: `docker-registry-default.172.28.33.20.nip.io:80`
 
 
 First, we need to tag the images appropriately.   
 Here, we are specifying for the images to be pushed to the project "myproject".  
 Let's also tag the images as "1.0.0" for versioning:  
 ```bash
-$ docker tag webapp-flask:latest docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-flask:1.0.0
-$ docker tag webapp-nginx:latest docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-nginx:1.0.0
+$ docker tag webapp-flask:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask:1.0.0
+$ docker tag webapp-nginx:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
 ```
 
 You should see a similar list of images to the following, if you run a `$ docker images`:
 ```
 REPOSITORY                                                              TAG                 IMAGE ID            CREATED             SIZE
-docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-nginx   1.0.0               48c1aa425e35        14 seconds ago      84.2MB
+docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx   1.0.0               48c1aa425e35        14 seconds ago      84.2MB
 webapp-nginx                                                            latest              48c1aa425e35        14 seconds ago      84.2MB
-docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-flask   1.0.0               db1f4e34ae83        38 seconds ago      942MB
+docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask   1.0.0               db1f4e34ae83        38 seconds ago      942MB
 webapp-flask                                                            latest              db1f4e34ae83        38 seconds ago      942MB
 bitnami/nginx                                                           1.16.0              4bc54f948f66        7 hours ago         84.2MB
 python                                                                  3                   a4cc999cf2aa        13 days ago         929MB
@@ -238,16 +238,16 @@ $ oc login -u developer | oc whoami -t
 
 Now login to the repository with Docker:
 ```bash
-$ docker login -u developer -p $(oc whoami -t) docker-registry-default.openshift-vm.nip.io:80
+$ docker login -u developer -p $(oc whoami -t) docker-registry-default.172.28.33.20.nip.io:80
 ```
 
 Finally, we can push the tagged images to the repository:
 ```bash
-$ docker push docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-flask:1.0.0
-$ docker push docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-nginx:1.0.0
+$ docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-flask:1.0.0
+$ docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
 ```
 
-Now navigate to the [Image Streams](https://openshift-vm:8443/console/project/myproject/browse/images) page of your OpenShift project.    
+Now navigate to the [Image Streams](https://172.28.33.20:8443/console/project/myproject/browse/images) page of your OpenShift project.    
 You should see that two image streams have been created that reference 
 the images that you just pushed to the integrated repository.
 
@@ -274,12 +274,12 @@ $ oc new-app --image-stream webapp-flask:1.0.0 -e MY_ENV_VAR="Hello beautiful en
 $ oc new-app --image-stream webapp-nginx:1.0.0
 ```
 
-You should see the two applications deploy in the [Overview](https://openshift-vm:8443/console/project/myproject/overview) page.    
+You should see the two applications deploy in the [Overview](https://172.28.33.20:8443/console/project/myproject/overview) page.    
 There should also be a Service object that is created for each application, to allow for cluster-internal traffic.
 
 Notice however that the NGINX container is failing.
 
-If you look at the [logs](https://openshift-vm:8443/console/project/myproject/browse/rc/webapp-nginx-1?tab=logs),
+If you look at the [logs](https://172.28.33.20:8443/console/project/myproject/browse/rc/webapp-nginx-1?tab=logs),
 you'll find that the NGINX application is failing with the following error:
 
 ```
@@ -292,7 +292,7 @@ defined Service object for the flask application in OpenShift instead.
 
 To resolve this issue, we must edit our nginx/app.conf file, and replace "flask" 
 with the service hostname for the flask application in OpenShift - 
-"[webapp-flask.myproject.svc](https://openshift-vm:8443/console/project/myproject/browse/services/webapp-flask?tab=details)".
+"[webapp-flask.myproject.svc](https://172.28.33.20:8443/console/project/myproject/browse/services/webapp-flask?tab=details)".
 ```bash
 $ sed -i 's/flask/webapp-flask.myproject.svc/g' nginx/app.conf
 ```
@@ -300,8 +300,8 @@ $ sed -i 's/flask/webapp-flask.myproject.svc/g' nginx/app.conf
 Now, rebuild the NGINX image, tag, and push the new image to the integrated repository.
 ```bash
 $ docker-compose build
-$ docker tag webapp-nginx:latest docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-nginx:1.0.0
-$ docker push docker-registry-default.openshift-vm.nip.io:80/myproject/webapp-nginx:1.0.0
+$ docker tag webapp-nginx:latest docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
+$ docker push docker-registry-default.172.28.33.20.nip.io:80/myproject/webapp-nginx:1.0.0
 ```
 
 Notice how OpenShift automatically notices that a new image has been pushed to the repository, 
@@ -333,7 +333,7 @@ You should see that a route has now been created for the webapp-nginx applicatio
 
 <img src="images/webapp_nginx_route.png" width="900">
 
-If you navgivate to http://webapp-nginx-myproject.openshift-vm.nip.io in your browser now, 
+If you navgivate to http://webapp-nginx-myproject.172.28.33.20.nip.io in your browser now, 
 you should see a "Hello World in Production!" page.
 
 Congratulations, you have now deployed a multi-container application on OpenShift!
@@ -400,12 +400,12 @@ populated as a value to a key defined from the filename.
 $ oc describe cm uwsgi-config 
 ```
 
-Navigate to the [Config Maps page](https://openshift-vm:8443/console/project/myproject/browse/config-maps) on the
+Navigate to the [Config Maps page](https://172.28.33.20:8443/console/project/myproject/browse/config-maps) on the
 OpenShift console. You should see that a configmap named "uwsgi-config" has been created in your project.
 
 <img src="images/configmap.png" width="900">
 
-Now, let's edit the [Deployment Configuration for webapp-flask](https://openshift-vm:8443/console/project/myproject/browse/dc/webapp-flask?tab=configuration), 
+Now, let's edit the [Deployment Configuration for webapp-flask](https://172.28.33.20:8443/console/project/myproject/browse/dc/webapp-flask?tab=configuration), 
 so that it injects the uwsgi-config ConfigMap into the container as a volume.
 This will overwrite the original/default app.ini file that was copied over to the webapp-flask image as specified in it's Dockerfile.
 
@@ -418,13 +418,13 @@ for the webapp-flask image.
 <img src="images/configure_configmap.png" width="900">
 
 Add the volume, and you should see a 
-[new deployment rollout](https://openshift-vm:8443/console/project/myproject/browse/rc/webapp-flask-2?tab=details), 
+[new deployment rollout](https://172.28.33.20:8443/console/project/myproject/browse/rc/webapp-flask-2?tab=details), 
 with the volume containing the ConfigMap attached to the Pod(s).
 
 <img src="images/mounted_configmap.png" width="900">
 
 
-Navigate to http://webapp-nginx-myproject.openshift-vm.nip.io again, and you should see that the 
+Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io again, and you should see that the 
 number of uWSGI workers is now 5 instead of 2.
 
 
@@ -443,12 +443,12 @@ Let's create a Secret that is then exposed as an environment variable to be used
 $ oc create secret generic my-secret --from-literal=SECRET=supersecretvalue
 ```
 
-Navigate to the [Secrets page](https://openshift-vm:8443/console/project/myproject/browse/secrets)
+Navigate to the [Secrets page](https://172.28.33.20:8443/console/project/myproject/browse/secrets)
 of your project, and you should see that a secret called "my-secret" has been created there.
 
 <img src="images/secrets.png" width="900">
 
-Now, let's edit the [Deployment Configuration for webapp-flask](https://openshift-vm:8443/console/project/myproject/browse/dc/webapp-flask?tab=environment), 
+Now, let's edit the [Deployment Configuration for webapp-flask](https://172.28.33.20:8443/console/project/myproject/browse/dc/webapp-flask?tab=environment), 
 so that it injects the my-secret Secret into the container as an environment variable.
 
 <img src="images/add_secret_env.png" width="900">
@@ -462,7 +462,7 @@ Then, click Save.
 
 You should see a new deployment rollout.
 
-Navigate to http://webapp-nginx-myproject.openshift-vm.nip.io again, and you should see the secret value.
+Navigate to http://webapp-nginx-myproject.172.28.33.20.nip.io again, and you should see the secret value.
 
 Note: The ironic thing is, secrets are actually not so secret in Kubernetes, since they are only base64 encoded.
 This means, that anyone who has the permissions to be able to view secrets in your OpenShift project, 
