@@ -78,7 +78,7 @@ We won't go into the details on the differences between them all, as that is out
 but just know that the idea is the same as `$ docker build`.
 
 2. The built image is then pushed to a repository.   
-This can be any repository we choose (hub.docker.com, docker.optum.com, Nexus, JFrog Artifactory, etc.).   
+This can be any repository we choose (hub.docker.com, Nexus, JFrog Artifactory, etc.).   
 In this case, OpenShift has an integrated repository that is being hosted internally to the cluster at `172.30.1.1:5000`,
 that we will use.  
 (If you don't believe me, ssh into the openshift VM and list the running Docker containers :wink: )

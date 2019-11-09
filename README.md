@@ -22,8 +22,6 @@ This workshop is structured into 4 different components, where each component wi
 
 ### Presentation Slides
 The presentation slides can be found in the docs/ directory.  
-The slides are also published via GitHub Pages at:   
-https://github.optum.com/pages/team-cumulus/devops_workshops
 
 
 ## Pre-requistes
@@ -61,7 +59,7 @@ the Self Service desktop application for up to 4 hours at a time.
 ## Setting up the training environment
 Clone the repo and the git submodules, and navigate to the repo's root directory:
 ```bash
-$ git clone --recurse-submodules https://github.optum.com/team-cumulus/devops_workshops.git
+$ git clone --recurse-submodules << this GitHub repository >>
 $ cd devops_workshops
 ```
 

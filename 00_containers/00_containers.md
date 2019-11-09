@@ -64,8 +64,6 @@ so that we can access the application from our host machine.
 - `dockercloud/hello-world` is the image name that we are pulling from here: https://hub.docker.com/r/dockercloud/hello-world.
 
 Docker Hub is a hosted repository service provided by Docker for finding and sharing container images.  
-Optum has a Docker Trusted Registry (DTR) as well, for securely storing and managing Docker images 
-behind our firewall: docker.optum.com  
 
 You should see output similar to the one below:
 ```
@@ -197,7 +195,7 @@ To start, create a new `index.html` file:
 $ cat > index.html << EOF
 <html>
     <body>
-        <h1>Hello Optum!</h1>
+        <h1>Hello World!</h1>
     </body>
 </html>
 EOF
@@ -209,7 +207,7 @@ host machine where the index.html file is located to the `/usr/share/nginx/html`
 Because we're already running the `default-nginx` container on port 8080, let's also change the host port to port 8081:
 
 ```bash
-$ docker run -d --name "hello-optum" -p 8081:80 -v $(pwd):/usr/share/nginx/html:ro nginx:alpine
+$ docker run -d --name "hello-world" -p 8081:80 -v $(pwd):/usr/share/nginx/html:ro nginx:alpine
 ```
 
 Now go to http://172.28.33.10:8081 in your browser. 
