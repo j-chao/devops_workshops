@@ -2,8 +2,8 @@
 
 Vagrant.configure("2") do |config|
 
-  config.vm.box = "generic/ubuntu1604"
-  config.vm.box_version = "= 1.9.12"
+  config.vm.box = "ubuntu/bionic64"
+  #config.vm.box_version = "= v20191107.0.0"
 
   config.vm.define "docker" do |docker|
     docker.vm.hostname = "docker"
@@ -55,6 +55,16 @@ Vagrant.configure("2") do |config|
       path: "provisioning/jenkins_provision.sh"
     jenkins.vm.network :private_network, ip: "172.28.33.30"
     jenkins.vm.provider :virtualbox do |vb|
+      vb.cpus = 2
+      vb.memory = 2048
+    end
+  end
+
+  config.vm.define "monitoring" do |monitoring|
+    monitoring.vm.hostname = "monitoring"
+    monitoring.vm.provision "docker" 
+    monitoring.vm.network :private_network, ip: "172.28.33.40"
+    monitoring.vm.provider :virtualbox do |vb|
       vb.cpus = 2
       vb.memory = 2048
     end

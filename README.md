@@ -34,9 +34,7 @@ as long as the pre-reqs below are met, however, only Mac machines have been test
 - Git installed on your local machine.  
 (If you don't have Git installed, you can download a ZIP of this repository instead.)
 - [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed on your local machine.   
-(You can request for VirtualBox on the [AppStore](http://appstore.uhc.com/AppInfo/AppVersionId/18189?BackToList=/AppList/AppList))
 - [Vagrant](https://www.vagrantup.com/docs/installation/) installed on your local machine.   
-(Also available on the [AppStore](http://appstore.uhc.com/AppInfo/AppVersionId/15331?BackToList=/AppList/AppList))
 - Local Admin Access 
 
 If you are on a Mac, you can use [homebrew](https://brew.sh/) to install the pre-reqs:
