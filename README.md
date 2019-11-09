@@ -37,24 +37,13 @@ as long as the pre-reqs below are met, however, only Mac machines have been test
 (You can request for VirtualBox on the [AppStore](http://appstore.uhc.com/AppInfo/AppVersionId/18189?BackToList=/AppList/AppList))
 - [Vagrant](https://www.vagrantup.com/docs/installation/) installed on your local machine.   
 (Also available on the [AppStore](http://appstore.uhc.com/AppInfo/AppVersionId/15331?BackToList=/AppList/AppList))
-- Local Admin Access - see instructions below for how to request for, and enable local admin access for Mac machines.
+- Local Admin Access 
 
 If you are on a Mac, you can use [homebrew](https://brew.sh/) to install the pre-reqs:
 ```bash
 $ brew cask install virtualbox
 $ brew cask install vagrant
 ```
-
-#### Enabling admin access for your Mac machine
-You may wish to install the pre-requisites above yourself, instead of through the AppStore.  
-Some installations will require elevated admin privileges to complete.  
-
-To request for local workstation admin rights for your Mac, follow the instructions 
-[here](https://helpdesk.uhg.com/knowledge-center/personal-hardware-software/general-applications/mac-computer/181051).
-
-Once approved, you will then be able to enable local admin access for your Mac machine via 
-the Self Service desktop application for up to 4 hours at a time.
-
 
 ## Setting up the training environment
 Clone the repo and the git submodules, and navigate to the repo's root directory:
@@ -97,16 +86,6 @@ id       name      provider   state   directory
 62a885e  openshift virtualbox running /Users/<MSID>/devops_workshops
 6dfd328  jenkins   virtualbox running /Users/<MSID>/devops_workshops
 ```
-
-
-In order to access the OpenShift and Jenkins UI consoles via a web browser, while
-on the corporate network, you will need to edit your browser's proxy settings to allow
-for correct routing of the private IPs.
-**Editing your browser's proxy settings will require you to have local admin access enabled.**
-
-The address for automatic proxy configuration is: http://blueserver.wip.uhc.com/bcmac.pac 
-
-You will need to disable this proxy for the duration of this workshop. You can re-enable it afterwards.
 
 
 ### Resetting the training environment
