@@ -108,6 +108,6 @@ $ vagrant halt
 ```
 
 
-## Contributors
+## Maintainer
 [Justin Chao](mailto:justin.chao@optum.com)
 
