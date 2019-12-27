@@ -1,7 +1,5 @@
 # Container Orchestration 
 
-  <img src="images/kubernetes.png" width="400" />
-
 ## Working with Kubernetes
 This workshop assumes that the user has an introductory understanding of Kubernetes resources,   
 ie: Pods, Deployments, ReplicaSets, etc.   
@@ -37,7 +35,7 @@ $ kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 --a
 
 Navigate to the kubernetes UI at https://172.28.33.40:8443/console in a web browser on your local host machine.
 
-Login using the token provided for when you ran the command: `$ vagrant up kubernetes` .
+Login using the token provided for when you ran the command: `$ vagrant up kubernetes`.
 
 Take some time to familiarize yourself with the dashboard.
 
@@ -168,7 +166,7 @@ nginx-service   ClusterIP   10.152.183.240   <none>        80/TCP    2m6s
 ### Exposing your application to external traffic
 To access our NGINX application from our host-machine, we have a couple of options:
 
-##### Using port-forward
+#### Using port-forward
 We can simply port-forward the pod, if we only need to access the application from our local machine temporarily for
 development purposes.  
 Some common use cases may be if we're developing a microservice locally that is dependent on another shared service or database that
@@ -191,7 +189,7 @@ Otherwise, application would only be accessible from the guest VM on localhost.
 Now, navigate to http://172.28.33.40:8080 in your web browser to access the NGINX application.
 
 
-##### Using NodePort
+#### Using NodePort
 Type NodePort allows you to expose expose the Service on each Node’s IP at a static port (the NodePort).  
 This can be a relatively quick and easy way to expose your application, but limits your ability to provide fine-grained
 traffic routing controls, and requires that you take care about possible port collisions yourself.     
@@ -252,10 +250,8 @@ Commercial support is available at
 </html>
 ```
 
-##### Using LoadBalancer with Ingress
-
-Type LoadBalancer exposes the Service externally using a cloud provider's load balancer. 
-
+#### Using LoadBalancer with Ingress
+Type LoadBalancer exposes the Service externally using a cloud provider's load balancer.  
 The following is an example of a Service manifest that targets the NGINX deployment that we previously created, 
 and also specifies that the service be published via a LoadBalancer.
 
@@ -284,7 +280,7 @@ However, we can still expose our service using Ingresses!
 Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. 
 Traffic routing is controlled by rules defined on the Ingress resource.
 
-  <img src="images/nginx_ingress_controller.png" width="400" />
+  <img src="images/nginx_ingress_controller.png" width="500" />
 
 An Ingress can be configured to give Services externally-reachable URLs, load balance traffic, terminate SSL / TLS, and offer name based virtual hosting. 
 An Ingress controller is responsible for fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router or additional frontends to help handle the traffic.
@@ -298,10 +294,12 @@ each with their pros and cons.
 Now, there are a few ways in which we can architect the ingress networking of our cluster.
 
 One method is via a NodePort:
-  <img src="images/ingress_nodeport.jpg" width="400" />
+
+  <img src="images/ingress_nodeport.jpg" width="500" />
 
 Alternatively, we can configure the ingress pods to use the network of the host they run on instead of a dedicated network namespace.
-  <img src="images/ingress_hostnetwork.jpg" width="400" />
+
+  <img src="images/ingress_hostnetwork.jpg" width="500" />
 
 The benefit of this approach is that the NGINX Ingress controller can bind ports 80 and 443 directly to Kubernetes
 nodes' network interfaces, without the extra network translation imposed by NodePort Services.
