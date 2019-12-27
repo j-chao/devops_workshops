@@ -1,9 +1,9 @@
 # Container Orchestration 
 
-  <img src="images/kubernetes.png" width="150" />
+  <img src="images/kubernetes.png" width="400" />
 
 ## Working with Kubernetes
-This workshop assumes that the user has a good understanding of Kubernetes resources,   
+This workshop assumes that the user has an introductory understanding of Kubernetes resources,   
 ie: Pods, Deployments, ReplicaSets, etc.   
 These foundational topics are covered in the 01_container_orchestration_openshift workshop.
 
@@ -284,7 +284,7 @@ However, we can still expose our service using Ingresses!
 Ingress exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. 
 Traffic routing is controlled by rules defined on the Ingress resource.
 
-  <img src="images/nginx_ingress_controller.png" width="150" />
+  <img src="images/nginx_ingress_controller.png" width="400" />
 
 An Ingress can be configured to give Services externally-reachable URLs, load balance traffic, terminate SSL / TLS, and offer name based virtual hosting. 
 An Ingress controller is responsible for fulfilling the Ingress, usually with a load balancer, though it may also configure your edge router or additional frontends to help handle the traffic.
@@ -298,10 +298,10 @@ each with their pros and cons.
 Now, there are a few ways in which we can architect the ingress networking of our cluster.
 
 One method is via a NodePort:
-  <img src="images/ingress_nodeport.jpg" width="150" />
+  <img src="images/ingress_nodeport.jpg" width="400" />
 
 Alternatively, we can configure the ingress pods to use the network of the host they run on instead of a dedicated network namespace.
-  <img src="images/ingress_hostnetwork.jpg" width="150" />
+  <img src="images/ingress_hostnetwork.jpg" width="400" />
 
 The benefit of this approach is that the NGINX Ingress controller can bind ports 80 and 443 directly to Kubernetes
 nodes' network interfaces, without the extra network translation imposed by NodePort Services.
