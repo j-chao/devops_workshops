@@ -315,35 +315,33 @@ For simplicity, we will be configuring our ingress controller to use the host ne
 $ kubectl apply -f kubernetes/nginx_ingress_controller.yaml
 ```
 
-Finally, we need to create our Ingress resource to proxy external requests to our nginx-service:
-
+Finally, we need to create our Ingress resource to proxy external requests to our nginx-service.
+The following is an example of a Ingress manifest that targets the NGINX service that we previously created.
 ```yaml
-apiVersion: v1
-kind: Service
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
 metadata:
   name: ingress-nginx
-  namespace: ingress-nginx
-  labels:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/part-of: ingress-nginx
 spec:
-  type: NodePort
-  ports:
-    - name: http
-      port: 80
-      targetPort: 80
-      protocol: TCP
-    - name: https
-      port: 443
-      targetPort: 443
-      protocol: TCP
-  selector:
-    app.kubernetes.io/name: ingress-nginx
-    app.kubernetes.io/part-of: ingress-nginx
+  rules:
+  - http:
+      paths:
+      - backend:
+          serviceName: nginx-service
+          servicePort: 80
 ```
 
+Create the ingress resource:
+```sh
+$ kubectl apply -f kubernetes/nginx_ingress.yaml
+```
+
+You should now be able to navigate to 172.28.33.40 in your local web browser, and see the NGINX default page.
+
+Of course, there are a lot more things that you can do with Ingress Controllers, more than we can cover in this section.    
+Hopefully this gives you a basic understanding of how you can leverage ingress resources to perform traffic management!  
 
 ### Using Helm to manage deployments and releases
 
 ### Understanding the Operator Framework
-NX
+N X
