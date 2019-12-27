@@ -272,7 +272,7 @@ spec:
 
 This would work if, our Kubernetes cluster was deployed on a cloud provider that supports using a Service in LoadBalancer mode 
 to set up external HTTP/HTTPS reverse proxying, forwarded to the Endpoints of the Service 
-(ie: for Microsoft Azure, see [https://docs.microsoft.com/en-us/azure/aks/load-balancer-standard](Azure Load Balancer) for details).
+(ie: for Microsoft Azure, see [Azure Load Balancer](https://docs.microsoft.com/en-us/azure/aks/load-balancer-standard) for details).
 
 Unfortunately, for this workshop, our Kubernetes workshop is deployed on a local bare metal VM. 
 However, we can still expose our service using Ingresses!  
@@ -287,7 +287,7 @@ An Ingress controller is responsible for fulfilling the Ingress, usually with a 
 In other words, an Ingress Controller is a daemon, deployed as a Kubernetes Pod, that watches the apiserver's /ingresses endpoint 
 for updates to the Ingress resource. Its job is to satisfy requests for Ingresses.
 
-For this workshop, we will be working with one of the most common ingress controllers: [NGINX](https://github.com/kubernetes/ingress-nginx/)
+For this workshop, we will be working with one of the most common ingress controllers: [NGINX](https://github.com/kubernetes/ingress-nginx/).    
 There are of course, other [ingress controllers available](https://kubernetes.io/docs/concepts/services-networking/ingress-controllers/#additional-controllers),
 each with their pros and cons.  
 
@@ -334,7 +334,7 @@ Create the ingress resource:
 $ kubectl apply -f kubernetes/nginx_ingress.yaml
 ```
 
-You should now be able to navigate to 172.28.33.40 in your local web browser, and see the NGINX default page.
+You should now be able to navigate to http://172.28.33.40:80 in your local web browser, and see the NGINX default page.
 
 Of course, there are a lot more things that you can do with Ingress Controllers, more than we can cover in this section.    
 Hopefully this gives you a basic understanding of how you can leverage ingress resources to perform traffic management!  
