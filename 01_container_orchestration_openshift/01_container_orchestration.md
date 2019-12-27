@@ -34,7 +34,7 @@ When you first login, you should see an initial developer project
 called "My Project" created for you on the right side.
 
 
-### Creating an Application
+### Deploying an Application
 
 The first page you'll see when you login is the OpenShift Catalog, 
 where the good folks at Red Hat have create a few starter applications 

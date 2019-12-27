@@ -16,9 +16,12 @@ containerize, deploy, orchestrate, and maintain applications in the cloud.
 ## Workshop Format
 This workshop is structured into 4 different components, where each component will build off of knowledge learned in previous ones:
 - Containers
-- Container Orchestration
+- Container Orchestration (Openshift, Kubernetes)
 - Pipelines
 - Everything as Code
+
+The instructions for each workshop component can be found in their respective directories of this repo.
+
 
 ### Presentation Slides
 The presentation slides can be found in the docs/ directory.  
@@ -33,8 +36,8 @@ as long as the pre-reqs below are met, however, only Mac machines have been test
 (Or willingness to learn!)
 - Git installed on your local machine.  
 (If you don't have Git installed, you can download a ZIP of this repository instead.)
-- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) installed on your local machine.   
-- [Vagrant](https://www.vagrantup.com/docs/installation/) installed on your local machine.   
+- [VirtualBox](https://www.virtualbox.org/wiki/Downloads) 6.0.10 installed on your local machine.   
+- [Vagrant](https://www.vagrantup.com/docs/installation/) 2.2.4 installed on your local machine.   
 - Local Admin Access 
 
 If you are on a Mac, you can use [homebrew](https://brew.sh/) to install the pre-reqs:
@@ -43,7 +46,7 @@ $ brew cask install virtualbox
 $ brew cask install vagrant
 ```
 
-## Setting up the training environment
+## Setting up the training environments
 Clone the repo and the git submodules, and navigate to the repo's root directory:
 ```bash
 $ git clone --recurse-submodules << this GitHub repository >>
@@ -56,19 +59,22 @@ $ vagrant up
 ```
 Note: This step may take a while, especially the openshift VM.
 
-This will start up an 3 virtual machines on your local machine, on a private network:  
+This will start up 4 virtual machines on your local machine, on a private network:  
 
-hostname  | private IP
----       | ---
-docker    | 172.28.33.10
-openshift | 172.28.33.20
-jenkins   | 172.28.33.30
+hostname   | private IP
+---        | ---
+docker     | 172.28.33.10
+openshift  | 172.28.33.20
+kubernetes | 172.28.33.40
+jenkins    | 172.28.33.30
 
 
 You can also specify the VMs you want to start up, for example:
 ```bash
 $ vagrant up docker openshift
 ```
+It is highly recommended that you only start up only the virtual machines that are required for each workshop component,    
+rather than trying to start up all the virtual machines for all workshop components.  
 
 
 You can view the virtual machines with the following command:
@@ -78,11 +84,12 @@ $ vagrant global-status --prune
 
 You should see output similar to the following:
 ```
-id       name      provider   state   directory
+id       name       provider   state   directory
 -----------------------------------------------------------------
-3f10a34  docker    virtualbox running /Users/<MSID>/devops_workshops
-62a885e  openshift virtualbox running /Users/<MSID>/devops_workshops
-6dfd328  jenkins   virtualbox running /Users/<MSID>/devops_workshops
+3f10a34  docker     virtualbox running /Users/<MSID>/devops_workshops
+62a885e  openshift  virtualbox running /Users/<MSID>/devops_workshops
+6dfd328  jenkins    virtualbox running /Users/<MSID>/devops_workshops
+609159a  kubernetes virtualbox running /Users/<MSID>/devops_workshops
 ```
 
 
