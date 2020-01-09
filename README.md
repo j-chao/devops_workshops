@@ -55,7 +55,7 @@ $ cd devops_workshops
 
 If you are on the corporate network, be sure to download the necessary CA certificates:
 ```bash
-$ provision/download_certificates.sh
+$ provisioning/optum_certs/download_certificates.sh
 ```
 
 Start up the necessary virtual machine(s) using Vagrant.
