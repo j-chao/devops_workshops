@@ -68,6 +68,9 @@ Vagrant.configure("2") do |config|
     kubernetes.vm.provision "file", 
       source: "example_apps_devops/kubernetes/", 
       destination: "/home/vagrant/"
+    kubernetes.vm.provision "file", 
+      source: "provisionin/optum_certs/", 
+      destination: "/usr/local/share/ca-certificates/"
     kubernetes.vm.provision :shell, 
       privileged: true, 
       path: "provisioning/kubernetes_provision.sh"

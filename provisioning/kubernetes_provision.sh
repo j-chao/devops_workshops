@@ -3,6 +3,9 @@
 # Update package database
 sudo apt-get -q -y update
 
+# Update ca-certificates
+sudo update-ca-certificates
+
 # Install microk8s, snap, and add user permissions
 sudo snap install microk8s --classic && \
   sudo snap install helm --classic && \
@@ -22,5 +25,4 @@ echo "================================================"
 
 # create alias for microk8s commands
 echo "alias kubectl='microk8s.kubectl'" >> /home/vagrant/.bash_aliases
-#source /home/vagrant/.bashrc
 

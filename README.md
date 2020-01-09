@@ -58,13 +58,13 @@ If you are on the corporate network, be sure to download the necessary CA certif
 $ provision/download_certificates.sh
 ```
 
-Start up the virtual machines using Vagrant:  
+Start up the necessary virtual machine(s) using Vagrant.
 ```bash
-$ vagrant up
+$ vagrant up <vm name>
 ```
 Note: This step may take a while, especially the openshift VM.
 
-This will start up 4 virtual machines on your local machine, on a private network:  
+This will start up the virtual machine(s) on your local machine, on a private network:  
 
 hostname   | private IP
 ---        | ---
@@ -73,16 +73,16 @@ openshift  | 172.28.33.20
 kubernetes | 172.28.33.40
 jenkins    | 172.28.33.30
 
-
-You can also specify the VMs you want to start up, for example:
+You can also start up multiple VM if you need to:
 ```bash
 $ vagrant up docker openshift
 ```
+
 It is highly recommended that you only start up only the virtual machines that are required for each workshop component,    
 rather than trying to start up all the virtual machines for all workshop components.  
+This will help prevent unnecessary resource consumption from your host machine.
 
-
-You can view the virtual machines with the following command:
+You can view the provisioned virtual machines with the following command:
 ```bash
 $ vagrant global-status --prune
 ```
