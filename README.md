@@ -53,6 +53,11 @@ $ git clone --recurse-submodules << this GitHub repository >>
 $ cd devops_workshops
 ```
 
+If you are on the corporate network, be sure to download the necessary CA certificates:
+```bash
+$ provision/download_certificates.sh
+```
+
 Start up the virtual machines using Vagrant:  
 ```bash
 $ vagrant up

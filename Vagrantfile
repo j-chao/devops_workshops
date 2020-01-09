@@ -71,7 +71,6 @@ Vagrant.configure("2") do |config|
     kubernetes.vm.provision :shell, 
       privileged: true, 
       path: "provisioning/kubernetes_provision.sh"
-    #kubernetes.vm.network "private_network", :type => 'dhcp', :name => 'vboxnet1'
     kubernetes.vm.network "private_network", ip: "172.28.33.40"
     kubernetes.vm.provider :virtualbox do |vb| 
       vb.cpus = 2
@@ -79,14 +78,17 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "k8s_efk" do |kubernetes|
-    kubernetes.vm.box_version = "= 2.0.6"
-    kubernetes.vm.hostname = "kubernetes"
-    kubernetes.vm.provision :shell, 
+  config.vm.define "k8s" do |k8s|
+    k8s.vm.box_version = "= 2.0.6"
+    k8s.vm.hostname = "k8s"
+    k8s.vm.provision "file", 
+      source: "example_apps_devops/efk_stack/", 
+      destination: "/home/vagrant/"
+    k8s.vm.provision :shell, 
       privileged: false, 
       path: "provisioning/kubernetes_provision.sh"
-    kubernetes.vm.network "private_network", ip: "172.28.33.40"
-    kubernetes.vm.provider :virtualbox do |vb| 
+    k8s.vm.network "private_network", ip: "172.28.33.50"
+    k8s.vm.provider :virtualbox do |vb| 
       vb.cpus = 2
       vb.memory = 2048
     end

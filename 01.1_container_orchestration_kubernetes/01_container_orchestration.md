@@ -10,6 +10,7 @@ To start, ensure that the `kubernetes` VM is running on your local machine:
 ```bash
 $ vagrant global-status --prune
 ```
+
 You should see output similar to:
 ```sh
 id       name      provider   state   directory
@@ -30,7 +31,7 @@ It allows users to manage applications running in the cluster and troubleshoot t
 The access the dashboard from our host computer, we must first expose the service via port-forwarding.  
 A Kubernetes Service is an abstraction which defines a logical set of Pods and a policy by which to access them.
 ```sh
-$ kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 --address 0.0.0.0
+$ kubectl port-forward --namespace kube-system service/kubernetes-dashboard 10443:443 --address 0.0.0.0
 ```
 
 Navigate to the kubernetes UI at https://172.28.33.40:8443/console in a web browser on your local host machine.
@@ -100,19 +101,19 @@ spec:
 
 Now, deploy your NGINX pods into the "my-project" namespace:
 ```sh
-$ kubectl apply -f kubernetes/nginx_deployment.yaml -n my-project
+$ kubectl apply -f kubernetes/nginx_deployment.yaml --namespace my-project
 ```
 
 You can view your deployment with the following command:
 ```sh
-$ kubectl get deployments -n my-project
+$ kubectl get deployments --namespace my-project
 NAME               READY   UP-TO-DATE   AVAILABLE   AGE
 nginx-deployment   3/3     3            3           7s
 ```
 
 Likewise, with the 3 NGINX pods:
 ```sh
-$ kubectl get pods -n my-project
+$ kubectl get pods --namespace my-project
 NAME                                READY   STATUS    RESTARTS   AGE
 nginx-deployment-7cd5ddccc7-jxkjw   1/1     Running   0          21s
 nginx-deployment-7cd5ddccc7-z2svb   1/1     Running   0          21s
@@ -151,13 +152,13 @@ spec:
 
 Create the service:
 ```sh
-$ kubectl apply -f kubernetes/nginx_service.yaml -n my-project
+$ kubectl apply -f kubernetes/nginx_service.yaml --namespace my-project
 ```
 
 You should now be able to access your NGINX pods from within the cluster via the provided Cluster IP address, which you
 can query for:
 ```sh
-$ kubectl get services -n my-project
+$ kubectl get services --namespace my-project
 NAME            TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)   AGE
 nginx-service   ClusterIP   10.152.183.240   <none>        80/TCP    2m6s
 ```
@@ -174,13 +175,13 @@ has been deployed on a remote kubernetes cluster.
 
 To port-forward a pod, you can use the following command:
 ```sh
-$ kubectl port-forward <pod-name> <host-port>:<container-port> -n my-project
+$ kubectl port-forward <pod-name> <host-port>:<container-port> --namespace my-project
 ```
 
 For example, to port-forward one of the 3 NGINX pods that are currently deployed:
 
 ```sh
-$ kubectl port-forward $(kubectl get pod -n my-project | awk '{print $1}' | tail -1) 8080:80 -n my-project --address 0.0.0.0
+$ kubectl port-forward $(kubectl get pod --namespace my-project | awk '{print $1}' | tail -1) 8080:80 --namespace my-project --address 0.0.0.0
 ```
 
 The `--address 0.0.0.0` flag is used here so that we can access the applicaation from our host machine. 
@@ -215,7 +216,7 @@ spec:
 
 Query for the node IP address of our single-node cluster:
 ```sh
-$ kubectl get nodes -o wide
+$ kubectl get nodes --output wide
 NAME         STATUS   ROLES    AGE   VERSION   INTERNAL-IP   EXTERNAL-IP   OS-IMAGE             KERNEL-VERSION      CONTAINER-RUNTIME
 kubernetes   Ready    <none>   65m   v1.17.0   10.0.2.15     <none>        Ubuntu 18.04.3 LTS   4.15.0-70-generic   containerd://1.2.5
 ```
@@ -339,7 +340,3 @@ You should now be able to navigate to http://172.28.33.40:80 in your local web b
 Of course, there are a lot more things that you can do with Ingress Controllers, more than we can cover in this section.    
 Hopefully this gives you a basic understanding of how you can leverage ingress resources to perform traffic management!  
 
-### Using Helm to manage deployments and releases
-
-### Understanding the Operator Framework
-N X
