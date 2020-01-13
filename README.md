@@ -64,14 +64,18 @@ $ vagrant up <vm name>
 ```
 Note: This step may take a while, especially the openshift VM.
 
-This will start up the virtual machine(s) on your local machine, on a private network:  
+This will start up the virtual machine(s) on your local machine, on a host-only network.
+Here is the list of possible training VMs and their private IP addresses:
+
 
 hostname   | private IP
 ---        | ---
 docker     | 172.28.33.10
 openshift  | 172.28.33.20
-kubernetes | 172.28.33.40
 jenkins    | 172.28.33.30
+kubernetes | 172.28.33.40
+k8s-efk    | 172.28.33.50
+
 
 You can also start up multiple VM if you need to:
 ```bash
@@ -95,6 +99,7 @@ id       name       provider   state   directory
 62a885e  openshift  virtualbox running /Users/<MSID>/devops_workshops
 6dfd328  jenkins    virtualbox running /Users/<MSID>/devops_workshops
 609159a  kubernetes virtualbox running /Users/<MSID>/devops_workshops
+...
 ```
 
 

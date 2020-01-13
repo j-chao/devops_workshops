@@ -69,8 +69,8 @@ Vagrant.configure("2") do |config|
       source: "example_apps_devops/kubernetes/", 
       destination: "/home/vagrant/"
     kubernetes.vm.provision "file", 
-      source: "provisionin/optum_certs/", 
-      destination: "/usr/local/share/ca-certificates/"
+      source: "provisioning/optum_certs/", 
+      destination: "/home/vagrant/"
     kubernetes.vm.provision :shell, 
       privileged: true, 
       path: "provisioning/kubernetes_provision.sh"
@@ -81,11 +81,14 @@ Vagrant.configure("2") do |config|
     end
   end
 
-  config.vm.define "k8s" do |k8s|
+  config.vm.define "k8s-efk" do |k8s|
     k8s.vm.box_version = "= 2.0.6"
-    k8s.vm.hostname = "k8s"
+    k8s.vm.hostname = "k8s-efk"
     k8s.vm.provision "file", 
       source: "example_apps_devops/efk_stack/", 
+      destination: "/home/vagrant/"
+    k8s.vm.provision "file", 
+      source: "provisioning/optum_certs/", 
       destination: "/home/vagrant/"
     k8s.vm.provision :shell, 
       privileged: false, 

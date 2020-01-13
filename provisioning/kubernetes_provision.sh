@@ -4,6 +4,7 @@
 sudo apt-get -q -y update
 
 # Update ca-certificates
+sudo mv optum_certs/ /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 
 # Install microk8s, snap, and add user permissions
@@ -19,9 +20,6 @@ echo "================================================"
 echo "ACCESS TOKEN FOR KUBERNETES DASHBOARD:"
 echo $(microk8s.kubectl -n kube-system describe secret $token)
 echo "================================================"
-
-# expose k8s dashboard
-#microk8s.kubectl port-forward -n kube-system service/kubernetes-dashboard 10443:443 --address 0.0.0.0
 
 # create alias for microk8s commands
 echo "alias kubectl='microk8s.kubectl'" >> /home/vagrant/.bash_aliases
