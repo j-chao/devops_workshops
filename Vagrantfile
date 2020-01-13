@@ -84,6 +84,7 @@ Vagrant.configure("2") do |config|
   config.vm.define "k8s-efk" do |k8s|
     k8s.vm.box_version = "= 2.0.6"
     k8s.vm.hostname = "k8s-efk"
+    k8s.vm.provision "docker" 
     k8s.vm.provision "file", 
       source: "example_apps_devops/efk_stack/", 
       destination: "/home/vagrant/"
@@ -91,7 +92,7 @@ Vagrant.configure("2") do |config|
       source: "provisioning/optum_certs/", 
       destination: "/home/vagrant/"
     k8s.vm.provision :shell, 
-      privileged: false, 
+      privileged: true, 
       path: "provisioning/kubernetes_provision.sh"
     k8s.vm.network "private_network", ip: "172.28.33.50"
     k8s.vm.provider :virtualbox do |vb| 

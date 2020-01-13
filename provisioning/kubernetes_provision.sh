@@ -24,3 +24,6 @@ echo "================================================"
 # create alias for microk8s commands
 echo "alias kubectl='microk8s.kubectl'" >> /home/vagrant/.bash_aliases
 
+# update .kube/config file
+microk8s.kubectl config view --raw >~/.kube/config
+
