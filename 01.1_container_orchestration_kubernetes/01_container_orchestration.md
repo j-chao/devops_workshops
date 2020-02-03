@@ -34,7 +34,7 @@ A Kubernetes Service is an abstraction which defines a logical set of Pods and a
 $ kubectl port-forward --namespace kube-system service/kubernetes-dashboard 10443:443 --address 0.0.0.0
 ```
 
-Navigate to the kubernetes UI at https://172.28.33.40:8443/console in a web browser on your local host machine.
+Navigate to the Kubernetes Dashboard UI at https://172.28.33.40:10443 in a web browser on your local host machine.
 
 Login using the token provided for when you ran the command: `$ vagrant up kubernetes`.
 
