@@ -16,4 +16,11 @@ SSH into the `k8s_efk` VM, so we can make use of the `kubectl` CLI:
 $ vagrant ssh k8s_efk
 ```
  
+### Deploy Elastic Stack using Helm
+
+```sh
+$ helm install efk efk_stack
+```
+
+
 

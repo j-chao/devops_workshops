@@ -89,6 +89,9 @@ Vagrant.configure("2") do |config|
       source: "example_apps_devops/efk_stack/", 
       destination: "/home/vagrant/"
     k8s.vm.provision "file", 
+      source: "example_apps_devops/strimzi-kafka/", 
+      destination: "/home/vagrant/"
+    k8s.vm.provision "file", 
       source: "provisioning/optum_certs/", 
       destination: "/home/vagrant/"
     k8s.vm.provision :shell, 
