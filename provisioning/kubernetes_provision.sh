@@ -25,5 +25,5 @@ echo "================================================"
 echo "alias kubectl='microk8s.kubectl'" >> /home/vagrant/.bash_aliases
 
 # update .kube/config file
-microk8s.kubectl config view --raw >~/.kube/config
+sudo microk8s.kubectl config view --raw > $HOME/.kube/config
 

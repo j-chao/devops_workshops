@@ -92,6 +92,9 @@ Vagrant.configure("2") do |config|
       source: "example_apps_devops/strimzi-kafka/", 
       destination: "/home/vagrant/"
     k8s.vm.provision "file", 
+      source: "example_apps_devops/example_microservices/", 
+      destination: "/home/vagrant/"
+    k8s.vm.provision "file", 
       source: "provisioning/optum_certs/", 
       destination: "/home/vagrant/"
     k8s.vm.provision :shell, 
@@ -99,8 +102,8 @@ Vagrant.configure("2") do |config|
       path: "provisioning/kubernetes_provision.sh"
     k8s.vm.network "private_network", ip: "172.28.33.50"
     k8s.vm.provider :virtualbox do |vb| 
-      vb.cpus = 2
-      vb.memory = 2048
+      vb.cpus = 4
+      vb.memory = 4096
     end
   end
 
