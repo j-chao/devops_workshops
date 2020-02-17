@@ -102,8 +102,8 @@ Vagrant.configure("2") do |config|
       path: "provisioning/kubernetes_provision.sh"
     k8s.vm.network "private_network", ip: "172.28.33.50"
     k8s.vm.provider :virtualbox do |vb| 
-      vb.cpus = 4
-      vb.memory = 4096
+      vb.cpus = 6
+      vb.memory = 8192
     end
   end
 
