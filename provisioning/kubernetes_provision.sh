@@ -4,7 +4,6 @@
 sudo apt-get -q -y update
 
 # Update ca-certificates
-sudo mv optum_certs/ /usr/local/share/ca-certificates/
 sudo update-ca-certificates
 
 # Install microk8s, snap, and add user permissions

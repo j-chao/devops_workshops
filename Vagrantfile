@@ -68,9 +68,6 @@ Vagrant.configure("2") do |config|
     kubernetes.vm.provision "file", 
       source: "example_apps_devops/kubernetes/", 
       destination: "/home/vagrant/"
-    kubernetes.vm.provision "file", 
-      source: "provisioning/optum_certs/", 
-      destination: "/home/vagrant/"
     kubernetes.vm.provision :shell, 
       privileged: true, 
       path: "provisioning/kubernetes_provision.sh"
@@ -93,9 +90,6 @@ Vagrant.configure("2") do |config|
       destination: "/home/vagrant/"
     k8s.vm.provision "file", 
       source: "example_apps_devops/example_microservices/", 
-      destination: "/home/vagrant/"
-    k8s.vm.provision "file", 
-      source: "provisioning/optum_certs/", 
       destination: "/home/vagrant/"
     k8s.vm.provision :shell, 
       privileged: true, 
