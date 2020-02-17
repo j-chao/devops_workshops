@@ -53,11 +53,6 @@ $ git clone --recurse-submodules << this GitHub repository >>
 $ cd devops_workshops
 ```
 
-If you are on the corporate network, be sure to download the necessary CA certificates:
-```bash
-$ provisioning/optum_certs/download_certificates.sh
-```
-
 Start up the necessary virtual machine(s) using Vagrant.
 ```bash
 $ vagrant up <vm name>
@@ -95,10 +90,10 @@ You should see output similar to the following:
 ```
 id       name       provider   state   directory
 -----------------------------------------------------------------
-3f10a34  docker     virtualbox running /Users/<MSID>/devops_workshops
-62a885e  openshift  virtualbox running /Users/<MSID>/devops_workshops
-6dfd328  jenkins    virtualbox running /Users/<MSID>/devops_workshops
-609159a  kubernetes virtualbox running /Users/<MSID>/devops_workshops
+3f10a34  docker     virtualbox running /Users/<...>/devops_workshops
+62a885e  openshift  virtualbox running /Users/<...>/devops_workshops
+6dfd328  jenkins    virtualbox running /Users/<...>/devops_workshops
+609159a  kubernetes virtualbox running /Users/<...>/devops_workshops
 ...
 ```
 
