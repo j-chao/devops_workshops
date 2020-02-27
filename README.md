@@ -4,7 +4,7 @@
 
 ## Workshop Goals
 
-Participants will understand fundamentally, the culture and goals of DevOps.
+Participants will understand fundamentally, the culture and goals of DevOps. 
 
 They will also learn how to develop and operationalize modern, 
 cloud-native applications with tools such as Docker, Kubernetes, OpenShift, and Jenkins.
